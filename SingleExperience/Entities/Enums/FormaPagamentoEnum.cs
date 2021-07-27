@@ -8,6 +8,6 @@ namespace SingleExperience.Entities.Enums
     {
         Boleto = 0,
         Pix = 1,
-        Cartao = 0
+        Cartao = 2
     }
 }
