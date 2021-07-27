@@ -10,7 +10,7 @@ namespace SingleExperience.Entities
         public int CompraId { get; set; }
         public int SituacaoCompraId { get; set; }
         public int FormaPagamentoId { get; set; }
-        public SituacaoPagamentoEnum SituacaoPagamentoId { get; set; }
+        public StatusPagamentoEnum StatusPagamentoId { get; set; }
         public DateTime DataCompra { get; set; }
         public DateTime DataPagamento { get; set; }
         public double ValorFinal { get; set; }

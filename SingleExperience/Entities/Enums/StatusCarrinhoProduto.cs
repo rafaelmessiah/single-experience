@@ -4,9 +4,11 @@ using System.Text;
 
 namespace SingleExperience.Entities.Enums
 {
-    enum StatusPagamentoEnum
+    enum StatusCarrinhoProduto : int
     {
-        NaoConfirmado = 0,
-        Confirmmado = 1
+        Ativo = 0,
+        Comprado = 1,
+        Excluido = 2
+
     }
 }
