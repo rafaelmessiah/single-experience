@@ -1,4 +1,4 @@
 FormaPagamentoId,Descricao
-0,Boleto
-1,Pix
-2,Cartao
+1,Boleto
+2,Pix
+3,Cartao

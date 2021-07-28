@@ -6,10 +6,10 @@ namespace SingleExperience.Entities.Enums
 {
     enum CategoriaEnum: int
     {
-        Computador = 0,
-        Notebook = 1,
-        Acessorio = 2,
-        Celular = 3,
-        Tablet = 4
+        Computador = 1,
+        Notebook = 2,
+        Acessorio = 3,
+        Celular = 4,
+        Tablet = 5
     }
 }
