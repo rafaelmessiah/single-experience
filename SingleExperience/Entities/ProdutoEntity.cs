@@ -7,9 +7,9 @@ namespace SingleExperience.Entities
 {
     class ProdutoEntity
     {
-        public int Id { get; set; }
+        public int ProdutoId { get; set; }
         public CategoriaEnum CategoriaId { get; set; }
-        public StatusProduto StatusProdutoId { get; set; }
+        public StatusProdutoEnum StatusProdutoId { get; set; }
         public string Nome { get; set; }
         public double Preco { get; set; }
         public string Detalhe { get; set; }

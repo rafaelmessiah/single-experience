@@ -7,6 +7,7 @@ namespace SingleExperience.Entities
     class EnderecoEntity
     {
         public int EnderecoId { get; set; }
+        public int ClienteId { get; set; }
         public string Rua { get; set; }
         public string Numero { get; set; }
         public string Complemento { get; set; }
