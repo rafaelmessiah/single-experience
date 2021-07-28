@@ -1,1 +1,1 @@
-ProdutoId,CategoriaId,StatusId,Nome,Preco,Detalhe,QtdeEmEstoque,Ranking,Disponivel
+ProdutoId,CategoriaId,StatusProdutoId,Nome,Preco,Detalhe,QtdeEmEstoque,Ranking,Disponivel
