@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using SingleExperience.Entities.Enums;
+using System.Globalization;
 
 namespace SingleExperience.Entities.BD
 {
@@ -18,7 +19,7 @@ namespace SingleExperience.Entities.BD
 
             try
             {
-                var produtos = File.ReadAllLines(path, Encoding.UTF8);
+                var produtos = File.ReadAllLines(path);
 
                 produtos.Skip(1)
                     .ToList()
@@ -37,7 +38,7 @@ namespace SingleExperience.Entities.BD
 
                         produto.Nome = campos[3];
 
-                        produto.Preco = double.Parse(campos[4]);
+                        produto.Preco = double.Parse(campos[4], CultureInfo.InvariantCulture);
                         produto.Detalhe = campos[5];
                         produto.QtdeEmEstoque = int.Parse(campos[6]);
                         produto.Ranking = campos[7];

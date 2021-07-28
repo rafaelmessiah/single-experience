@@ -6,9 +6,9 @@ namespace SingleExperience.Entities.Enums
 {
     enum StatusCarrinhoProdutoEnum : int
     {
-        Ativo = 0,
-        Comprado = 1,
-        Excluido = 2
+        Ativo = 1,
+        Comprado = 2,
+        Excluido = 3
 
     }
 }

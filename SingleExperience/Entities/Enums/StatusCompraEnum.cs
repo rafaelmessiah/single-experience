@@ -6,8 +6,8 @@ namespace SingleExperience.Entities.Enums
 {
     enum StatusCompraEnum : int
     {
-        Aberta = 0,
-        Finalizada = 1,
-        Cancelada = 2,
+        Aberta = 1,
+        Finalizada = 2,
+        Cancelada = 3,
     }
 }

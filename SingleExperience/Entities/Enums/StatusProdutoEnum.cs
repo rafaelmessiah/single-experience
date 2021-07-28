@@ -6,7 +6,7 @@ namespace SingleExperience.Entities.Enums
 {
     enum StatusProdutoEnum : int
     {
-        Novo = 0,
-        Usado = 1
+        Novo = 1,
+        Usado = 2
     }
 }
