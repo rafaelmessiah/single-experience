@@ -6,5 +6,6 @@ namespace SingleExperience.Services.CompraService
 {
     class CompraService
     {
+
     }
 }
