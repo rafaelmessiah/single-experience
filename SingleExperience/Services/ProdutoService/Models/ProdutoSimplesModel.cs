@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SingleExperience.Services.ProdutoService.Models
 {
-    class ListaProdutoRankingModel
+    class ProdutoSimplesModel
     {
         public int ProdutoId { get; set; }
         public string Nome { get; set; }
