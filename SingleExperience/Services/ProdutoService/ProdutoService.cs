@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using SingleExperience.Services.ProdutoService.Models;
 using SingleExperience.Entities.BD;
+using SingleExperience.Entities.Enums;
 using System.Linq;
 
 
@@ -10,46 +11,48 @@ namespace SingleExperience.Services.ProdutoService
 {
     class ProdutoService
     {
-        public List<ListaProdutoRankingModel> ListarProdutoPorRanking()
+        ProdutoBD produtoBd = new ProdutoBD();
+
+        public List<ProdutoSimplesModel> Buscar()
         {
-            var ProdutoBd = new ProdutoBD();
-            var produtosDoBanco = ProdutoBd.ListarProdutos();
-
-            var produtosFiltrados = new List<ListaProdutoRankingModel>();
-
-            produtosDoBanco.FindAll(p => p.Disponivel == true)
-                .ForEach(p =>
+            return produtoBd.ListarProdutos().Where(a => a.Disponivel)
+                .Select(p => new ProdutoSimplesModel
                 {
-                    var produtoFiltrado = new ListaProdutoRankingModel();
+                    ProdutoId = p.ProdutoId,
+                    Nome = p.Nome,
+                    Preco = p.Preco,
+                }).ToList();
+        }
 
-                    produtoFiltrado.ProdutoId = p.ProdutoId;
-                    produtoFiltrado.Nome = p.Nome;
-                    produtoFiltrado.Preco = p.Preco;
-
-                    produtosFiltrados.Add(produtoFiltrado);
-                });
-
-            return produtosFiltrados;
-
-
-       }
-
-        public DescricaoProdutoModel DetalheProduto(int produtoId)
+        public List<ProdutoSimplesModel> BuscarCategoria(CategoriaEnum categoria)
         {
-            var produtoBd = new ProdutoBD();
+            return produtoBd.ListarProdutos()
+                .Where(a => a.CategoriaId == categoria && a.Disponivel)
+                .Select(b => new ProdutoSimplesModel
+                {
+                    ProdutoId = b.ProdutoId,
+                    Nome = b.Nome,
+                    Preco = b.Preco,
+                }).ToList();
 
-            var produtosDoBanco = produtoBd.ListarProdutos();
+        }
 
-            var produtoEcontrado = produtosDoBanco.Find(p => p.ProdutoId == produtoId);
-                
+        public ProdutoDetalhadoModel Obter(int produtoId)
+        {
+            var produto = produtoBd.ListarProdutos()
+                .Where(a => a.ProdutoId == produtoId && a.Disponivel)
+                .Select(b => new ProdutoDetalhadoModel
+                {
+                    ProdutoId = b.ProdutoId,
+                    Nome = b.Nome,
+                    Descricao = b.Detalhe,
+                    Preco = b.Preco
+                }).FirstOrDefault();
 
-            var produtoFinal = new DescricaoProdutoModel();
+            if (produto == null)
+                throw new Exception("Produto não encontrado");
 
-            produtoFinal.ProdutoId = produtoEcontrado.ProdutoId;
-            produtoFinal.Descricao = produtoEcontrado.Detalhe;
-
-            return produtoFinal;
-
+            return produto;
         }
     }
 }
