@@ -7,12 +7,12 @@ using SingleExperience.Entities.Enums;
 
 namespace SingleExperience.Entities.BD
 {
-    class CarrinoBD
+    class CarrinhoBD
     {
-        List<CarrinhoEntity> ListaProdutosCompras()
-        {
-            var path = @"C:\Users\rafael.messias\source\repos\SingleExperience\Tabelas\ListaProdutoCompraEntity.csv";
+        string path = @"C:\Workspaces\visual_studio_2019\single-experience\Tabelas\Carrinho.csv";
 
+        public List<CarrinhoEntity> ListarCarrinho()
+        {
             var listaCarrinho = new List<CarrinhoEntity>();
 
             try
@@ -44,6 +44,36 @@ namespace SingleExperience.Entities.BD
             }
 
             return listaCarrinho;
+        }
+
+        public void Salvar(int clienteId, int produtoId)
+        {
+            try
+            {
+                using (var streamWriter = File.AppendText(path))
+                {
+                    streamWriter.WriteLine($"{File.ReadAllLines(path).Length}," +
+                        $"{produtoId}," +
+                        $"{clienteId}," +
+                        $"{StatusCarrinhoProdutoEnum.Inserido}");
+                }
+            }
+            catch (Exception)
+            {
+                throw new Exception("Não foi possivel inserir o produto no carrinho");
+            }
+            
+        }
+
+        public void Alterar(int carrinhoId, StatusCarrinhoProdutoEnum statusCarrinhoProdutoId)
+        {
+            try
+            {
+                using (var streamWriter = File.)
+                {
+
+                }
+            }
         }
     }
 }

@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Services\CarrinhoService\Models\" />
     <Folder Include="Services\CompraService\Models\" />
   </ItemGroup>
 
