@@ -5,11 +5,12 @@ using SingleExperience.Entities.Enums;
 
 namespace SingleExperience.Entities
 {
-    class CompraEntity
+    public class CompraEntity
     {
         public int CompraId { get; set; }
-        public int SituacaoCompraId { get; set; }
-        public int FormaPagamentoId { get; set; }
+        public StatusCompraEnum StatusCompraId { get; set; }
+        public FormaPagamentoEnum FormaPagamentoId { get; set; }
+        public int ClienteId { get; set; }
         public StatusPagamentoEnum StatusPagamentoId { get; set; }
         public DateTime DataCompra { get; set; }
         public DateTime DataPagamento { get; set; }

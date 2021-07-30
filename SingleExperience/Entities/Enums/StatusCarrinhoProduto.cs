@@ -4,9 +4,9 @@ using System.Text;
 
 namespace SingleExperience.Entities.Enums
 {
-    enum StatusCarrinhoProdutoEnum : int
+    public enum StatusCarrinhoProdutoEnum : int
     {
-        Inserido = 1,
+        Ativo = 1,
         Comprado = 2,
         Excluido = 3
 

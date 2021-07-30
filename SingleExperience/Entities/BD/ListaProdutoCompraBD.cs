@@ -8,11 +8,11 @@ namespace SingleExperience.Entities.BD
 {
     class ListaProdutoCompraBD
     {
-        List<ListaProdutosCompraEntity> ListaProdutosCompras()
+        public List<ListaProdutoCompraEntity> BuscarProdutosCompras()
         {
-            var path = @"C:\Users\rafael.messias\source\repos\SingleExperience\Tabelas\ListaProdutoCompraEntity.csv";
+            var path = @"C:\Users\rafael.messias\source\repos\SingleExperience\Tabelas\ListaProdutoCompra.csv";
 
-            var listaProduto = new List<ListaProdutosCompraEntity>();
+            var listaProduto = new List<ListaProdutoCompraEntity>();
 
             try
             {
@@ -23,13 +23,13 @@ namespace SingleExperience.Entities.BD
                     .ForEach(p =>
                     {
                         var campos = p.Split(",");
-                        var produtoCompra = new ListaProdutosCompraEntity();
+                        var produtoCompra = new ListaProdutoCompraEntity();
 
-                        produtoCompra.ListaProdutosCompraId = int.Parse(campos[0]);
+                        produtoCompra.ListaProdutoCompraId = int.Parse(campos[0]);
                         produtoCompra.CompraId = int.Parse(campos[1]);
                         produtoCompra.ProdutoId = int.Parse(campos[2]);
                         produtoCompra.Qtde = int.Parse(campos[3]);
-                        produtoCompra.Valor = double.Parse(campos[4]);
+                       
                         
 
                         listaProduto.Add(produtoCompra);

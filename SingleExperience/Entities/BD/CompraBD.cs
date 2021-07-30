@@ -4,12 +4,13 @@ using System.Text;
 using System.Linq;
 using System.IO;
 using SingleExperience.Entities;
+using SingleExperience.Entities.Enums;
 
 namespace SingleExperience.Entities.BD
 {
-    class CompraBD
+    public class CompraBD
     {
-        public List<CompraEntity> ListarCompras()
+        public List<CompraEntity> BuscarCompras()
         {
             var path = @"C:\Users\rafael.messias\source\repos\SingleExperience\Tabelas\Compra.csv";
 
@@ -28,11 +29,16 @@ namespace SingleExperience.Entities.BD
                         var compra = new CompraEntity();
 
                         compra.CompraId = int.Parse(campos[0]);
-                        compra.SituacaoCompraId = int.Parse(campos[1]);
-                        compra.FormaPagamentoId = int.Parse(campos[2]);
-                        compra.DataCompra = DateTime.Parse(campos[3]);
-                        compra.DataPagamento = DateTime.Parse(campos[4]);
-                        compra.ValorFinal = double.Parse(campos[5]);
+                        Enum.TryParse(campos[1], out StatusCompraEnum statusCompraEnum);
+                        compra.StatusCompraId = statusCompraEnum;
+                        Enum.TryParse(campos[2], out FormaPagamentoEnum formaPagamentoEnum);
+                        compra.FormaPagamentoId = formaPagamentoEnum;
+                        compra.ClienteId = int.Parse(campos[3]);
+                        Enum.TryParse(campos[4], out StatusPagamentoEnum statusPagamentoEnum);
+                        compra.StatusPagamentoId = statusPagamentoEnum;
+                        compra.DataCompra = DateTime.Parse(campos[5]);
+                        compra.DataPagamento = DateTime.Parse(campos[6]);
+                        compra.ValorFinal = double.Parse(campos[7]);
 
                         listaCompra.Add(compra);
                     });
@@ -45,5 +51,7 @@ namespace SingleExperience.Entities.BD
 
             return listaCompra;
         }
+
+        
     }
 }

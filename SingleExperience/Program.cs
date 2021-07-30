@@ -6,6 +6,9 @@ using SingleExperience.Services.CarrinhoService;
 using System.IO;
 using System.Linq;
 using System.Globalization;
+using SingleExperience.Services.Carrinho.Models;
+using SingleExperience.Services.CompraService;
+using SingleExperience.Services.ListaProdutoCompra;
 
 namespace SingleExperience
 {
@@ -13,9 +16,15 @@ namespace SingleExperience
     {
         static void Main(string[] args)
         {
-            var carrinhoService = new CarrinhoService();
+            var listaProdutoCompraService = new ListaProdutoCompraService();
 
-            carrinhoService.Adicionar(2, 1);
+            var itens = listaProdutoCompraService.BuscarProdutos(1);
+
+            itens.ForEach(a =>
+            {
+                Console.WriteLine(a.Nome + " Preco: " + a.PrecoUnitario + " Quantidade: " + a.Qtde);
+            });
+          
         }
     }
 }

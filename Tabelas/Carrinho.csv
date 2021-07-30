@@ -1,2 +1,7 @@
 CarrinhoId,ProdutoId,ClienteId,StatusCarrinhoProdutoId
-1,2,1,Inserido
+1,2,1,Excluido
+2,6,1,Excluido
+3,7,1,Excluido
+4,8,1,Excluido
+5,10,1,Excluido
+6,3,1,Excluido

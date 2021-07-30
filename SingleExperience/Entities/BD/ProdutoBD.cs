@@ -12,7 +12,7 @@ namespace SingleExperience.Entities.BD
     {
         public List<ProdutoEntity> ListarProdutos()
         {
-            string path = @"C:\Workspaces\visual_studio_2019\single-experience\Tabelas\Produto.csv";
+            string path = @"C:\Users\rafael.messias\source\repos\SingleExperience\Tabelas\Produto.csv";
 
             List<ProdutoEntity> listaProduto = new List<ProdutoEntity>();
 
