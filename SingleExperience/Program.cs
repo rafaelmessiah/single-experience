@@ -1,10 +1,14 @@
 ﻿using System;
 using SingleExperience.Entities.BD;
+using SingleExperience.Entities;
 using SingleExperience.Entities.Enums;
+using SingleExperience.Services.CarrinhoService;
+using System.IO;
 using System.Linq;
-using SingleExperience.Services.ProdutoService;
-using SingleExperience.Services.ProdutoService.Models;
 using System.Globalization;
+using SingleExperience.Services.Carrinho.Models;
+using SingleExperience.Services.CompraService;
+using SingleExperience.Services.ListaProdutoCompra;
 
 namespace SingleExperience
 {
@@ -12,14 +16,15 @@ namespace SingleExperience
     {
         static void Main(string[] args)
         {
-            var produtoService = new ProdutoService();
+            var listaProdutoCompraService = new ListaProdutoCompraService();
 
-            var produto = produtoService.BuscarCategoria(CategoriaEnum.Notebook);
+            var itens = listaProdutoCompraService.BuscarProdutos(1);
 
-            produto.ForEach(a =>
+            itens.ForEach(a =>
             {
-                Console.WriteLine(a.Nome+" " +a.Preco+" ");
+                Console.WriteLine(a.Nome + " Preco: " + a.PrecoUnitario + " Quantidade: " + a.Qtde);
             });
+          
         }
     }
 }

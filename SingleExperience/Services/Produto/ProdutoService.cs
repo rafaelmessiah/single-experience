@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SingleExperience.Services.ProdutoService.Models;
-using SingleExperience.Entities.BD;
+﻿using SingleExperience.Entities.BD;
 using SingleExperience.Entities.Enums;
+using SingleExperience.Services.Produto.Models;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 
-namespace SingleExperience.Services.ProdutoService
+namespace SingleExperience.Services.Produto
 {
-    class ProdutoService
+    public class ProdutoService
     {
         ProdutoBD produtoBd = new ProdutoBD();
 
@@ -37,7 +36,20 @@ namespace SingleExperience.Services.ProdutoService
 
         }
 
-        public ProdutoDetalhadoModel Obter(int produtoId)
+        public ProdutoSimplesModel ObterSimples(int produtoId)
+        {
+            return produtoBd.ListarProdutos()
+                .Where(a => a.ProdutoId == produtoId)
+                .Select(b => new ProdutoSimplesModel
+                {
+                    Nome = b.Nome,
+                    ProdutoId = b.ProdutoId,
+                    Preco = b.Preco
+                }).FirstOrDefault();
+
+        } 
+
+        public ProdutoDetalhadoModel ObterDetalhe(int produtoId)
         {
             var produto = produtoBd.ListarProdutos()
                 .Where(a => a.ProdutoId == produtoId && a.Disponivel)

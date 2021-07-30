@@ -1,1 +1,3 @@
-CompraId,SituacaoCompraId,FormaPagamento,SituacaoCompraId,DataCompra,DataPagamento ,ValorFinal
+CompraId,StatusCompraId,FormaPagamento,ClienteId,StatusPagamentoId,DataCompra,DataPagamento ,ValorFinal
+1,1,1,1,1,30/07/21,01/08/21,5000.00
+1,1,2,1,1,28/07/21,02/08/21,2500.00

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SingleExperience.Services.ProdutoService.Models
+namespace SingleExperience.Services.Produto.Models
 {
-    class ProdutoDetalhadoModel
+    public class ProdutoDetalhadoModel
     {
         public int ProdutoId { get; set; }
         public string Nome { get; set; }

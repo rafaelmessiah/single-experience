@@ -1,1 +1,4 @@
-ListaProdutoCompraId,CompraId,ProdutoId,Qtde,Valor
+ListaProdutoCompraId,CompraId,ProdutoId,Qtde
+1,1,2,1
+2,1,1,2
+2,1,3,1

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SingleExperience.Entities.Enums
 {
-    enum FormaPagamentoEnum : int
+    public enum FormaPagamentoEnum : int
     {
         Boleto = 1,
         Pix = 2,

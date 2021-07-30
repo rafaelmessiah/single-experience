@@ -8,7 +8,7 @@ namespace SingleExperience.Entities
     class CarrinhoEntity
     {
         public int CarrinhoId { get; set; }
-        public int Produtoid { get; set; }
+        public int ProdutoId { get; set; }
         public int ClienteId { get; set; }
         public StatusCarrinhoProdutoEnum StatusCarrinhoProdutoId { get; set; }
 
