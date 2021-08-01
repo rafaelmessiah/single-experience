@@ -14,7 +14,7 @@ namespace SingleExperience.Services.Produto
 
         public List<ProdutoSimplesModel> Buscar()
         {
-            return produtoBd.ListarProdutos().Where(a => a.Disponivel)
+            return produtoBd.BuscarProdutos().Where(a => a.Disponivel)
                 .Select(p => new ProdutoSimplesModel
                 {
                     ProdutoId = p.ProdutoId,
@@ -25,7 +25,7 @@ namespace SingleExperience.Services.Produto
 
         public List<ProdutoSimplesModel> BuscarCategoria(CategoriaEnum categoria)
         {
-            return produtoBd.ListarProdutos()
+            return produtoBd.BuscarProdutos()
                 .Where(a => a.CategoriaId == categoria && a.Disponivel)
                 .Select(b => new ProdutoSimplesModel
                 {
@@ -38,7 +38,7 @@ namespace SingleExperience.Services.Produto
 
         public ProdutoSimplesModel ObterSimples(int produtoId)
         {
-            return produtoBd.ListarProdutos()
+            return produtoBd.BuscarProdutos()
                 .Where(a => a.ProdutoId == produtoId)
                 .Select(b => new ProdutoSimplesModel
                 {
@@ -51,7 +51,7 @@ namespace SingleExperience.Services.Produto
 
         public ProdutoDetalhadoModel ObterDetalhe(int produtoId)
         {
-            var produto = produtoBd.ListarProdutos()
+            var produto = produtoBd.BuscarProdutos()
                 .Where(a => a.ProdutoId == produtoId && a.Disponivel)
                 .Select(b => new ProdutoDetalhadoModel
                 {
@@ -65,6 +65,27 @@ namespace SingleExperience.Services.Produto
                 throw new Exception("Produto não encontrado");
 
             return produto;
+        }
+
+        public bool Retirar(AlterarQtdeModel model)
+        {
+            var produto = produtoBd.BuscarProdutos()
+                .Where(a => a.ProdutoId == model.ProdutoId &&
+                a.QtdeEmEstoque >= model.Qtde &&
+                model.Qtde > 0)
+                .FirstOrDefault();
+
+            if (produto == null)
+                throw new Exception("Não é possível retirar essa quantidade desse Produto");
+
+
+
+            produtoBd.AlterarQtde(model);
+           
+          
+
+            return true;
+            
         }
     }
 }

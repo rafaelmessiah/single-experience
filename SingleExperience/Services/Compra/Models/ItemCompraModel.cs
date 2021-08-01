@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SingleExperience.Services.Compra.Models
 {
-    public class ItemModel
+    public class ItemCompraModel
     {
         public int CompraId { get; set; }
         public double ValorFinal { get; set; }

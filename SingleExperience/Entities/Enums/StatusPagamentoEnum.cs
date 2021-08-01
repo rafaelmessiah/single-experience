@@ -7,6 +7,6 @@ namespace SingleExperience.Entities.Enums
     public enum StatusPagamentoEnum
     {
         NaoConfirmado = 1,
-        Confirmmado = 2
+        Confirmado = 2
     }
 }

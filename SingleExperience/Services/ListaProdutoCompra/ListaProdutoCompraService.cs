@@ -4,6 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using SingleExperience.Services.Produto;
+using System;
 
 namespace SingleExperience.Services.ListaProdutoCompra
 {
@@ -13,13 +14,14 @@ namespace SingleExperience.Services.ListaProdutoCompra
 
         ProdutoService produtoService = new ProdutoService();
 
-        public List<ItemModel> BuscarProdutos(int compraId)
+        public List<ItemProdutoCompraModel> BuscarProdutos(int compraId)
         {
             var itens = listaProdutoCompraBd.BuscarProdutosCompras()
                 .Where(a => a.CompraId == compraId)
-                .Select(b => new ItemModel
+                .Select(b => new ItemProdutoCompraModel
                 {
                     ListaProdutoCompraId = b.ListaProdutoCompraId,
+                    CompraId = b.CompraId,
                     ProdutoId = b.ProdutoId,
                     Qtde = b.Qtde
 
@@ -37,6 +39,29 @@ namespace SingleExperience.Services.ListaProdutoCompra
             }
 
             return itens;
+        }
+
+        public bool CadastrarItemVendido(CadastrarItemModel model)
+        {
+            var item = BuscarProdutos(model.CompraId)
+                .Where(a => a.ProdutoId == model.ProdutoId &&
+                a.CompraId == model.CompraId)
+                .FirstOrDefault();
+
+            if(item != null)
+                throw new Exception("Esse produto ja esta Associado a essa compra");
+
+            try
+            {
+                listaProdutoCompraBd.Salvar(model);
+            }
+            catch (Exception)
+            {
+
+                throw new Exception("Não foi possível cadastrar esse produto nesta compra");
+            }
+
+            return true;
         }
     }
 }

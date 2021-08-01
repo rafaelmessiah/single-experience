@@ -7,7 +7,8 @@ using System.Linq;
 using SingleExperience.Services.Carrinho.Models;
 using SingleExperience.Services.Produto.Models;
 using SingleExperience.Services.Produto;
-namespace SingleExperience.Services.CarrinhoService
+
+namespace SingleExperience.Services.Carrinho
 {
     public class CarrinhoService
     {
@@ -15,7 +16,7 @@ namespace SingleExperience.Services.CarrinhoService
 
         ProdutoService produtoService = new ProdutoService();
 
-        public List<ItemModel> BuscarItens(int clienteId)
+        public List<ItemCarrinhoModel> BuscarItens(int clienteId)
         {
 
             var carrinhos = carrinhoBd.BuscarCarrinho()
@@ -27,7 +28,7 @@ namespace SingleExperience.Services.CarrinhoService
 
             var produtos = produtoService.Buscar()
                 .Where(a => carrinhos.Any(b => b.ProdutoId == a.ProdutoId))
-                .Select(c => new ItemModel
+                .Select(c => new ItemCarrinhoModel
                 {
                     ProdutoId = c.ProdutoId,
                     Nome = c.Nome,
@@ -39,6 +40,7 @@ namespace SingleExperience.Services.CarrinhoService
                 var carrinho = carrinhos.Find(a => a.ProdutoId == item.ProdutoId);
 
                 item.CarrinhoId = carrinho.CarrinhoId;
+                item.Qtde = carrinho.Qtde;
             }
 
             return produtos;
@@ -63,7 +65,7 @@ namespace SingleExperience.Services.CarrinhoService
 
         }
 
-        public bool Alterar(EdicaoModel model)
+        public bool AlterarStatus(EdicaoStatusModel model)
         {
             var carrinho = carrinhoBd.BuscarCarrinho()
                 .Where(a => a.CarrinhoId == model.CarrinhoId &&
@@ -73,10 +75,46 @@ namespace SingleExperience.Services.CarrinhoService
             if (carrinho == null)
                 throw new Exception("Esse produto não pode ser alterado para o estado" + model.StatusEnum.ToString());
 
-            carrinhoBd.Alterar(model);
+            carrinhoBd.AlterarStatus(model);
 
             return true;
 
+        }
+
+        public bool AlterarQtde(EdicaoQtdeModel model)
+        {
+            var carrinho = carrinhoBd.BuscarCarrinho()
+                .Where(a => a.CarrinhoId == model.CarrinhoId &&
+                a.Qtde != model.Qtde &&
+                model.Qtde > 0 &&
+                a.StatusCarrinhoProdutoId == StatusCarrinhoProdutoEnum.Ativo)
+                .FirstOrDefault();
+
+            if (carrinho == null)
+                throw new Exception("Esse produto não pode ser alterado para essa quantidade ");
+
+            carrinhoBd.AlterarQtde(model);
+
+            return true;
+        }
+
+        public double CalcularValorTotal(int clienteId)
+        {
+            var produtos = BuscarItens(clienteId);
+
+            if (produtos == null)
+            {
+                throw new Exception("Não foi possivel buscar os produtos desse cliente");
+            }
+
+            var valorTotal = 0.0;
+
+            produtos.ForEach(a =>
+            {
+                valorTotal += a.Preco * a.Qtde;
+            });
+
+            return valorTotal;
         }
     }
 }

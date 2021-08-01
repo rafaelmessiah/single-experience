@@ -10,7 +10,7 @@ namespace SingleExperience.Entities.BD
 {
     class CarrinhoBD
     {
-        string path = @"C:\Users\rafael.messias\source\repos\SingleExperience\Tabelas\Carrinho.csv";
+        string path = @"C:\Workspaces\visual_studio_2019\single-experience\Tabelas\Carrinho.csv";
         string header = "";
 
         public List<CarrinhoEntity> BuscarCarrinho()
@@ -33,10 +33,9 @@ namespace SingleExperience.Entities.BD
                         carrinho.CarrinhoId = int.Parse(campos[0]);
                         carrinho.ProdutoId = int.Parse(campos[1]);
                         carrinho.ClienteId = int.Parse(campos[2]);
-
-                        Enum.TryParse(campos[3], out StatusCarrinhoProdutoEnum statusCarrinhoProdutoEnum);
+                        carrinho.Qtde = int.Parse(campos[3]);
+                        Enum.TryParse(campos[4], out StatusCarrinhoProdutoEnum statusCarrinhoProdutoEnum);
                         carrinho.StatusCarrinhoProdutoId = statusCarrinhoProdutoEnum;
-
 
                         listaCarrinho.Add(carrinho);
                     });
@@ -58,10 +57,13 @@ namespace SingleExperience.Entities.BD
 
                 using (var streamWriter = File.AppendText(path))
                 {
+                    var statusId = ((int)StatusCarrinhoProdutoEnum.Ativo);
+
                     streamWriter.WriteLine($"{carrinhoId}," +
                         $"{model.ProdutoId}," +
                         $"{model.ClienteId}," +
-                        $"{StatusCarrinhoProdutoEnum.Ativo}");
+                        $"{model.Qtde}" +
+                        $"{statusId}");
                 }
             }
             catch (Exception)
@@ -70,10 +72,10 @@ namespace SingleExperience.Entities.BD
             }
 
             return true;
-            
+
         }
 
-        public bool Alterar(EdicaoModel model)
+        public bool AlterarStatus(EdicaoStatusModel model)
         {
             try
             {
@@ -86,17 +88,71 @@ namespace SingleExperience.Entities.BD
 
                 // Gera as linhas para colocar no csv
 
-                var lines = new List<string>();
+                var linhas = new List<string>();
 
-                lines.Add(header);
+                linhas.Add(header);
 
                 foreach (var item in carrinhos)
                 {
-                    var aux = new string[] { item.CarrinhoId.ToString(), item.ProdutoId.ToString(), item.ClienteId.ToString(), item.StatusCarrinhoProdutoId.ToString()};
-                    lines.Add(String.Join(",", aux));
+                    var statusCarrinhoId = ((int)item.StatusCarrinhoProdutoId);
+
+                    var aux = new string[]
+                    {
+                      item.CarrinhoId.ToString(),
+                      item.ProdutoId.ToString(),
+                      item.ClienteId.ToString(),
+                      item.Qtde.ToString(),
+                      statusCarrinhoId.ToString()
+                    };
+
+                    linhas.Add(String.Join(",", aux));
                 }
 
-                File.WriteAllLines(path, lines);
+                File.WriteAllLines(path, linhas);
+
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine("Ocurred an error");
+                Console.WriteLine(e.Message);
+            }
+
+            return true;
+        }
+
+        public bool AlterarQtde(EdicaoQtdeModel model)
+        {
+            try
+            {
+                var carrinhos = BuscarCarrinho();
+
+                var index = carrinhos
+                    .FindIndex(a => a.CarrinhoId == model.CarrinhoId);
+
+                carrinhos[index].Qtde = model.Qtde;
+
+                // Gera as linhas para colocar no csv
+
+                var linhas = new List<string>();
+
+                linhas.Add(header);
+
+                foreach (var item in carrinhos)
+                {
+                    var statusCarrinhoId = ((int)item.StatusCarrinhoProdutoId);
+
+                    var aux = new string[]
+                    { item.CarrinhoId.ToString(),
+                      item.ProdutoId.ToString(),
+                      item.ClienteId.ToString(),
+                      item.Qtde.ToString(),
+                      statusCarrinhoId.ToString()
+                    };
+
+                    linhas.Add(String.Join(",", aux));
+                }
+
+                File.WriteAllLines(path, linhas);
 
             }
             catch (IOException e)

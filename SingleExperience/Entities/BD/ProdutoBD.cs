@@ -5,20 +5,25 @@ using System.Text;
 using System.IO;
 using SingleExperience.Entities.Enums;
 using System.Globalization;
+using SingleExperience.Services.Produto.Models;
 
 namespace SingleExperience.Entities.BD
 {
     class ProdutoBD
     {
-        public List<ProdutoEntity> ListarProdutos()
-        {
-            string path = @"C:\Users\rafael.messias\source\repos\SingleExperience\Tabelas\Produto.csv";
+        string path = @"C:\Workspaces\visual_studio_2019\single-experience\Tabelas\Produto.csv";
+        string header = "";
 
+        public List<ProdutoEntity> BuscarProdutos()
+        {
+            
             List<ProdutoEntity> listaProduto = new List<ProdutoEntity>();
 
             try
             {
                 var produtos = File.ReadAllLines(path);
+
+                header = produtos[0];
                 
                 produtos.Skip(1)
                     .ToList()
@@ -53,6 +58,53 @@ namespace SingleExperience.Entities.BD
             }
 
             return listaProduto;
+        }
+
+        public bool AlterarQtde (AlterarQtdeModel model)
+        {
+            try
+            {
+                var produtos = BuscarProdutos();
+
+                var index = produtos
+                    .FindIndex(a => a.ProdutoId == model.ProdutoId);
+
+                produtos[index].QtdeEmEstoque -= model.Qtde;
+
+                var linhas = new List<string>();
+
+                linhas.Add(header);
+
+                foreach (var item in produtos)
+                {
+                    var statusProdutoId = ((int)item.StatusProdutoId);
+                    var categoriaId = ((int)item.CategoriaId);
+
+                    var aux = new string[]
+                    {
+                      item.ProdutoId.ToString(),
+                      categoriaId.ToString(),
+                      statusProdutoId.ToString(),
+                      item.Nome.ToString(),
+                      item.Preco.ToString("F2", CultureInfo.InvariantCulture),
+                      item.Detalhe.ToString(),
+                      item.QtdeEmEstoque.ToString(),
+                      item.Ranking.ToString(),
+                      item.Disponivel.ToString()
+                    };
+
+                    linhas.Add(String.Join(",", aux));
+                }
+
+                File.WriteAllLines(path, linhas);
+            }
+            catch (Exception)
+            {
+
+                throw new Exception("Não fois possivel retirar esse produto");
+            }
+
+            return true;
         }
     }
 }
