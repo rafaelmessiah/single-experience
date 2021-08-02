@@ -35,12 +35,9 @@ namespace SingleExperience.Views
             Console.WriteLine("|  7 - Vizualizar Meus Pedidos                           |");
             Console.WriteLine("|  0 - Sair                                              |");
             Console.WriteLine(" ========================================================");
-
             Console.Write("Digite a aba que Deseja Vizualizar: ");
             var op = Console.ReadLine();
             Navegar(op);
-
-            
         }
 
         public void Navegar(string op)
@@ -180,7 +177,7 @@ namespace SingleExperience.Views
             Console.WriteLine("==================");
             var carrinhoService = new CarrinhoService();
 
-            var carrinhos = carrinhoService.BuscarItens(1);
+            var carrinhos = carrinhoService.Buscar(1);
 
             Console.WriteLine("");
             Console.WriteLine("=================================================================================");
@@ -384,7 +381,7 @@ namespace SingleExperience.Views
             var compraService = new CompraService();
             var compra = compraService.Obter(compraId);
             var listaProdutoCompraService = new ListaProdutoCompraService();
-            var itensComprados = listaProdutoCompraService.BuscarProdutos(compraId);
+            var itensComprados = listaProdutoCompraService.Buscar(compraId);
 
             Console.WriteLine("============================");
             Console.WriteLine($"|| PEDIDO Nº: {compra.CompraId} ||");

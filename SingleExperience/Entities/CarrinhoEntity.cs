@@ -12,6 +12,5 @@ namespace SingleExperience.Entities
         public int ClienteId { get; set; }
         public int Qtde { get; set; }
         public StatusCarrinhoProdutoEnum StatusCarrinhoProdutoId { get; set; }
-
     }
 }

@@ -10,6 +10,5 @@ namespace SingleExperience.Entities
         public int CompraId { get; set; }
         public int ProdutoId { get; set; }
         public int Qtde { get; set; }
-   
     }
 }

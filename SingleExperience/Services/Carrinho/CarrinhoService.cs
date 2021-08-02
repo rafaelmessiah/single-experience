@@ -17,9 +17,8 @@ namespace SingleExperience.Services.Carrinho
 
         ProdutoService produtoService = new ProdutoService();
 
-        public List<ItemCarrinhoModel> BuscarItens(int clienteId)
+        public List<ItemCarrinhoModel> Buscar(int clienteId)
         {
-
             var carrinhos = carrinhoBd.BuscarCarrinho()
                 .Where(a => a.ClienteId == clienteId && a.StatusCarrinhoProdutoId == StatusCarrinhoProdutoEnum.Ativo)
                 .ToList();
@@ -71,7 +70,6 @@ namespace SingleExperience.Services.Carrinho
             }
 
             throw new Exception("Esse produto ja esta no carrinho");
-
         }
 
         public bool AlterarStatus(EdicaoStatusModel model)
@@ -87,7 +85,6 @@ namespace SingleExperience.Services.Carrinho
             carrinhoBd.AlterarStatus(model);
 
             return true;
-
         }
 
         public bool AlterarQtde(EdicaoQtdeModel model)
@@ -110,7 +107,7 @@ namespace SingleExperience.Services.Carrinho
 
         public double CalcularValorTotal(int clienteId)
         {
-            var produtos = BuscarItens(clienteId);
+            var produtos = Buscar(clienteId);
 
             if (produtos == null)
             {

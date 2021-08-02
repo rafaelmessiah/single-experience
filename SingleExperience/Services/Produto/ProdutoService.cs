@@ -14,18 +14,22 @@ namespace SingleExperience.Services.Produto
 
         public List<ProdutoSimplesModel> Buscar()
         {
-            return produtoBd.BuscarProdutos().Where(a => a.Disponivel)
+            var produtos = produtoBd.BuscarProdutos().Where(a => a.Disponivel)
                 .Select(p => new ProdutoSimplesModel
                 {
                     ProdutoId = p.ProdutoId,
                     Nome = p.Nome,
                     Preco = p.Preco,
                 }).ToList();
-        }
 
+            if (produtos == null)
+                return null;
+
+            return produtos;
+        }
         public List<ProdutoSimplesModel> BuscarCategoria(CategoriaEnum categoria)
         {
-            return produtoBd.BuscarProdutos()
+            var produtos = produtoBd.BuscarProdutos()
                 .Where(a => a.CategoriaId == categoria && a.Disponivel)
                 .Select(b => new ProdutoSimplesModel
                 {
@@ -34,11 +38,14 @@ namespace SingleExperience.Services.Produto
                     Preco = b.Preco,
                 }).ToList();
 
-        }
+            if (produtos == null)
+                return null;
 
+            return produtos;
+        }
         public ProdutoSimplesModel ObterSimples(int produtoId)
         {
-            return produtoBd.BuscarProdutos()
+            var produto = produtoBd.BuscarProdutos()
                 .Where(a => a.ProdutoId == produtoId)
                 .Select(b => new ProdutoSimplesModel
                 {
@@ -47,20 +54,26 @@ namespace SingleExperience.Services.Produto
                     Preco = b.Preco
                 }).FirstOrDefault();
 
-        } 
-        public DisponibilidadeModel ObterDisponibildade(int produtoId)
+            if (produto == null)
+                return null;
+
+            return produto;
+        }
+        public DisponivelModel ObterDisponibildade(int produtoId)
         {
-            return produtoBd.BuscarProdutos()
+            var produto = produtoBd.BuscarProdutos()
                 .Where(a => a.ProdutoId == produtoId)
-                .Select(b => new DisponibilidadeModel
+                .Select(b => new DisponivelModel
                 {
                     QtdeDisponivel = b.QtdeEmEstoque,
                     Disponivel = b.Disponivel
                 }).FirstOrDefault();
 
+            if (produto == null)
+                return null;
 
+            return produto;
         }
-
         public ProdutoDetalhadoModel ObterDetalhe(int produtoId)
         {
             var produto = produtoBd.BuscarProdutos()
@@ -74,11 +87,10 @@ namespace SingleExperience.Services.Produto
                 }).FirstOrDefault();
 
             if (produto == null)
-                throw new Exception("Produto não encontrado");
+                return null;
 
             return produto;
         }
-
         public bool Retirar(AlterarQtdeModel model)
         {
             var produto = produtoBd.BuscarProdutos()
@@ -90,14 +102,9 @@ namespace SingleExperience.Services.Produto
             if (produto == null)
                 throw new Exception("Não é possível retirar essa quantidade desse Produto");
 
-
-
             produtoBd.AlterarQtde(model);
-           
-          
 
             return true;
-            
         }
     }
 }

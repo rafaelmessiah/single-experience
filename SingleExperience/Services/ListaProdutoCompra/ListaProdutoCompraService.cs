@@ -14,7 +14,7 @@ namespace SingleExperience.Services.ListaProdutoCompra
 
         ProdutoService produtoService = new ProdutoService();
 
-        public List<ItemProdutoCompraModel> BuscarProdutos(int compraId)
+        public List<ItemProdutoCompraModel> Buscar(int compraId)
         {
             var itens = listaProdutoCompraBd.BuscarProdutosCompras()
                 .Where(a => a.CompraId == compraId)
@@ -41,9 +41,9 @@ namespace SingleExperience.Services.ListaProdutoCompra
             return itens;
         }
 
-        public bool CadastrarItemVendido(CadastrarItemModel model)
+        public bool CadastrarVenda(CadastrarItemModel model)
         {
-            var item = BuscarProdutos(model.CompraId)
+            var item = Buscar(model.CompraId)
                 .Where(a => a.ProdutoId == model.ProdutoId &&
                 a.CompraId == model.CompraId)
                 .FirstOrDefault();
@@ -57,7 +57,6 @@ namespace SingleExperience.Services.ListaProdutoCompra
             }
             catch (Exception)
             {
-
                 throw new Exception("Não foi possível cadastrar esse produto nesta compra");
             }
 

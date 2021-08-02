@@ -18,8 +18,7 @@ namespace SingleExperience.Services.Compra
     {
         CompraBD compraBd = new CompraBD();
 
-
-        public List<ItemCompraModel> BuscarCompras(int clienteId)
+        public List<ItemCompraModel> Buscar(int clienteId)
         {
             var compras = compraBd.BuscarCompras()
                 .Where(a => a.ClienteId == clienteId)
@@ -35,14 +34,13 @@ namespace SingleExperience.Services.Compra
                 throw new Exception("Não foi possivel encontrar compras desse usuário");
 
             return compras;
-                
         }
 
         public bool Cadastrar(IniciarModel model)
         {
             //Buscar os Produtos
             var carrinhoService = new CarrinhoService();
-            var produtos = carrinhoService.BuscarItens(model.ClienteId);
+            var produtos = carrinhoService.Buscar(model.ClienteId);
 
             var cadastroModel = new CadastroModel
             {
@@ -84,12 +82,10 @@ namespace SingleExperience.Services.Compra
                 itemCompraModel.CompraId = compraId;
 
                 //Cadastra o produto na Lista de Vendidos
-                listaProdutoCompraService.CadastrarItemVendido(itemCompraModel);
-
+                listaProdutoCompraService.CadastrarVenda(itemCompraModel);
             });
 
             return true;
-
         }
 
         public CompraDetalhadaModel Obter(int compraId)
