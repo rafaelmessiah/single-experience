@@ -16,6 +16,5 @@ namespace SingleExperience.Entities
         public int QtdeEmEstoque { get; set; }
         public string Ranking { get; set; }
         public bool Disponivel { get; set; }
-
     }
 }

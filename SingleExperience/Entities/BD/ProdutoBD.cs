@@ -101,7 +101,7 @@ namespace SingleExperience.Entities.BD
             catch (Exception)
             {
 
-                throw new Exception("Não fois possivel retirar esse produto");
+                throw new Exception("Não foi possivel retirar esse produto");
             }
 
             return true;

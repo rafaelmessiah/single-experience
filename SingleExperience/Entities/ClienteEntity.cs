@@ -13,7 +13,5 @@ namespace SingleExperience.Entities
         public string Senha { get; set; }
         public DateTime DataNascimento { get; set; }
         public string Telefone { get; set; }
-
-
     }
 }
