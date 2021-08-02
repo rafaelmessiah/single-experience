@@ -35,7 +35,6 @@ namespace SingleExperience.Services.Compra
 
             return compras;
         }
-
         public bool Cadastrar(IniciarModel model)
         {
             //Buscar os Produtos
@@ -87,7 +86,6 @@ namespace SingleExperience.Services.Compra
 
             return true;
         }
-
         public CompraDetalhadaModel Obter(int compraId)
         {
             var compra = compraBd.BuscarCompras()
@@ -108,7 +106,6 @@ namespace SingleExperience.Services.Compra
 
             return compra;
         }
-
         public bool Pagar(int compraId)
         {
             var compra = compraBd.BuscarCompras()
