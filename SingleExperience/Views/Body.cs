@@ -48,7 +48,7 @@ namespace SingleExperience.Views
             switch (op)
             {
                 case "1":
-                    Produtos(CategoriaEnum.Computador);
+                   Produtos(CategoriaEnum.Computador);
                     break;
                 case "2":
                     Produtos(CategoriaEnum.Notebook);
@@ -156,11 +156,15 @@ namespace SingleExperience.Views
                         Console.WriteLine(e.Message);
                         Menu();
                     }
+                    Console.Clear();
+                    Menu();
+                    break;
+                case "n":
+                    Console.Clear();
                     Menu();
                     break;
                 default:
-                    Console.Clear();
-                    Menu();
+                    ProdutoDetalhado();
                     break;
             }
         }
@@ -242,12 +246,17 @@ namespace SingleExperience.Views
 
                     break;
                 case "3":
+
                     Console.WriteLine("");
                     Console.WriteLine("Confirme Seus Dados: ");
-                    Console.WriteLine("Nome: ");
-                    Console.WriteLine("Telefone: ");
-                    Console.WriteLine("Endereco: ");
+                    Console.Write("Nome: ");
+                    Console.ReadLine();
+                    Console.Write("Telefone: ");
+                    Console.ReadLine();
+                    Console.Write("Endereco: ");
+                    Console.ReadLine();
                     Finalizar(1);
+
                     break;
                 case "4":
                     Console.Clear();
@@ -286,11 +295,11 @@ namespace SingleExperience.Views
                     if (compraService.Cadastrar(iniciarModel))
                     {
                         Console.WriteLine("Compra Cadastrada com Sucesso!");
-                        var guid = new Guid();
+                        var guid = Guid.NewGuid();
                         Console.WriteLine("O número do seu boleto é: " + guid);
-                        compraService.Pagar(clienteId);
                         Console.WriteLine("Aperte Enter para continuar");
                         Console.ReadLine();
+                        Console.Clear();
                         Menu();
                     }
                     break;
@@ -300,22 +309,27 @@ namespace SingleExperience.Views
                     if (compraService.Cadastrar(iniciarModel))
                     {
                         Console.WriteLine("Compra Cadastrada com Sucesso!");
-                        var guid = new Guid();
+                        var guid = Guid.NewGuid();
                         Console.WriteLine("O número do seu Pix é: " + guid);
                         Console.WriteLine("Aperte Enter para continuar");
                         Console.ReadLine();
+                        Console.Clear();
                         Menu();
                     }
                     break;
                 case "3":
                     iniciarModel.FormaPagamentoId = FormaPagamentoEnum.Cartao;
 
-                    Console.WriteLine("Confirme os dados do seu Cartão");
-                    Console.WriteLine("Numero:  ");
-                    Console.WriteLine("Codigo de Segurança: ");
+                    Console.Write("Confirme os dados do seu Cartão");
+                    Console.ReadLine();
+                    Console.Write("Numero:  ");
+                    Console.ReadLine();
+                    Console.Write("Codigo de Segurança: ");
+                    Console.ReadLine();
 
                     if (compraService.Cadastrar(iniciarModel))
                     {
+                        Console.Clear();
                         Console.WriteLine("Compra Cadastrada com Sucesso!");
                         Console.WriteLine("O pagamento foi Confirmado com sua Operadora");
                         Console.WriteLine("Aperte Enter para continuar");

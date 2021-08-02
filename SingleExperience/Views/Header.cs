@@ -6,7 +6,6 @@ namespace SingleExperience.Views
 {
     public class Header
     {
-
         public void Exibir()
         {
             Console.WriteLine(" ========================================================");
@@ -14,12 +13,6 @@ namespace SingleExperience.Views
             Console.WriteLine(" ========================================================");
             Console.WriteLine("");
         }
-
-        public void Footer()
-        {
-            Console.WriteLine("--------- Desenvolvido por Rafael Messias --------------");
-        }
-
 
     }
 }
