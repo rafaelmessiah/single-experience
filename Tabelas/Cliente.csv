@@ -1,2 +1,2 @@
-ClienteId,Cpf,Nome,Email,Senha,DataNascimento
-1,12345678911,Rafael,rafael@email.com,tech123,16/08/97
+ClienteId,Cpf,Nome,Email,Senha,DataNascimento,Telefone
+1,12345678911,Rafael,rafael@email.com,tech123,16/08/97,41987654321

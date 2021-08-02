@@ -48,6 +48,18 @@ namespace SingleExperience.Services.Produto
                 }).FirstOrDefault();
 
         } 
+        public DisponibilidadeModel ObterDisponibildade(int produtoId)
+        {
+            return produtoBd.BuscarProdutos()
+                .Where(a => a.ProdutoId == produtoId)
+                .Select(b => new DisponibilidadeModel
+                {
+                    QtdeDisponivel = b.QtdeEmEstoque,
+                    Disponivel = b.Disponivel
+                }).FirstOrDefault();
+
+
+        }
 
         public ProdutoDetalhadoModel ObterDetalhe(int produtoId)
         {

@@ -7,6 +7,7 @@ using System.Linq;
 using SingleExperience.Services.Carrinho.Models;
 using SingleExperience.Services.Produto.Models;
 using SingleExperience.Services.Produto;
+using System.IO;
 
 namespace SingleExperience.Services.Carrinho
 {
@@ -56,7 +57,15 @@ namespace SingleExperience.Services.Carrinho
 
             if (carrinho == null)
             {
-                carrinhoBd.Salvar(model);
+                try
+                {
+                    carrinhoBd.Salvar(model);
+                }
+                catch (IOException e)
+                {
+                    Console.WriteLine("Ocurred an error");
+                    Console.WriteLine(e.Message);
+                }
 
                 return true;
             }
@@ -83,6 +92,7 @@ namespace SingleExperience.Services.Carrinho
 
         public bool AlterarQtde(EdicaoQtdeModel model)
         {
+
             var carrinho = carrinhoBd.BuscarCarrinho()
                 .Where(a => a.CarrinhoId == model.CarrinhoId &&
                 a.Qtde != model.Qtde &&

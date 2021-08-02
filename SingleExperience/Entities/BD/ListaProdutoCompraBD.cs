@@ -11,12 +11,8 @@ namespace SingleExperience.Entities.BD
     {
         string path = @"C:\Workspaces\visual_studio_2019\single-experience\Tabelas\ListaProdutoCompra.csv";
 
-        string header = "";
-
         public List<ListaProdutoCompraEntity> BuscarProdutosCompras()
         {
-           
-
             var listaProduto = new List<ListaProdutoCompraEntity>();
 
             try
@@ -45,7 +41,7 @@ namespace SingleExperience.Entities.BD
 
                 throw;
             }
-
+            
             return listaProduto;
         }
 

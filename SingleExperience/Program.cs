@@ -11,6 +11,7 @@ using SingleExperience.Services.Carrinho.Models;
 using SingleExperience.Services.Compra.Models;
 using SingleExperience.Services.ListaProdutoCompra;
 using SingleExperience.Services.ListaProdutoCompra.Models;
+using SingleExperience.Views;
 
 namespace SingleExperience
 {
@@ -18,15 +19,12 @@ namespace SingleExperience
     {
         static void Main(string[] args)
         {
-            var compraService = new CompraService();
+            var header = new Header();
+            var body = new Body();
+            
 
-            var iniciarModel = new IniciarModel
-            {
-                ClienteId = 1,
-                FormaPagamentoId = FormaPagamentoEnum.Pix,
-            };
 
-            compraService.Cadastrar(iniciarModel);
+            body.Menu();
         }
     }
 }

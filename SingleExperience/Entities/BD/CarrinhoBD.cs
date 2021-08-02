@@ -53,18 +53,24 @@ namespace SingleExperience.Entities.BD
         {
             try
             {
-                var carrinhoId = File.ReadAllLines(path).Length;
+                var carrinhoId = BuscarCarrinho().Count + 1;
 
                 using (var streamWriter = File.AppendText(path))
                 {
-                    var statusId = ((int)StatusCarrinhoProdutoEnum.Ativo);
+                    var statusCarrinhoId = StatusCarrinhoProdutoEnum.Ativo;
 
-                    streamWriter.WriteLine($"{carrinhoId}," +
-                        $"{model.ProdutoId}," +
-                        $"{model.ClienteId}," +
-                        $"{model.Qtde}" +
-                        $"{statusId}");
+                    var aux = new string[]
+                    {
+                        carrinhoId.ToString(),
+                        model.ProdutoId.ToString(),
+                        model.ClienteId.ToString(),
+                        model.Qtde.ToString(),
+                        statusCarrinhoId.ToString()
+                    };
+
+                    streamWriter.WriteLine(String.Join(",", aux));
                 }
+
             }
             catch (Exception)
             {
