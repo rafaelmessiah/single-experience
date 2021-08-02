@@ -4,10 +4,10 @@ using System.Text;
 
 namespace SingleExperience.Entities.Enums
 {
-    enum StatusCompraEnum : int
+    public enum StatusCompraEnum : int
     {
-        Aberta = 0,
-        Finalizada =0,
-        Cancelada =0,
+        Aberta = 1,
+        Finalizada = 2,
+        Cancelada = 3,
     }
 }

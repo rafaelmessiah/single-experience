@@ -4,10 +4,10 @@ using System.Text;
 
 namespace SingleExperience.Entities.Enums
 {
-    enum FormaPagamentoEnum : int
+    public enum FormaPagamentoEnum : int
     {
-        Boleto = 0,
-        Pix = 1,
-        Cartao = 0
+        Boleto = 1,
+        Pix = 2,
+        Cartao = 3
     }
 }

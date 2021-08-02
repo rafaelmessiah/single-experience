@@ -1,1 +1,18 @@
-ProdutoId,CategoriaId,StatusId,Nome,Preco,Detalhe,QtdeEmEstoque,Ranking,Disponivel
+ProdutoId,CategoriaId,StatusProdutoId,Nome,Preco,Detalhe,QtdeEmEstoque,Ranking,Disponivel
+1,1,1,PC GAMER T-GAMER  FRAMEMASTER ,6300.00,AMD RYZEN 5 5600X / GeForce RTX 2060 6GB / DDR4 8GB / SSD 120GB,29,5,True
+2,1,1,PC GAMER T-GAMER KINGSTON FURY,7500.00,Intel i5 11600K / NVIDIA GeForce GTX 1660 Super / 16GB (2x8GB) DDR4 / SSD M.2 NVMe 500GB,47,5,True
+3,1,1,PC GAMER T-POWER WARLORD,8300.00,AMD Ryzen 7 / Nvidia GeForce / DDR4 8GB / HD 1TB,7,5,True
+4,1,1,Computador Fácil Intel Pentium Dual Core 4GB DDR3 HD 500GB,1029.00,Processador Intel Core i5 3.1GHz / 4 de memória RAM / HD 500GB / Sistema Operacional Linux / Compre direto com o fabricante. Certificação ISO9001,20,3,False
+5,2,1,Computador Intel Core i5 6GB HD 500GB EasyPC Go,1469.00,Intel Pentium Dual Core / 4GB de RAM / HD 500GB,50,2,True
+6,2,1,Notebook Lenovo IdeaPad 3i  ,3000.00,Série Ideapad 3 Marca Lenovo Usos específicos do produto Personal Tamanho do visor 15.6 polegadas LCD Sistema operacional Windows 10,25,5,True
+7,2,1,Notebook IdeaPad Gaming 3i ,5200.00,Série: Gaming 3i Marca: Lenovo Usos específicos do produto: Personal Tamanho do visor 15.6 polegadas LCD Sistema operacional Windows 10,10,4,True
+8,2,1,Notebook Positivo Motion Q464C,1500.00,Microsoft 365 Incluso Tecnologia Teclado UP mais conforto na digitação Webcam HD e Microfone Digital Bateria de alta capacidade com autonomia de até 7 horas Produto portátil pesando apenas 1.3kg Tamanho da tela: 14.0 Item Bivolt,5,1,False
+9,3,1,Mouse Gamer Logitech G203,119.00,Marca: Logitech G Cor:Preto Tecnologia de conexão Sem fio Série: G203 LIGHTSYNC Tipo de conector: USB tipo A,35,4,True
+10,3,2,Teclado Multilaser Slim - TC213  ,29.00,Cor: Preto Descrição do teclado Membrana tecnologia de conexão USB Características especiais Compatível com Mac Dispositivos compatíveis Windows ou Mac OS Marca Multilaser,23,2,False
+11,3,2,Fones de Ouvido Philips com Microfone – Preto,32.00,Marca PHILIPS Cor Preto Tecnologia de conectividade Com fio Nome do modelo TAUE101BK/00 Fator de forma dos fones de ouvido,28,3,True
+12,4,1,Celular Xiaomi Redmi 9 64GB/4GB Dual Chip,1019.00,Operadora de celulares e tecnologia sem fio Desbloqueado Marca Xiaomi Formato Smartphone Capacidade de armazenamento da memória 64 GB Sistema operacional Android 10.0,12,4,True
+13,4,1,Smartphone Positivo Q20  ,799.00,Nome do modelo Q20 Operadora de celulares e tecnologia sem fio Todas as Operadoras Marca Positivo Fator de forma Smartphone Capacidade de armazenamento da memória 4 GB,2,2,False
+14,4,1,Celular Multilaser F 32Gb 3G 1Gb P9130 Preto,449.00,Nome do modelo CELULAR F 32GB 3G 1GB P9130 PRETO Operadora de celulares e tecnologia sem fio 3 Marca Multilaser Formato Smartphone Capacidade de armazenamento da memória 1 GB,9,2,True
+15,5,2,Pad Pro 2020 11'' 2 Geracao 256gb Mxdc2ll/a Wifi,7500.00,Marca Apple Tamanho do visor 11 polegadas Capacidade de armazenamento da memória 256 GB Dimensões do produto 24.74 x 17.83 x 0.58 cm,9,7,True
+16,5,1,Tablet Multilaser M7 ,339.00,Nome do modelo NB304 Marca Multilaser Tamanho do visor 7 polegadas TN Sistema operacional Android 8.1 Capacidade de armazenamento da memória,1,2,False
+17,5,2,Kindle 10a.  – Cor Preta,349.00,A luz embutida ajustável permite que você leia confortavelmente por horas – em lugares abertos ou fechados  durante o dia ou a noite. A tela de 167 ppi proporciona uma leitura sem reflexo  mesmo sob a luz do sol. É como se você estivesse lendo em papel. Leia sem distrações  Você pode marcar trechos melhorar seu vocabulário com o dicionário  traduzir palavras e ajustar o tamanho da fonte sem precisar sair da página.,199,5,True

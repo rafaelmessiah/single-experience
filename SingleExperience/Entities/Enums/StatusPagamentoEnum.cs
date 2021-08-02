@@ -4,9 +4,9 @@ using System.Text;
 
 namespace SingleExperience.Entities.Enums
 {
-    enum StatusPagamentoEnum
+    public enum StatusPagamentoEnum
     {
-        NaoConfirmado = 0,
-        Confirmmado = 1
+        NaoConfirmado = 1,
+        Confirmado = 2
     }
 }

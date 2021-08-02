@@ -4,9 +4,9 @@ using System.Text;
 
 namespace SingleExperience.Entities.Enums
 {
-    enum StatusProduto : int
+    enum StatusProdutoEnum : int
     {
-        Novo = 0,
-        Usado = 1
+        Novo = 1,
+        Usado = 2
     }
 }
