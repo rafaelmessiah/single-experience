@@ -345,7 +345,7 @@ namespace SingleExperience.Views
         {
             Console.Clear();
             var compraService = new CompraService();
-            var compras = compraService.BuscarCompras(1);
+            var compras = compraService.Buscar(1);
 
             compras.ForEach(a =>
             {
