@@ -11,7 +11,6 @@ namespace SingleExperience.Services.ListaProdutoCompra
     public class ListaProdutoCompraService
     {
         ListaProdutoCompraBD listaProdutoCompraBd = new ListaProdutoCompraBD();
-
         ProdutoService produtoService = new ProdutoService();
 
         public List<ItemProdutoCompraModel> Buscar(int compraId)

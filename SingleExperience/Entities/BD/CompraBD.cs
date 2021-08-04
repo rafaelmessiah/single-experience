@@ -15,6 +15,7 @@ namespace SingleExperience.Entities.BD
 
         string path = @"C:\Workspaces\visual_studio_2019\single-experience\Tabelas\Compra.csv";
         string header = "";
+        
 
         public List<CompraEntity> BuscarCompras()
         {
