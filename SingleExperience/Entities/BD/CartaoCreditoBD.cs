@@ -8,10 +8,11 @@ namespace SingleExperience.Entities.BD
 {
     class CartaoCreditoBD
     {
+        string path = @"C:\Users\rafael.messias\source\repos\SingleExperience\Tabelas\CartaoCredito.csv";
+        string header = "";
+
         public List<CartaoCreditoEntity> ListaCartaoCredito()
         {
-            string path = @"C:\Users\rafael.messias\source\repos\SingleExperience\Tabelas\CartaoCreditoId";
-
             List<CartaoCreditoEntity> listaCartaoCredito = new List<CartaoCreditoEntity>();
 
             try
@@ -27,9 +28,12 @@ namespace SingleExperience.Entities.BD
                         var cartao = new CartaoCreditoEntity();
                         cartao.CartaoCreditoId = int.Parse(campo[0]);
                         cartao.ClienteId = int.Parse(campo[1]);
-                        cartao.Numero = campo[2];
-                        cartao.Bandeira = campo[3];
-
+                        cartao.Nome = campo[2];
+                        cartao.Numero = campo[3];
+                        cartao.Bandeira = campo[4];
+                        DateTime.TryParse(campo[5], out DateTime dateTime);
+                        cartao.DataVencimento = dateTime;
+                       
                         listaCartaoCredito.Add(cartao);
                     });
             }
@@ -41,5 +45,6 @@ namespace SingleExperience.Entities.BD
 
             return listaCartaoCredito;
         }
+
     }
 }

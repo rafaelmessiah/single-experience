@@ -1,1 +1,1 @@
-CartaoCreditoId,ClienteId,Numero,Bandeira
+CartaoCreditoId,ClienteId,Nome,Numero,Bandeira,DataVencimento

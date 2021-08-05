@@ -20,11 +20,10 @@ namespace SingleExperience
         static void Main(string[] args)
         {
             var header = new Header();
-            var body = new Body();
-            
+            var home = new Home();
 
+            home.Menu();
 
-            body.Menu();
         }
     }
 }

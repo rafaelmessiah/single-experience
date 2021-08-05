@@ -13,7 +13,7 @@ namespace SingleExperience.Entities.BD
     public class CompraBD
     {
 
-        string path = @"C:\Workspaces\visual_studio_2019\single-experience\Tabelas\Compra.csv";
+        string path = @"C:\Users\rafael.messias\source\repos\SingleExperience\Tabelas\Compra.csv";
         string header = "";
         
 
@@ -50,14 +50,17 @@ namespace SingleExperience.Entities.BD
 
                         listaCompra.Add(compra);
                     });
+                return listaCompra;
+
             }
-            catch (Exception)
+            catch (IOException e)
             {
-
-                throw;
+                Console.WriteLine("Ocorreu um Erro:");
+                Console.WriteLine(e.Message);
             }
 
-            return listaCompra;
+            return null;
+            
         }
         
         public int Salvar(CadastroModel model)
@@ -89,13 +92,13 @@ namespace SingleExperience.Entities.BD
 
                 return compraId;
             }
-            catch (Exception)
+            catch (IOException e)
             {
-                throw new Exception("Não foi possivel iniciar essa compra");
+                Console.WriteLine("Ocorreu um Erro:");
+                Console.WriteLine(e.Message);
             }
 
-            
-            
+            return 0;
         }
 
         public bool Pagar(int compraId)
@@ -137,6 +140,7 @@ namespace SingleExperience.Entities.BD
 
                 File.WriteAllLines(path, linhas);
 
+                return true;
             }
             catch (IOException e)
             {
@@ -144,7 +148,7 @@ namespace SingleExperience.Entities.BD
                 Console.WriteLine(e.Message);
             }
 
-            return true;
+            return false;
         }
 
     }

@@ -8,7 +8,9 @@ namespace SingleExperience.Entities
     {
         public int CartaoCreditoId { get; set; }
         public int ClienteId { get; set; }
+        public string  Nome { get; set; }
         public string Numero { get; set; }
         public string Bandeira { get; set; }
+        public DateTime DataVencimento { get; set; }
     }
 }

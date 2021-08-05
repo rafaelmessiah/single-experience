@@ -17,10 +17,15 @@ namespace SingleExperience.Services.Compra
     public class CompraService
     {
         CompraBD compraBd = new CompraBD();
+        CarrinhoService carrinhoService = new CarrinhoService();
+        ListaProdutoCompraService listaProdutoCompraService = new ListaProdutoCompraService();
+        ProdutoService produtoService = new ProdutoService();
 
         public List<ItemCompraModel> Buscar(int clienteId)
         {
-            var compras = compraBd.BuscarCompras()
+            try
+            {
+                var compras = compraBd.BuscarCompras()
                 .Where(a => a.ClienteId == clienteId)
                 .Select(b => new ItemCompraModel
                 {
@@ -30,15 +35,16 @@ namespace SingleExperience.Services.Compra
                     ValorFinal = b.ValorFinal
                 }).ToList();
 
-            if (compras == null)
-                throw new Exception("Não foi possivel encontrar compras desse usuário");
-
-            return compras;
+                return compras;
+            }
+            catch (Exception)
+            {
+                 return null;
+            }
         }
         public bool Cadastrar(IniciarModel model)
         {
             //Buscar os Produtos
-            var carrinhoService = new CarrinhoService();
             var produtos = carrinhoService.Buscar(model.ClienteId);
 
             var cadastroModel = new CadastroModel
@@ -50,12 +56,8 @@ namespace SingleExperience.Services.Compra
 
             var compraId = compraBd.Salvar(cadastroModel);
 
-            var listaProdutoCompraService = new ListaProdutoCompraService();
-
             var itemCompraModel = new CadastrarItemModel();
-
-            var produtoService = new ProdutoService();
-
+ 
             produtos.ForEach(a =>
             {
                 //Altera a quantidade do produto
