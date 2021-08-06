@@ -11,6 +11,7 @@ namespace SingleExperience.Entities
         public string  Nome { get; set; }
         public string Numero { get; set; }
         public string Bandeira { get; set; }
+        public string CodigoSeguranca { get; set; }
         public DateTime DataVencimento { get; set; }
     }
 }

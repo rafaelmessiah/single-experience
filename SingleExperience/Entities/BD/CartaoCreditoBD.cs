@@ -10,8 +10,7 @@ namespace SingleExperience.Entities.BD
     {
         string path = @"C:\Users\rafael.messias\source\repos\SingleExperience\Tabelas\CartaoCredito.csv";
         string header = "";
-
-        public List<CartaoCreditoEntity> ListaCartaoCredito()
+        public List<CartaoCreditoEntity> Buscar()
         {
             List<CartaoCreditoEntity> listaCartaoCredito = new List<CartaoCreditoEntity>();
 
@@ -45,6 +44,8 @@ namespace SingleExperience.Entities.BD
 
             return listaCartaoCredito;
         }
+
+        
 
     }
 }

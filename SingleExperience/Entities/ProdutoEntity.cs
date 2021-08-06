@@ -9,7 +9,6 @@ namespace SingleExperience.Entities
     {
         public int ProdutoId { get; set; }
         public CategoriaEnum CategoriaId { get; set; }
-        public StatusProdutoEnum StatusProdutoId { get; set; }
         public string Nome { get; set; }
         public double Preco { get; set; }
         public string Detalhe { get; set; }

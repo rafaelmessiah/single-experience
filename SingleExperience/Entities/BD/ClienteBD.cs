@@ -79,6 +79,96 @@ namespace SingleExperience.Entities.BD
             return true;
         }
 
-        
+        public bool EditarEmail(EdicaoEmailModel model)
+        {
+            try
+            {
+                var clientes = Buscar();
+
+                var index = clientes
+                    .FindIndex(a => a.ClienteId == model.ClienteId);
+
+                clientes[index].Email = model.NovoEmail;
+
+                // Gera as linhas para colocar no csv
+
+                var linhas = new List<string>();
+
+                linhas.Add(header);
+
+                foreach (var item in clientes)
+                {
+
+                    var aux = new string[]
+                    {
+                      item.ClienteId.ToString(),
+                      item.Cpf.ToString(),
+                      item.Nome.ToString(),
+                      item.Email.ToString(),
+                      item.Senha.ToString(),
+                      item.DataNascimento.ToString(),
+                      item.Telefone.ToString(),
+                    };
+
+                    linhas.Add(String.Join(",", aux));
+                }
+
+                File.WriteAllLines(path, linhas);
+
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine("Ocurred an error");
+                Console.WriteLine(e.Message);
+            }
+
+            return true;
+        }
+
+        public bool EditarSenha(EdicaoSenhaModel model)
+        {
+            try
+            {
+                var clientes = Buscar();
+
+                var index = clientes
+                    .FindIndex(a => a.ClienteId == model.ClienteId);
+
+                clientes[index].Senha = model.NovaSenha;
+
+                // Gera as linhas para colocar no csv
+
+                var linhas = new List<string>();
+
+                linhas.Add(header);
+
+                foreach (var item in clientes)
+                {
+
+                    var aux = new string[]
+                    {
+                      item.ClienteId.ToString(),
+                      item.Cpf.ToString(),
+                      item.Nome.ToString(),
+                      item.Email.ToString(),
+                      item.Senha.ToString(),
+                      item.DataNascimento.ToString(),
+                      item.Telefone.ToString(),
+                    };
+
+                    linhas.Add(String.Join(",", aux));
+                }
+
+                File.WriteAllLines(path, linhas);
+
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine("Ocurred an error");
+                Console.WriteLine(e.Message);
+            }
+
+            return true;
+        }
     }
 }
