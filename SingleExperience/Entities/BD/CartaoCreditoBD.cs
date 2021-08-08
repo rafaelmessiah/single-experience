@@ -45,7 +45,6 @@ namespace SingleExperience.Entities.BD
             return listaCartaoCredito;
         }
 
-        
 
     }
 }
