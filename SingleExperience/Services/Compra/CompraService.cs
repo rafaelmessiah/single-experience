@@ -17,10 +17,15 @@ namespace SingleExperience.Services.Compra
     public class CompraService
     {
         CompraBD compraBd = new CompraBD();
+        CarrinhoService carrinhoService = new CarrinhoService();
+        ListaProdutoCompraService listaProdutoCompraService = new ListaProdutoCompraService();
+        ProdutoService produtoService = new ProdutoService();
 
         public List<ItemCompraModel> Buscar(int clienteId)
         {
-            var compras = compraBd.BuscarCompras()
+            try
+            {
+                var compras = compraBd.BuscarCompras()
                 .Where(a => a.ClienteId == clienteId)
                 .Select(b => new ItemCompraModel
                 {
@@ -30,32 +35,30 @@ namespace SingleExperience.Services.Compra
                     ValorFinal = b.ValorFinal
                 }).ToList();
 
-            if (compras == null)
-                throw new Exception("Não foi possivel encontrar compras desse usuário");
-
-            return compras;
+                return compras;
+            }
+            catch (Exception)
+            {
+                 return null;
+            }
         }
         public bool Cadastrar(IniciarModel model)
         {
             //Buscar os Produtos
-            var carrinhoService = new CarrinhoService();
             var produtos = carrinhoService.Buscar(model.ClienteId);
 
             var cadastroModel = new CadastroModel
             {
                 ClienteId = model.ClienteId,
                 FormaPagamentoId = model.FormaPagamentoId,
+                EnderecoId = model.EnderecoId,
                 ValorFinal = carrinhoService.CalcularValorTotal(model.ClienteId)
             };
 
             var compraId = compraBd.Salvar(cadastroModel);
 
-            var listaProdutoCompraService = new ListaProdutoCompraService();
-
             var itemCompraModel = new CadastrarItemModel();
-
-            var produtoService = new ProdutoService();
-
+ 
             produtos.ForEach(a =>
             {
                 //Altera a quantidade do produto
@@ -93,7 +96,7 @@ namespace SingleExperience.Services.Compra
                 .Select(b => new CompraDetalhadaModel
                 {
                     CompraId = b.CompraId,
-                    StatusPagamentoId = b.StatusPagamentoId,
+                    StatusPagamento = b.StatusPagamento,
                     FormaPagamentoId = b.FormaPagamentoId,
                     DataCompra = b.DataCompra,
                     DataPagamento = b.DataPagamento,
@@ -111,7 +114,7 @@ namespace SingleExperience.Services.Compra
             var compra = compraBd.BuscarCompras()
                  .Where(a => a.CompraId == compraId &&
                  a.StatusCompraId == StatusCompraEnum.Aberta &&
-                 a.StatusPagamentoId == StatusPagamentoEnum.NaoConfirmado)
+                 a.StatusPagamento == false)
                  .FirstOrDefault();
 
             if (compra == null)
@@ -122,7 +125,6 @@ namespace SingleExperience.Services.Compra
             return true;
               
         }
-
 
     }
 }

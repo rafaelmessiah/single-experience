@@ -36,10 +36,10 @@ namespace SingleExperience.Entities.BD
                         listaProduto.Add(produtoCompra);
                     });
             }
-            catch (Exception)
+            catch (IOException e)
             {
-
-                throw;
+                Console.WriteLine("Ocorreu um erro");
+                Console.WriteLine(e);
             }
             
             return listaProduto;
@@ -65,9 +65,10 @@ namespace SingleExperience.Entities.BD
                     streamWriter.WriteLine(String.Join(",", aux));
                 }
             }
-            catch (Exception)
+            catch (IOException e)
             {
-                throw new Exception("Não foi possivel iniciar essa compra");
+                Console.WriteLine("Ocorreu um Erro");
+                Console.WriteLine(e);
             }
 
             return true;

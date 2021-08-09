@@ -14,7 +14,6 @@ namespace SingleExperience.Services.Carrinho
     public class CarrinhoService
     {
         CarrinhoBD carrinhoBd = new CarrinhoBD();
-
         ProdutoService produtoService = new ProdutoService();
 
         public List<ItemCarrinhoModel> Buscar(int clienteId)

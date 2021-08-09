@@ -30,31 +30,26 @@ namespace SingleExperience.Entities.BD
                     .ForEach(p =>
                     {
                         var campos = p.Split(",");
-
+                        
                         var produto = new ProdutoEntity();
                         produto.ProdutoId = int.Parse(campos[0]);
 
                         Enum.TryParse(campos[1], out CategoriaEnum categoria);
                         produto.CategoriaId = categoria;
-
-                        Enum.TryParse(campos[2], out StatusProdutoEnum statusProduto);
-                        produto.StatusProdutoId = statusProduto;
-
-                        produto.Nome = campos[3];
-
-                        produto.Preco = double.Parse(campos[4], CultureInfo.InvariantCulture);
-                        produto.Detalhe = campos[5];
-                        produto.QtdeEmEstoque = int.Parse(campos[6]);
-                        produto.Ranking = campos[7];
-                        produto.Disponivel = bool.Parse(campos[8]);
+                        produto.Nome = campos[2];
+                        produto.Preco = double.Parse(campos[3], CultureInfo.InvariantCulture);
+                        produto.Detalhe = campos[4];
+                        produto.QtdeEmEstoque = int.Parse(campos[5]);
+                        produto.Ranking = int.Parse(campos[6]);
+                        produto.Disponivel = bool.Parse(campos[7]);
 
                         listaProduto.Add(produto);
                     });
             }
-            catch (Exception)
+            catch (IOException e)
             {
-
-                throw;
+                Console.WriteLine("Ocorreu um Erro");
+                Console.WriteLine(e);
             }
 
             return listaProduto;
@@ -77,14 +72,12 @@ namespace SingleExperience.Entities.BD
 
                 foreach (var item in produtos)
                 {
-                    var statusProdutoId = ((int)item.StatusProdutoId);
                     var categoriaId = ((int)item.CategoriaId);
 
                     var aux = new string[]
                     {
                       item.ProdutoId.ToString(),
                       categoriaId.ToString(),
-                      statusProdutoId.ToString(),
                       item.Nome.ToString(),
                       item.Preco.ToString("F2", CultureInfo.InvariantCulture),
                       item.Detalhe.ToString(),
@@ -98,10 +91,10 @@ namespace SingleExperience.Entities.BD
 
                 File.WriteAllLines(path, linhas);
             }
-            catch (Exception)
+            catch (IOException e)
             {
-
-                throw new Exception("Não foi possivel retirar esse produto");
+                Console.WriteLine("Ocorreu um Erro");
+                Console.WriteLine(e);
             }
 
             return true;
