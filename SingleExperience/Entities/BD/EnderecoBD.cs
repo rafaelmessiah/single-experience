@@ -10,7 +10,7 @@ namespace SingleExperience.Entities.BD
 {
     class EnderecoBD
     {
-        string path = @"C:\Workspaces\visual_studio_2019\single-experience\Tabelas\Endereco.csv";
+        string path = @"C:\Users\rafael.messias\source\repos\SingleExperience\Tabelas\Endereco.csv";
         string header = "";
 
         public List<EnderecoEntity> Buscar()

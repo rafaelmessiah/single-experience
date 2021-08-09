@@ -38,6 +38,7 @@ namespace SingleExperience.Services.Produto
 
             return produtos;
         }
+
         public List<ProdutoSimplesModel> BuscarCategoria(CategoriaEnum categoria)
         {
             var produtos = new List<ProdutoSimplesModel>();
@@ -90,6 +91,7 @@ namespace SingleExperience.Services.Produto
 
             return produto;
         }
+
         public DisponivelModel ObterDisponibildade(int produtoId)
         {
             var produto = new DisponivelModel();
@@ -114,6 +116,28 @@ namespace SingleExperience.Services.Produto
 
             return produto;
         }
+
+        public bool Verificar(int produtoId)
+        {
+            try
+            {
+                var produto = produtoBd.BuscarProdutos()
+                    .Where(a => a.ProdutoId == produtoId)
+                    .FirstOrDefault();
+
+                if (produto == null)
+                    return false;
+
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine("Ocorreu um erro");
+                Console.WriteLine(e.Message);
+            }
+
+            return true;
+        }
+
         public ProdutoDetalhadoModel ObterDetalhe(int produtoId)
         {
             var produto = new ProdutoDetalhadoModel();
@@ -140,6 +164,7 @@ namespace SingleExperience.Services.Produto
 
             return produto;
         }
+
         public bool Retirar(AlterarQtdeModel model)
         {
             try

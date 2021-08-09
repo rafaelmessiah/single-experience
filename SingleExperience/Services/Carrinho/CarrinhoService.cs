@@ -18,54 +18,73 @@ namespace SingleExperience.Services.Carrinho
 
         public List<ItemCarrinhoModel> Buscar(int clienteId)
         {
-            var carrinhos = carrinhoBd.BuscarCarrinho()
+            var produtos = new List<ItemCarrinhoModel>();
+            try
+            {
+                var carrinhos = carrinhoBd.BuscarCarrinho()
                 .Where(a => a.ClienteId == clienteId && a.StatusCarrinhoProdutoId == StatusCarrinhoProdutoEnum.Ativo)
                 .ToList();
 
-            if (carrinhos == null)
-                throw new Exception("Esse cliente não tem Produtos no carrinho");
+                if (carrinhos == null)
+                    throw new Exception("Esse cliente não tem Produtos no carrinho");
 
-            var produtos = produtoService.Buscar()
-                .Where(a => carrinhos.Any(b => b.ProdutoId == a.ProdutoId))
-                .Select(c => new ItemCarrinhoModel
+                produtos = produtoService.Buscar()
+                    .Where(a => carrinhos.Any(b => b.ProdutoId == a.ProdutoId))
+                    .Select(c => new ItemCarrinhoModel
+                    {
+                        ProdutoId = c.ProdutoId,
+                        Nome = c.Nome,
+                        Preco = c.Preco
+                    }).ToList();
+
+                foreach (var item in produtos)
                 {
-                    ProdutoId = c.ProdutoId,
-                    Nome = c.Nome,
-                    Preco = c.Preco
-                }).ToList();
+                    var carrinho = carrinhos.Find(a => a.ProdutoId == item.ProdutoId);
 
-            foreach( var item in produtos)
-            {
-                var carrinho = carrinhos.Find(a => a.ProdutoId == item.ProdutoId);
+                    item.CarrinhoId = carrinho.CarrinhoId;
+                    item.Qtde = carrinho.Qtde;
+                }
 
-                item.CarrinhoId = carrinho.CarrinhoId;
-                item.Qtde = carrinho.Qtde;
             }
+            catch (IOException e)
+            {
+                Console.WriteLine("Ocorreu um erro");
+                Console.WriteLine(e);
+            }
+            
 
             return produtos;
         }
 
         public bool Adicionar(SalvarModel model)
         {
-            var carrinho = carrinhoBd.BuscarCarrinho()
+            try
+            {
+                var carrinho = carrinhoBd.BuscarCarrinho()
                 .Where(a => a.ProdutoId == model.ProdutoId &&
                 a.ClienteId == model.ClienteId &&
                 a.StatusCarrinhoProdutoId == StatusCarrinhoProdutoEnum.Ativo)
                 .FirstOrDefault();
 
-            if (carrinho == null)
-            {
-                try
+                if (carrinho == null)
                 {
-                    carrinhoBd.Salvar(model);
-                }
-                catch (IOException e)
-                {
-                    Console.WriteLine("Ocurred an error");
-                    Console.WriteLine(e.Message);
-                }
+                    try
+                    {
+                        carrinhoBd.Salvar(model);
+                    }
+                    catch (IOException e)
+                    {
+                        Console.WriteLine("Ocurred an error");
+                        Console.WriteLine(e.Message);
+                    }
 
-                return true;
+                    return true;
+                }
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine("Ocorreu um erro");
+                Console.WriteLine(e);
             }
 
             throw new Exception("Esse produto ja esta no carrinho");
@@ -73,15 +92,23 @@ namespace SingleExperience.Services.Carrinho
 
         public bool AlterarStatus(EdicaoStatusModel model)
         {
-            var carrinho = carrinhoBd.BuscarCarrinho()
+            try
+            {
+                var carrinho = carrinhoBd.BuscarCarrinho()
                 .Where(a => a.CarrinhoId == model.CarrinhoId &&
                 a.StatusCarrinhoProdutoId != model.StatusEnum)
                 .FirstOrDefault();
 
-            if (carrinho == null)
-                throw new Exception("Esse produto não pode ser alterado para o estado" + model.StatusEnum.ToString());
+                if (carrinho == null)
+                    throw new Exception("Esse produto não pode ser alterado para o estado" + model.StatusEnum.ToString());
 
-            carrinhoBd.AlterarStatus(model);
+                carrinhoBd.AlterarStatus(model);
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine("Ocorreu um erro");
+                Console.WriteLine(e);
+            }
 
             return true;
         }

@@ -9,7 +9,7 @@ namespace SingleExperience.Entities.BD
 {
     class CartaoCreditoBD
     {
-        string path = @"C:\Workspaces\visual_studio_2019\single-experience\Tabelas\CartaoCredito.csv";
+        string path = @"C:\Users\rafael.messias\source\repos\SingleExperience\Tabelas\CartaoCredito.csv";
         string header = "";
         
         public List<CartaoCreditoEntity> Buscar()

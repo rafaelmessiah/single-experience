@@ -12,6 +12,29 @@ namespace SingleExperience.Services.Cliente
     {
         ClienteBD clienteBd = new ClienteBD();
 
+        public ClienteLogadoModel Login(LoginModel loginModel)
+        {
+            var cliente = new ClienteLogadoModel();
+            try
+            {
+                cliente = clienteBd.Buscar().Where(a => a.Email == loginModel.Email &&
+                a.Senha == loginModel.Senha)
+                    .Select(a => new ClienteLogadoModel
+                    {
+                        ClienteId = a.ClienteId,
+                        Nome = a.Nome,
+                    }).FirstOrDefault();
+                    
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine("Ocorreu um erro");
+                Console.WriteLine(e);
+            }
+
+            return cliente;
+        }
+
         public bool Cadastrar(CadastroClienteModel model)
         {
             try
@@ -118,6 +141,30 @@ namespace SingleExperience.Services.Cliente
             catch (IOException e)
             {
 
+                Console.WriteLine("Ocorreu um erro");
+                Console.WriteLine(e);
+            }
+
+            return true;
+        }
+
+        public bool Verificar(VerificarClienteModel model)
+        {
+            
+            try
+            {
+                var cliente = clienteBd.Buscar().Where(a => a.ClienteId == model.ClienteId &&
+                a.Email == model.Email &&
+                a.Senha == model.Senha).FirstOrDefault();
+                
+                if(cliente == null)
+                {
+                    return false;
+                }
+
+            }
+            catch (IOException e)
+            {
                 Console.WriteLine("Ocorreu um erro");
                 Console.WriteLine(e);
             }

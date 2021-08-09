@@ -12,6 +12,7 @@ using SingleExperience.Services.Compra.Models;
 using SingleExperience.Services.ListaProdutoCompra;
 using SingleExperience.Services.ListaProdutoCompra.Models;
 using SingleExperience.Views;
+using SingleExperience.Services.Cliente.Models;
 
 namespace SingleExperience
 {
@@ -19,10 +20,10 @@ namespace SingleExperience
     {
         static void Main(string[] args)
         {
-            var header = new Header();
+            
             var home = new Home();
 
-            home.Menu();
+            home.Inicio();
 
         }
     }
