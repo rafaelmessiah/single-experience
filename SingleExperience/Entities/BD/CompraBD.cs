@@ -13,7 +13,7 @@ namespace SingleExperience.Entities.BD
     public class CompraBD
     {
 
-        string path = @"C:\Users\rafael.messias\source\repos\SingleExperience\Tabelas\Compra.csv";
+        string path = @"C:\Workspaces\visual_studio_2019\single-experience\Tabelas\Compra.csv";
         string header = "";
         
 
@@ -41,26 +41,24 @@ namespace SingleExperience.Entities.BD
                         Enum.TryParse(campos[2], out FormaPagamentoEnum formaPagamentoEnum);
                         compra.FormaPagamentoId = formaPagamentoEnum;
                         compra.ClienteId = int.Parse(campos[3]);
-                        Enum.TryParse(campos[4], out StatusPagamentoEnum statusPagamentoEnum);
-                        compra.StatusPagamentoId = statusPagamentoEnum;
-                        compra.DataCompra = DateTime.Parse(campos[5]);
-                        DateTime.TryParse(campos[6], out DateTime dateTime);
+                        compra.EnderecoId = int.Parse(campos[4]);
+                        compra.StatusPagamento = bool.Parse(campos[5]);
+                        compra.DataCompra = DateTime.Parse(campos[6]);
+                        DateTime.TryParse(campos[7], out DateTime dateTime);
                         compra.DataPagamento = dateTime;
-                        compra.ValorFinal = double.Parse(campos[7], CultureInfo.InvariantCulture);
+                        compra.ValorFinal = double.Parse(campos[8], CultureInfo.InvariantCulture);
 
                         listaCompra.Add(compra);
                     });
-                return listaCompra;
-
+               
+                
             }
             catch (IOException e)
             {
-                Console.WriteLine("Ocorreu um Erro:");
-                Console.WriteLine(e.Message);
+                Console.WriteLine("Ocorreu um Erro");
+                Console.WriteLine(e);
             }
-
-            return null;
-            
+            return listaCompra;
         }
         
         public int Salvar(CadastroModel model)
@@ -73,7 +71,7 @@ namespace SingleExperience.Entities.BD
                 {
                     var statusCompraId = ((int)StatusCompraEnum.Aberta);
                     var formaPagamentoId = ((int)model.FormaPagamentoId);
-                    var statusPagmentoId = ((int)StatusPagamentoEnum.NaoConfirmado);
+                    var statusPagmento = false;
 
                     var aux = new string[]
                     {
@@ -81,7 +79,7 @@ namespace SingleExperience.Entities.BD
                     statusCompraId.ToString(),
                     formaPagamentoId.ToString(),
                     model.ClienteId.ToString(),
-                    statusPagmentoId.ToString(),
+                    statusPagmento.ToString(),
                     DateTime.Now.ToString(),
                     null,
                     model.ValorFinal.ToString("F2", CultureInfo.InvariantCulture)
@@ -110,7 +108,7 @@ namespace SingleExperience.Entities.BD
                 var index = compras
                     .FindIndex(a => a.CompraId == compraId);
 
-                compras[index].StatusPagamentoId = StatusPagamentoEnum.Confirmado;
+                compras[index].StatusPagamento = true;
                 compras[index].DataPagamento = DateTime.Now;
 
                 var linhas = new List<string>();
@@ -121,7 +119,6 @@ namespace SingleExperience.Entities.BD
                 {
                     var statusCompraId = ((int)item.StatusCompraId);
                     var formaPagamentoId = ((int)item.FormaPagamentoId);
-                    var statusPagamentoId = ((int)item.StatusPagamentoId);
 
                     var aux = new string[]
                     {
@@ -129,7 +126,7 @@ namespace SingleExperience.Entities.BD
                         statusCompraId.ToString(),
                         formaPagamentoId.ToString(),
                         item.ClienteId.ToString(),
-                        statusPagamentoId.ToString(),
+                        item.StatusPagamento.ToString(),
                         item.DataCompra.ToString(),
                         item.DataPagamento.ToString(),
                         item.ValorFinal.ToString("F2", CultureInfo.InvariantCulture),
@@ -144,11 +141,11 @@ namespace SingleExperience.Entities.BD
             }
             catch (IOException e)
             {
-                Console.WriteLine("Ocurred an error");
-                Console.WriteLine(e.Message);
+                Console.WriteLine("Ocorreu um Erro");
+                Console.WriteLine(e);
             }
 
-            return false;
+            return true;
         }
 
     }

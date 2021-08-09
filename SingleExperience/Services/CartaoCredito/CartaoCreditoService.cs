@@ -38,6 +38,27 @@ namespace SingleExperience.Services.CartaoCredito
             return cartoes;
         }
 
+        public bool Cadastrar(CadastroCartaoModel model)
+        {
+            try
+            {
+                if(model.DataVencimento.CompareTo(DateTime.Now) < 0)
+                {
+                    throw new Exception("Data de Vencimento Invalida");
+                }
+
+                cartaoCreditoBd.Salvar(model);
+            }
+            catch (IOException e)
+            {
+
+                Console.WriteLine("Ocorreu um erro");
+                Console.WriteLine(e);
+            }
+
+            return true;
+        }
+
         public CartaoDetalhadoModel Obter(CartaoClienteModel model)
         {
             var cartao = new CartaoDetalhadoModel();

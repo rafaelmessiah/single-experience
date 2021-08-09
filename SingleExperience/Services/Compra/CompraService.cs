@@ -51,6 +51,7 @@ namespace SingleExperience.Services.Compra
             {
                 ClienteId = model.ClienteId,
                 FormaPagamentoId = model.FormaPagamentoId,
+                EnderecoId = model.EnderecoId,
                 ValorFinal = carrinhoService.CalcularValorTotal(model.ClienteId)
             };
 
@@ -95,7 +96,7 @@ namespace SingleExperience.Services.Compra
                 .Select(b => new CompraDetalhadaModel
                 {
                     CompraId = b.CompraId,
-                    StatusPagamentoId = b.StatusPagamentoId,
+                    StatusPagamento = b.StatusPagamento,
                     FormaPagamentoId = b.FormaPagamentoId,
                     DataCompra = b.DataCompra,
                     DataPagamento = b.DataPagamento,
@@ -113,7 +114,7 @@ namespace SingleExperience.Services.Compra
             var compra = compraBd.BuscarCompras()
                  .Where(a => a.CompraId == compraId &&
                  a.StatusCompraId == StatusCompraEnum.Aberta &&
-                 a.StatusPagamentoId == StatusPagamentoEnum.NaoConfirmado)
+                 a.StatusPagamento == false)
                  .FirstOrDefault();
 
             if (compra == null)
@@ -124,7 +125,6 @@ namespace SingleExperience.Services.Compra
             return true;
               
         }
-
 
     }
 }

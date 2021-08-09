@@ -76,9 +76,9 @@ namespace SingleExperience.Views
                         
             var produtos = produtoService.BuscarCategoria(categoria);
 
-            Console.WriteLine("==================");
+            Console.WriteLine("============================");
             Console.WriteLine($"|| Categoria: {categoria} ||");
-            Console.WriteLine("==================");
+            Console.WriteLine("============================");
 
             Console.WriteLine();
 
@@ -112,46 +112,58 @@ namespace SingleExperience.Views
             Console.Write("Digite o Id do produto que deseja vizualizar: ");
             var produtoId = int.Parse(Console.ReadLine());
 
-            var produto = produtoService.ObterDetalhe(produtoId);
-
-            Console.WriteLine("---------------------------------------------------------------------------------");
-            Console.WriteLine($"|| NOME: {produto.Nome} | ");
-            Console.WriteLine($"|| Descrição:  {produto.Descricao} || ");
-            Console.WriteLine($"|| Preço: {produto.Preco.ToString("F2", CultureInfo.InvariantCulture)} ");
-            Console.WriteLine("---------------------------------------------------------------------------------");
-            Console.Write("Deseja adicionar o produto no carrinho? (y/n): ");
-            var op = Console.ReadLine().ToLower();
-
-            switch (op)
+            try
             {
-                case "y":
-                    Console.WriteLine("Digite a quantidade: ");
-                    var salvarModel = new SalvarModel
-                    {
-                        ClienteId = 1,
-                        ProdutoId = produto.ProdutoId,
-                        Qtde = int.Parse(Console.ReadLine())
-                    };
+                var produto = produtoService.ObterDetalhe(produtoId);
 
-                    var carrinhoService = new CarrinhoService();
+                Console.WriteLine("---------------------------------------------------------------------------------");
+                Console.WriteLine($"|| NOME: {produto.Nome} | ");
+                Console.WriteLine($"|| Descrição:  {produto.Descricao} || ");
+                Console.WriteLine($"|| Preço: {produto.Preco.ToString("F2", CultureInfo.InvariantCulture)} ");
+                Console.WriteLine("---------------------------------------------------------------------------------");
+                Console.Write("Deseja adicionar o produto no carrinho? (y/n): ");
+                var op = Console.ReadLine().ToLower();
 
-                    try
-                    {
-                        carrinhoService.Adicionar(salvarModel);
-                    }
-                    catch (IOException e)
-                    {
-                        Console.WriteLine("Ocurred an error");
-                        Console.WriteLine(e.Message);
-                    }
-                    Console.Clear();
-                    break;
-                case "n":
-                    break;
-                default:
-                    ProdutoDetalhado();
-                    break;
+                switch (op)
+                {
+                    case "y":
+                        Console.WriteLine("Digite a quantidade: ");
+                        var salvarModel = new SalvarModel
+                        {
+                            ClienteId = 1,
+                            ProdutoId = produto.ProdutoId,
+                            Qtde = int.Parse(Console.ReadLine())
+                        };
+
+                        var carrinhoService = new CarrinhoService();
+
+                        try
+                        {
+                            carrinhoService.Adicionar(salvarModel);
+                        }
+                        catch (IOException e)
+                        {
+                            Console.WriteLine("Ocurred an error");
+                            Console.WriteLine(e.Message);
+                        }
+                        Console.Clear();
+                        break;
+                    case "n":
+                        break;
+                    default:
+                        ProdutoDetalhado();
+                        break;
+                }
+
             }
+            catch (IOException e)
+            {
+                Console.WriteLine(e);
+                Console.WriteLine("Tente Novamente ");
+                ProdutoDetalhado();
+            }
+
+           
         }
     }
 }

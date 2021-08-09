@@ -11,7 +11,8 @@ namespace SingleExperience.Entities
         public StatusCompraEnum StatusCompraId { get; set; }
         public FormaPagamentoEnum FormaPagamentoId { get; set; }
         public int ClienteId { get; set; }
-        public StatusPagamentoEnum StatusPagamentoId { get; set; }
+        public int EnderecoId { get; set; }
+        public bool StatusPagamento { get; set; }
         public DateTime DataCompra { get; set; }
         public DateTime DataPagamento { get; set; }
         public double ValorFinal { get; set; }

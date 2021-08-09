@@ -13,7 +13,7 @@ namespace SingleExperience.Entities
         public double Preco { get; set; }
         public string Detalhe { get; set; }
         public int QtdeEmEstoque { get; set; }
-        public string Ranking { get; set; }
+        public int Ranking { get; set; }
         public bool Disponivel { get; set; }
     }
 }

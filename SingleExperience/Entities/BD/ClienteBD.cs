@@ -9,7 +9,7 @@ namespace SingleExperience.Entities.BD
 {
     class ClienteBD
     {
-        string path = @"C:\Users\rafael.messias\source\repos\SingleExperience\Tabelas\Cliente.csv";
+        string path = @"C:\Workspaces\visual_studio_2019\single-experience\Tabelas\Cliente.csv";
         string header = "";
 
         public List<ClienteEntity> Buscar()
@@ -39,10 +39,10 @@ namespace SingleExperience.Entities.BD
 
                     });
             }
-            catch (Exception)
+            catch (IOException e)
             {
-
-                throw;
+                Console.WriteLine("Ocorreu um Erro");
+                Console.WriteLine(e);
             }
 
             return listaCliente;
@@ -71,9 +71,10 @@ namespace SingleExperience.Entities.BD
                 }
 
             }
-            catch (Exception)
+            catch (IOException e)
             {
-                throw new Exception("Não foi Possível inserir esse ");
+                Console.WriteLine("Ocorreu um Erro");
+                Console.WriteLine(e);
             }
 
             return true;

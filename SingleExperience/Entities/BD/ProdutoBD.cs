@@ -11,7 +11,7 @@ namespace SingleExperience.Entities.BD
 {
     class ProdutoBD
     {
-        string path = @"C:\Users\rafael.messias\source\repos\SingleExperience\Tabelas\Produto.csv";
+        string path = @"C:\Workspaces\visual_studio_2019\single-experience\Tabelas\Produto.csv";
         string header = "";
 
         public List<ProdutoEntity> BuscarProdutos()
@@ -36,20 +36,20 @@ namespace SingleExperience.Entities.BD
 
                         Enum.TryParse(campos[1], out CategoriaEnum categoria);
                         produto.CategoriaId = categoria;
-                        produto.Nome = campos[3];
-                        produto.Preco = double.Parse(campos[4], CultureInfo.InvariantCulture);
-                        produto.Detalhe = campos[5];
-                        produto.QtdeEmEstoque = int.Parse(campos[6]);
-                        produto.Ranking = campos[7];
-                        produto.Disponivel = bool.Parse(campos[8]);
+                        produto.Nome = campos[2];
+                        produto.Preco = double.Parse(campos[3], CultureInfo.InvariantCulture);
+                        produto.Detalhe = campos[4];
+                        produto.QtdeEmEstoque = int.Parse(campos[5]);
+                        produto.Ranking = int.Parse(campos[6]);
+                        produto.Disponivel = bool.Parse(campos[7]);
 
                         listaProduto.Add(produto);
                     });
             }
-            catch (Exception)
+            catch (IOException e)
             {
-
-                throw;
+                Console.WriteLine("Ocorreu um Erro");
+                Console.WriteLine(e);
             }
 
             return listaProduto;
@@ -91,10 +91,10 @@ namespace SingleExperience.Entities.BD
 
                 File.WriteAllLines(path, linhas);
             }
-            catch (Exception)
+            catch (IOException e)
             {
-
-                throw new Exception("Não foi possivel retirar esse produto");
+                Console.WriteLine("Ocorreu um Erro");
+                Console.WriteLine(e);
             }
 
             return true;

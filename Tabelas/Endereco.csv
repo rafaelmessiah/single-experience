@@ -1,2 +1,2 @@
-EnderecoId,ClienteId,Numero,Complemento,Cep
-1,1,1228,Sala 1004,8120000
+EnderecoId,ClienteId,Rua,Numero,Complemento,Cep
+1,1,Av. Republica Argentina,1228,Sala 1004,8120000

@@ -70,7 +70,7 @@ namespace SingleExperience.Views
 
             Console.WriteLine("==============================");
             Console.WriteLine($"|| VALOR TOTAL: R$ {compra.ValorTotal.ToString("F2", CultureInfo.InvariantCulture)} | Data da Compra: {compra.DataCompra} | " +
-                $"Situação Pagamento: {compra.StatusPagamentoId} | Data Pagameto: {compra.DataPagamento}  ||");
+                $"Situação Pagamento: {compra.StatusPagamento} | Data Pagameto: {compra.DataPagamento}  ||");
             Console.WriteLine("==============================");
             Console.WriteLine("");
 
@@ -95,6 +95,7 @@ namespace SingleExperience.Views
             var iniciarModel = new IniciarModel
             {
                 ClienteId = clienteId,
+                EnderecoId = 1,
             };
 
             switch (op)

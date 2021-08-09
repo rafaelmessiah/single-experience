@@ -10,7 +10,7 @@ namespace SingleExperience.Entities.BD
 {
     class CarrinhoBD
     {
-        string path = @"C:\Users\rafael.messias\source\repos\SingleExperience\Tabelas\Carrinho.csv";
+        string path = @"C:\Workspaces\visual_studio_2019\single-experience\Tabelas\Carrinho.csv";
         string header = "";
 
         public List<CarrinhoEntity> BuscarCarrinho()
@@ -40,10 +40,10 @@ namespace SingleExperience.Entities.BD
                         listaCarrinho.Add(carrinho);
                     });
             }
-            catch (Exception)
+            catch (IOException e)
             {
-
-                throw;
+                Console.WriteLine("Ocorreu um Erro");
+                Console.WriteLine(e);
             }
 
             return listaCarrinho;
@@ -72,13 +72,13 @@ namespace SingleExperience.Entities.BD
                 }
 
             }
-            catch (Exception)
+            catch (IOException e)
             {
-                throw new Exception("Não foi possivel inserir o produto no carrinho");
+                Console.WriteLine("Ocorreu um Erro");
+                Console.WriteLine(e);
             }
 
             return true;
-
         }
 
         public bool AlterarStatus(EdicaoStatusModel model)
@@ -119,8 +119,8 @@ namespace SingleExperience.Entities.BD
             }
             catch (IOException e)
             {
-                Console.WriteLine("Ocurred an error");
-                Console.WriteLine(e.Message);
+                Console.WriteLine("Ocorreu um Erro");
+                Console.WriteLine(e);
             }
 
             return true;

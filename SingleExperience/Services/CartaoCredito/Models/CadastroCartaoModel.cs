@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SingleExperience.Entities
+namespace SingleExperience.Services.CartaoCredito.Models
 {
-    class CartaoCreditoEntity
+    public class CadastroCartaoModel
     {
-        public int CartaoCreditoId { get; set; }
         public int ClienteId { get; set; }
         public string Numero { get; set; }
-        public string Bandeira { get; set; }
-        public string CodigoSeguranca { get; set; }
+        public string  Bandeira { get; set; }
+        public string  CodigoSeguranca { get; set; }
         public DateTime DataVencimento { get; set; }
+
     }
 }
