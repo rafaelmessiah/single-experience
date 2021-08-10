@@ -9,7 +9,7 @@ namespace SingleExperience.Entities.BD
 {
     class ListaProdutoCompraBD
     {
-        string path = @"C:\Workspaces\visual_studio_2019\single-experience\Tabelas\ListaProdutoCompra.csv";
+        string path = @"C:\Users\rafael.messias\source\repos\SingleExperience\Tabelas\ListaProdutoCompra.csv";
 
         public List<ListaProdutoCompraEntity> BuscarProdutosCompras()
         {

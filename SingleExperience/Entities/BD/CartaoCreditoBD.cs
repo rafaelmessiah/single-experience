@@ -9,7 +9,7 @@ namespace SingleExperience.Entities.BD
 {
     class CartaoCreditoBD
     {
-        string path = @"C:\Workspaces\visual_studio_2019\single-experience\Tabelas\CartaoCredito.csv";
+        string path = @"C:\Users\rafael.messias\source\repos\SingleExperience\Tabelas\CartaoCredito.csv";
         string header = "";
         
         public List<CartaoCreditoEntity> Buscar()
@@ -61,6 +61,7 @@ namespace SingleExperience.Entities.BD
                     {
                         cartaoId.ToString(),
                         model.ClienteId.ToString(),
+                        model.Numero.ToString(),
                         model.Bandeira.ToString(),
                         model.CodigoSeguranca.ToString(),
                         model.DataVencimento.ToString(),

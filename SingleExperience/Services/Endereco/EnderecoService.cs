@@ -80,5 +80,28 @@ namespace SingleExperience.Services.Endereco
             return true;
         }
 
+        public bool Verificar (VerificarEnderecoModel model)
+        {
+            try
+            {
+                var endereco = enderecoBd.Buscar()
+                    .Where(a => a.ClienteId == model.ClienteId && a.EnderecoId == model.EnderecoId)
+                    .FirstOrDefault();
+
+                if (endereco==null)
+                {
+                    return false;
+                }
+                
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine("Ocorreu um Erro");
+                Console.WriteLine(e);
+            }
+
+            return true;
+        }
+
     }
 }

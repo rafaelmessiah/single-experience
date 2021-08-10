@@ -10,7 +10,7 @@ namespace SingleExperience.Entities.BD
 {
     class CarrinhoBD
     {
-        string path = @"C:\Workspaces\visual_studio_2019\single-experience\Tabelas\Carrinho.csv";
+        string path = @"C:\Users\rafael.messias\source\repos\SingleExperience\Tabelas\Carrinho.csv";
         string header = "";
 
         public List<CarrinhoEntity> BuscarCarrinho()

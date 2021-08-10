@@ -13,7 +13,7 @@ namespace SingleExperience.Entities.BD
     public class CompraBD
     {
 
-        string path = @"C:\Workspaces\visual_studio_2019\single-experience\Tabelas\Compra.csv";
+        string path = @"C:\Users\rafael.messias\source\repos\SingleExperience\Tabelas\Compra.csv";
         string header = "";
         
 
@@ -79,6 +79,7 @@ namespace SingleExperience.Entities.BD
                     statusCompraId.ToString(),
                     formaPagamentoId.ToString(),
                     model.ClienteId.ToString(),
+                    model.EnderecoId.ToString(),
                     statusPagmento.ToString(),
                     DateTime.Now.ToString(),
                     null,

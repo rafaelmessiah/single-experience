@@ -1,6 +1,7 @@
 ﻿using SingleExperience.Entities.Enums;
 using SingleExperience.Services.Carrinho;
 using SingleExperience.Services.Carrinho.Models;
+using SingleExperience.Services.Cliente.Models;
 using SingleExperience.Services.Produto;
 using System;
 using System.Globalization;
@@ -14,7 +15,7 @@ namespace SingleExperience.Views
         ProdutoService produtoService = new ProdutoService();
         Header header = new Header();
 
-        public void MenuProdutos()
+        public void MenuProdutos(ClienteLogadoModel clienteLogado)
         {
             Console.Clear();
             header.Exibir();
@@ -28,49 +29,50 @@ namespace SingleExperience.Views
             Console.WriteLine(" ========================================================");
             Console.Write("Digite a aba que Deseja Vizualizar: ");
             var op = Console.ReadLine();
-            Navegar(op);
+            Navegar(op, clienteLogado);
         }
 
-        public void Navegar(string op)
+        public void Navegar(string op, ClienteLogadoModel clienteLogado)
         {
             switch (op)
             {
                 case "1":
-                    ListarProdutos(CategoriaEnum.Computador);
+                    ListarProdutos(CategoriaEnum.Computador, clienteLogado);
                     Console.Clear();
-                    MenuProdutos();
+                    MenuProdutos(clienteLogado);
                     break;
                 case "2":
-                    ListarProdutos(CategoriaEnum.Notebook);
+                    ListarProdutos(CategoriaEnum.Notebook, clienteLogado);
                     Console.Clear();
-                    MenuProdutos();
+                    MenuProdutos(clienteLogado);
                     break;
                 case "3":
-                    ListarProdutos(CategoriaEnum.Acessorio);
+                    ListarProdutos(CategoriaEnum.Acessorio, clienteLogado);
                     Console.Clear();
-                    MenuProdutos();
+                    MenuProdutos(clienteLogado);
                     break;
                 case "4":
-                    ListarProdutos(CategoriaEnum.Celular);
+                    ListarProdutos(CategoriaEnum.Celular, clienteLogado);
                     Console.Clear();
-                    MenuProdutos();
+                    MenuProdutos(clienteLogado);
                     break;
                 case "5":
-                    ListarProdutos(CategoriaEnum.Tablet);
+                    ListarProdutos(CategoriaEnum.Tablet, clienteLogado);
                     Console.Clear();
-                    MenuProdutos();
+                    MenuProdutos(clienteLogado);
                     break;
                 case "0":
                     Console.Clear();
+                   
                     break;
                 default:
                     Console.Clear();
-                    MenuProdutos();
+                    MenuProdutos(clienteLogado);
                     break;
             }
         }
 
-        public void ListarProdutos(CategoriaEnum categoria)
+        public void ListarProdutos(CategoriaEnum categoria, ClienteLogadoModel clienteLogado)
         {
             Console.Clear();
                         
@@ -97,20 +99,31 @@ namespace SingleExperience.Views
             {
                 case "y":
                    
-                    ProdutoDetalhado();
+                    ProdutoDetalhado(clienteLogado);
                     break;
                 case "n":
                     break;
                 default:
-                    ListarProdutos(categoria);
+                    ListarProdutos(categoria, clienteLogado);
                     break;
             }
         }
 
-        public void ProdutoDetalhado()
+        public void ProdutoDetalhado(ClienteLogadoModel clienteLogado)
         {
             Console.Write("Digite o Id do produto que deseja vizualizar: ");
-            var produtoId = int.Parse(Console.ReadLine());
+
+            if(!int.TryParse(Console.ReadLine(), out int produtoId))
+            {
+                Console.WriteLine("Id invalido tente novamente");
+                ProdutoDetalhado(clienteLogado);
+            }
+            
+            if (!produtoService.Verificar(produtoId))
+            {
+                Console.WriteLine("Id invalido tente novamente");
+                ProdutoDetalhado(clienteLogado);
+            }
 
             try
             {
@@ -130,7 +143,7 @@ namespace SingleExperience.Views
                         Console.WriteLine("Digite a quantidade: ");
                         var salvarModel = new SalvarModel
                         {
-                            ClienteId = 1,
+                            ClienteId = clienteLogado.ClienteId,
                             ProdutoId = produto.ProdutoId,
                             Qtde = int.Parse(Console.ReadLine())
                         };
@@ -151,16 +164,16 @@ namespace SingleExperience.Views
                     case "n":
                         break;
                     default:
-                        ProdutoDetalhado();
+                        ProdutoDetalhado(clienteLogado);
                         break;
                 }
 
             }
             catch (IOException e)
             {
-                Console.WriteLine(e);
+                Console.WriteLine(e.Message);
                 Console.WriteLine("Tente Novamente ");
-                ProdutoDetalhado();
+                ProdutoDetalhado(clienteLogado);
             }
 
            

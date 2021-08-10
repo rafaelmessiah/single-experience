@@ -1,1 +1,3 @@
 CartaoCreditoId,ClienteId,Numero,Bandeira,CodigoSeguranca,DataVencimento
+1,1,1234567812341234,MasterCard,111,01/12/27
+2,1,1234567812341234,Visa,222,01/08/2030 00:00:00

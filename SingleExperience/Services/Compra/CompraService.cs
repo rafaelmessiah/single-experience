@@ -11,6 +11,7 @@ using SingleExperience.Services.ListaProdutoCompra.Models;
 using SingleExperience.Services.Carrinho.Models;
 using SingleExperience.Services.Produto;
 using SingleExperience.Services.Produto.Models;
+using System.IO;
 
 namespace SingleExperience.Services.Compra
 {
@@ -108,6 +109,26 @@ namespace SingleExperience.Services.Compra
                 throw new Exception("Compra Não Encontrada");
 
             return compra;
+        }
+        public bool Verificar(VerificarCompraModel model)
+        {
+            try
+            {
+                var compra = compraBd.BuscarCompras()
+                    .Where(a => a.CompraId == model.CompraId && a.ClienteId == model.ClienteId)
+                    .FirstOrDefault();
+
+                if (compra == null)
+                    return false;
+
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine("Ocorreu um erro");
+                Console.WriteLine(e.Message);
+            }
+
+            return true;
         }
         public bool Pagar(int compraId)
         {

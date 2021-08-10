@@ -1,2 +1,5 @@
 EnderecoId,ClienteId,Rua,Numero,Complemento,Cep
 1,1,Av. Republica Argentina,1228,Sala 1004,8120000
+2,1,Mario,200,bl 2 ap 2,1231231231231
+3,1,Rua tal,12312,asdasda,812000
+4,1,asdasda,asdasd,asdasd,asdasd

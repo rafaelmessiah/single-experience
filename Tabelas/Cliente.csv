@@ -1,2 +1,5 @@
 ClienteId,Cpf,Nome,Email,Senha,DataNascimento,Telefone
 1,12345678911,Rafael,rafael@email.com,tech123,16/08/97,41987654321
+2,1231231231231,Antonio,antonio@email.com,tech321,06/12/1972 00:00:00,12312312312
+3,123123123123123,Alda,alda@email.com,tech123,16/10/1979 00:00:00,4654654654
+4,12312312312,Peter Parker,miranha@email.com,miranha123,11/11/1970 00:00:00,4984984984984

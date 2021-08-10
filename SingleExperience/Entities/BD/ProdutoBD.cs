@@ -11,7 +11,7 @@ namespace SingleExperience.Entities.BD
 {
     class ProdutoBD
     {
-        string path = @"C:\Workspaces\visual_studio_2019\single-experience\Tabelas\Produto.csv";
+        string path = @"C:\Users\rafael.messias\source\repos\SingleExperience\Tabelas\Produto.csv";
         string header = "";
 
         public List<ProdutoEntity> BuscarProdutos()

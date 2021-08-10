@@ -1,6 +1,8 @@
 ﻿using SingleExperience.Entities.Enums;
 using SingleExperience.Services.Carrinho;
 using SingleExperience.Services.Carrinho.Models;
+using SingleExperience.Services.Cliente;
+using SingleExperience.Services.Cliente.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -13,8 +15,9 @@ namespace SingleExperience.Views
     {
         CarrinhoService carrinhoService = new  CarrinhoService();
         CompraView compraView = new CompraView();
+        ClienteService clienteService = new ClienteService();
 
-        public void Vizualizar()
+        public void Vizualizar(ClienteLogadoModel clienteLogado)
         {
             Console.Clear();
             
@@ -22,7 +25,7 @@ namespace SingleExperience.Views
             Console.WriteLine("|| Meu Carrinho ||");
             Console.WriteLine("==================");
             
-            var carrinhos = carrinhoService.Buscar(1);
+            var carrinhos = carrinhoService.Buscar(clienteLogado.ClienteId);
 
             Console.WriteLine("");
             Console.WriteLine("=================================================================================");
@@ -38,7 +41,7 @@ namespace SingleExperience.Views
             Console.WriteLine("=================================================================================");
 
             Console.WriteLine("==============================");
-            Console.WriteLine("|| VALOR TOTAL: R$ " + carrinhoService.CalcularValorTotal(1).ToString("F2", CultureInfo.InvariantCulture) + "||");
+            Console.WriteLine("|| VALOR TOTAL: R$ " + carrinhoService.CalcularValorTotal(clienteLogado.ClienteId).ToString("F2", CultureInfo.InvariantCulture) + "||");
             Console.WriteLine("==============================");
             Console.WriteLine("");
 
@@ -67,7 +70,7 @@ namespace SingleExperience.Views
                         Console.Clear();
                         Console.WriteLine("Quantidade Alterada com Sucesso");
                         Thread.Sleep(TimeSpan.FromSeconds(2.00));
-                        Vizualizar();
+                        Vizualizar(clienteLogado);
                     }
                     break;
 
@@ -83,28 +86,39 @@ namespace SingleExperience.Views
                         Console.Clear();
                         Console.WriteLine("Produto Removido do Carrinho com sucesso!");
                         Thread.Sleep(TimeSpan.FromSeconds(2.00));
-                        Vizualizar();
+                        Vizualizar(clienteLogado);
                     }
 
                     break;
                 case "3":
 
-                    Console.WriteLine("");
-                    Console.WriteLine("Confirme Seus Dados: ");
-                    Console.Write("Nome: ");
-                    Console.ReadLine();
-                    Console.Write("Telefone: ");
-                    Console.ReadLine();
-                    Console.Write("Endereco: ");
-                    Console.ReadLine();
-                    compraView.Finalizar(1);
+                    var verificarCliente = new VerificarClienteModel();
+                    verificarCliente.ClienteId = clienteLogado.ClienteId;
+                    
+                    Console.WriteLine("Confirme seus Dados: ");
+                    
+                    Console.Write("Email: ");
+                    verificarCliente.Email = Console.ReadLine();
 
+                    Console.Write("Senha: ");
+                    verificarCliente.Senha = Console.ReadLine();
+
+                    if (!clienteService.Verificar(verificarCliente))
+                    {
+                        Console.WriteLine("Dados Invalidos, tente novamente");
+                        Thread.Sleep(TimeSpan.FromSeconds(1.5));
+                        Vizualizar(clienteLogado);
+                    }
+                    else
+                    {
+                        compraView.Finalizar(clienteLogado.ClienteId);
+                    }
                     break;
                 case "4":
                     Console.Clear();
                     break;
                 default:
-                    Vizualizar();
+                    Vizualizar(clienteLogado);
                     break;
             }
 
