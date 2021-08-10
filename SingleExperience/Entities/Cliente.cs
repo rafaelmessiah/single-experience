@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.ComponentModel.DataAnnotations;
 
 namespace SingleExperience.Entities
 {
-    class ClienteEntity
+    public class Cliente
     {
+        [Key]
         public int ClienteId { get; set; }
         public string Cpf { get; set; }
         public string Nome { get; set; }

@@ -12,10 +12,10 @@ namespace SingleExperience.Entities.BD
         string path = @"C:\Users\rafael.messias\source\repos\SingleExperience\Tabelas\Cliente.csv";
         string header = "";
 
-        public List<ClienteEntity> Buscar()
+        public List<Cliente> Buscar()
         {
             
-            List<ClienteEntity> listaCliente = new List<ClienteEntity>();
+            List<Cliente> listaCliente = new List<Cliente>();
 
             try
             {
@@ -27,7 +27,7 @@ namespace SingleExperience.Entities.BD
                     {
                         var campos = linha.Split(',');
 
-                        var cliente = new ClienteEntity();
+                        var cliente = new Cliente();
                         cliente.ClienteId = int.Parse(campos[0]);
                         cliente.Cpf = campos[1];
                         cliente.Nome = campos[2];

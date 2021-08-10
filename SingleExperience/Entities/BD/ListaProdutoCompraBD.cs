@@ -11,9 +11,9 @@ namespace SingleExperience.Entities.BD
     {
         string path = @"C:\Users\rafael.messias\source\repos\SingleExperience\Tabelas\ListaProdutoCompra.csv";
 
-        public List<ListaProdutoCompraEntity> BuscarProdutosCompras()
+        public List<ListaProdutoCompra> BuscarProdutosCompras()
         {
-            var listaProduto = new List<ListaProdutoCompraEntity>();
+            var listaProduto = new List<ListaProdutoCompra>();
 
             try
             {
@@ -24,7 +24,7 @@ namespace SingleExperience.Entities.BD
                     .ForEach(p =>
                     {
                         var campos = p.Split(",");
-                        var produtoCompra = new ListaProdutoCompraEntity();
+                        var produtoCompra = new ListaProdutoCompra();
 
                         produtoCompra.ListaProdutoCompraId = int.Parse(campos[0]);
                         produtoCompra.CompraId = int.Parse(campos[1]);

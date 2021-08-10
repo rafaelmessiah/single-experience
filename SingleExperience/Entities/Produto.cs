@@ -1,14 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 using SingleExperience.Entities.Enums;
 
 namespace SingleExperience.Entities
 {
-    class ProdutoEntity
+    public class Produto
     {
+        [Key]
         public int ProdutoId { get; set; }
-        public CategoriaEnum CategoriaId { get; set; }
+
+        //FK - Categoria
+        [Column("CategoriaId")]
+        public CategoriaEnum CategoriaEnum { get; set; }
+        [ForeignKey("CategoriaEnum")]
+        public Categoria Categoria { get; set; }
+
         public string Nome { get; set; }
         public double Preco { get; set; }
         public string Detalhe { get; set; }

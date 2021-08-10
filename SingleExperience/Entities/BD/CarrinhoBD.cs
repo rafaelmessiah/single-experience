@@ -13,9 +13,9 @@ namespace SingleExperience.Entities.BD
         string path = @"C:\Users\rafael.messias\source\repos\SingleExperience\Tabelas\Carrinho.csv";
         string header = "";
 
-        public List<CarrinhoEntity> BuscarCarrinho()
+        public List<Carrinho> BuscarCarrinho()
         {
-            var listaCarrinho = new List<CarrinhoEntity>();
+            var listaCarrinho = new List<Carrinho>();
 
             try
             {
@@ -28,14 +28,14 @@ namespace SingleExperience.Entities.BD
                     .ForEach(c =>
                     {
                         var campos = c.Split(",");
-                        var carrinho = new CarrinhoEntity();
+                        var carrinho = new Carrinho();
 
                         carrinho.CarrinhoId = int.Parse(campos[0]);
                         carrinho.ProdutoId = int.Parse(campos[1]);
                         carrinho.ClienteId = int.Parse(campos[2]);
                         carrinho.Qtde = int.Parse(campos[3]);
                         Enum.TryParse(campos[4], out StatusCarrinhoProdutoEnum statusCarrinhoProdutoEnum);
-                        carrinho.StatusCarrinhoProdutoId = statusCarrinhoProdutoEnum;
+                        carrinho.StatusCarrinhoProdutoEnum = statusCarrinhoProdutoEnum;
 
                         listaCarrinho.Add(carrinho);
                     });
@@ -90,7 +90,7 @@ namespace SingleExperience.Entities.BD
                 var index = carrinhos
                     .FindIndex(a => a.CarrinhoId == model.CarrinhoId);
 
-                carrinhos[index].StatusCarrinhoProdutoId = model.StatusEnum;
+                carrinhos[index].StatusCarrinhoProdutoEnum = model.StatusEnum;
 
                 // Gera as linhas para colocar no csv
 
@@ -100,7 +100,7 @@ namespace SingleExperience.Entities.BD
 
                 foreach (var item in carrinhos)
                 {
-                    var statusCarrinhoId = ((int)item.StatusCarrinhoProdutoId);
+                    var statusCarrinhoId = ((int)item.StatusCarrinhoProdutoEnum);
 
                     var aux = new string[]
                     {
@@ -145,7 +145,7 @@ namespace SingleExperience.Entities.BD
 
                 foreach (var item in carrinhos)
                 {
-                    var statusCarrinhoId = ((int)item.StatusCarrinhoProdutoId);
+                    var statusCarrinhoId = ((int)item.StatusCarrinhoProdutoEnum);
 
                     var aux = new string[]
                     { item.CarrinhoId.ToString(),

@@ -17,9 +17,9 @@ namespace SingleExperience.Entities.BD
         string header = "";
         
 
-        public List<CompraEntity> BuscarCompras()
+        public List<Compra> BuscarCompras()
         {
-            List<CompraEntity> listaCompra = new List<CompraEntity>();
+            List<Compra> listaCompra = new List<Compra>();
 
             try
             {
@@ -33,13 +33,13 @@ namespace SingleExperience.Entities.BD
                     {
                         var campos = c.Split(",");
 
-                        var compra = new CompraEntity();
+                        var compra = new Compra();
 
                         compra.CompraId = int.Parse(campos[0]);
                         Enum.TryParse(campos[1], out StatusCompraEnum statusCompraEnum);
-                        compra.StatusCompraId = statusCompraEnum;
+                        compra.StatusCompraEnum = statusCompraEnum;
                         Enum.TryParse(campos[2], out FormaPagamentoEnum formaPagamentoEnum);
-                        compra.FormaPagamentoId = formaPagamentoEnum;
+                        compra.FormaPagamentoEnum = formaPagamentoEnum;
                         compra.ClienteId = int.Parse(campos[3]);
                         compra.EnderecoId = int.Parse(campos[4]);
                         compra.StatusPagamento = bool.Parse(campos[5]);
@@ -118,8 +118,8 @@ namespace SingleExperience.Entities.BD
 
                 foreach (var item in compras)
                 {
-                    var statusCompraId = ((int)item.StatusCompraId);
-                    var formaPagamentoId = ((int)item.FormaPagamentoId);
+                    var statusCompraId = ((int)item.StatusCompraEnum);
+                    var formaPagamentoId = ((int)item.FormaPagamentoEnum);
 
                     var aux = new string[]
                     {

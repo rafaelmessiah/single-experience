@@ -21,7 +21,7 @@ namespace SingleExperience
         static void Main(string[] args)
         {
             
-            var home = new Home();
+           var home = new Home();
 
             home.Inicio();
 

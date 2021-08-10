@@ -12,9 +12,9 @@ namespace SingleExperience.Entities.BD
         string path = @"C:\Users\rafael.messias\source\repos\SingleExperience\Tabelas\CartaoCredito.csv";
         string header = "";
         
-        public List<CartaoCreditoEntity> Buscar()
+        public List<CartaoCredito> Buscar()
         {
-            List<CartaoCreditoEntity> listaCartaoCredito = new List<CartaoCreditoEntity>();
+            List<CartaoCredito> listaCartaoCredito = new List<CartaoCredito>();
 
             try
             {
@@ -27,7 +27,7 @@ namespace SingleExperience.Entities.BD
                     {
                         var campo = linha.Split(",");
 
-                        var cartao = new CartaoCreditoEntity();
+                        var cartao = new CartaoCredito();
                         cartao.CartaoCreditoId = int.Parse(campo[0]);
                         cartao.ClienteId = int.Parse(campo[1]);
                         cartao.Numero = campo[2];

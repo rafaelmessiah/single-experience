@@ -31,7 +31,7 @@ namespace SingleExperience.Services.Compra
                 .Select(b => new ItemCompraModel
                 {
                     CompraId = b.CompraId,
-                    StatusCompra = b.StatusCompraId,
+                    StatusCompra = b.StatusCompraEnum,
                     DataCompra = b.DataCompra,
                     ValorFinal = b.ValorFinal
                 }).ToList();
@@ -98,7 +98,7 @@ namespace SingleExperience.Services.Compra
                 {
                     CompraId = b.CompraId,
                     StatusPagamento = b.StatusPagamento,
-                    FormaPagamentoId = b.FormaPagamentoId,
+                    FormaPagamentoId = b.FormaPagamentoEnum,
                     DataCompra = b.DataCompra,
                     DataPagamento = b.DataPagamento,
                     ValorTotal = b.ValorFinal
@@ -134,7 +134,7 @@ namespace SingleExperience.Services.Compra
         {
             var compra = compraBd.BuscarCompras()
                  .Where(a => a.CompraId == compraId &&
-                 a.StatusCompraId == StatusCompraEnum.Aberta &&
+                 a.StatusCompraEnum == StatusCompraEnum.Aberta &&
                  a.StatusPagamento == false)
                  .FirstOrDefault();
 

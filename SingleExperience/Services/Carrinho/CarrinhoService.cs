@@ -22,7 +22,7 @@ namespace SingleExperience.Services.Carrinho
             try
             {
                 var carrinhos = carrinhoBd.BuscarCarrinho()
-                .Where(a => a.ClienteId == clienteId && a.StatusCarrinhoProdutoId == StatusCarrinhoProdutoEnum.Ativo)
+                .Where(a => a.ClienteId == clienteId && a.StatusCarrinhoProdutoEnum == StatusCarrinhoProdutoEnum.Ativo)
                 .ToList();
 
                 if (carrinhos == null)
@@ -63,7 +63,7 @@ namespace SingleExperience.Services.Carrinho
                 var carrinho = carrinhoBd.BuscarCarrinho()
                 .Where(a => a.ProdutoId == model.ProdutoId &&
                 a.ClienteId == model.ClienteId &&
-                a.StatusCarrinhoProdutoId == StatusCarrinhoProdutoEnum.Ativo)
+                a.StatusCarrinhoProdutoEnum == StatusCarrinhoProdutoEnum.Ativo)
                 .FirstOrDefault();
 
                 if (carrinho == null)
@@ -96,7 +96,7 @@ namespace SingleExperience.Services.Carrinho
             {
                 var carrinho = carrinhoBd.BuscarCarrinho()
                 .Where(a => a.CarrinhoId == model.CarrinhoId &&
-                a.StatusCarrinhoProdutoId != model.StatusEnum)
+                a.StatusCarrinhoProdutoEnum != model.StatusEnum)
                 .FirstOrDefault();
 
                 if (carrinho == null)
@@ -120,7 +120,7 @@ namespace SingleExperience.Services.Carrinho
                 .Where(a => a.CarrinhoId == model.CarrinhoId &&
                 a.Qtde != model.Qtde &&
                 model.Qtde > 0 &&
-                a.StatusCarrinhoProdutoId == StatusCarrinhoProdutoEnum.Ativo)
+                a.StatusCarrinhoProdutoEnum == StatusCarrinhoProdutoEnum.Ativo)
                 .FirstOrDefault();
 
             if (carrinho == null)

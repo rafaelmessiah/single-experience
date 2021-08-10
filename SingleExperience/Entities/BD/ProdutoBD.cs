@@ -14,10 +14,10 @@ namespace SingleExperience.Entities.BD
         string path = @"C:\Users\rafael.messias\source\repos\SingleExperience\Tabelas\Produto.csv";
         string header = "";
 
-        public List<ProdutoEntity> BuscarProdutos()
+        public List<Produto> BuscarProdutos()
         {
             
-            List<ProdutoEntity> listaProduto = new List<ProdutoEntity>();
+            List<Produto> listaProduto = new List<Produto>();
 
             try
             {
@@ -31,11 +31,11 @@ namespace SingleExperience.Entities.BD
                     {
                         var campos = p.Split(",");
                         
-                        var produto = new ProdutoEntity();
+                        var produto = new Produto();
                         produto.ProdutoId = int.Parse(campos[0]);
 
                         Enum.TryParse(campos[1], out CategoriaEnum categoria);
-                        produto.CategoriaId = categoria;
+                        produto.CategoriaEnum = categoria;
                         produto.Nome = campos[2];
                         produto.Preco = double.Parse(campos[3], CultureInfo.InvariantCulture);
                         produto.Detalhe = campos[4];
@@ -72,7 +72,7 @@ namespace SingleExperience.Entities.BD
 
                 foreach (var item in produtos)
                 {
-                    var categoriaId = ((int)item.CategoriaId);
+                    var categoriaId = ((int)item.CategoriaEnum);
 
                     var aux = new string[]
                     {

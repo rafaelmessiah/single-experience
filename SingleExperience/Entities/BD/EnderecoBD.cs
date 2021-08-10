@@ -13,9 +13,9 @@ namespace SingleExperience.Entities.BD
         string path = @"C:\Users\rafael.messias\source\repos\SingleExperience\Tabelas\Endereco.csv";
         string header = "";
 
-        public List<EnderecoEntity> Buscar()
+        public List<Endereco> Buscar()
         {
-            List<EnderecoEntity> listaEnderecos = new List<EnderecoEntity>();
+            List<Endereco> listaEnderecos = new List<Endereco>();
 
             try
             {
@@ -28,7 +28,7 @@ namespace SingleExperience.Entities.BD
                     .ForEach(e =>
                     {
                         var campos = e.Split(",");
-                        var endereco = new EnderecoEntity();
+                        var endereco = new Endereco();
 
                         endereco.EnderecoId = int.Parse(campos[0]);
                         endereco.ClienteId = int.Parse(campos[1]);

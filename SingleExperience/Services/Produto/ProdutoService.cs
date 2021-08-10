@@ -45,7 +45,7 @@ namespace SingleExperience.Services.Produto
             try
             {
                 produtos = produtoBd.BuscarProdutos()
-               .Where(a => a.CategoriaId == categoria && a.Disponivel)
+               .Where(a => a.CategoriaEnum == categoria && a.Disponivel)
                .Select(b => new ProdutoSimplesModel
                {
                    ProdutoId = b.ProdutoId,
