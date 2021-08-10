@@ -72,6 +72,7 @@ namespace SingleExperience.Entities.BD
                     {
                         item.EnderecoId.ToString(),
                         item.ClienteId.ToString(),
+                        item.Rua.ToString(),
                         item.Numero.ToString(),
                         item.Complemento.ToString(),
                         item.Cep.ToString()
@@ -104,6 +105,7 @@ namespace SingleExperience.Entities.BD
                     {
                         enderecoId.ToString(),
                         model.ClienteId.ToString(),
+                        model.Rua.ToString(),
                         model.Numero.ToString(),
                         model.Complemento.ToString(),
                         model.Cep

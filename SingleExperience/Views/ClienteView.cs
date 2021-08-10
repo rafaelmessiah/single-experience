@@ -1,15 +1,22 @@
-﻿using SingleExperience.Services.Cliente;
+﻿using SingleExperience.Services.CartaoCredito;
+using SingleExperience.Services.CartaoCredito.Models;
+using SingleExperience.Services.Cliente;
 using SingleExperience.Services.Cliente.Models;
+using SingleExperience.Services.Endereco;
+using SingleExperience.Services.Endereco.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading;
 
 namespace SingleExperience.Views
 {
     class ClienteView
     {
         ClienteService clienteService = new ClienteService();
+        EnderecoService enderecoService = new EnderecoService();
+        CartaoCreditoService cartaoCreditoService = new CartaoCreditoService();
         
         public void VizualizarPerfil(ClienteLogadoModel clienteLogado)
         {
@@ -42,8 +49,12 @@ namespace SingleExperience.Views
                     case "1":
                         break;
                     case "2":
+                        Console.Clear();
+                        VizualizarEnderecos(clienteLogado);
                         break;
                     case "3":
+                        Console.Clear();
+                        VizualizarCartoes(clienteLogado);
                         break;
                     case "0":
                         break;
@@ -57,7 +68,6 @@ namespace SingleExperience.Views
                 Console.WriteLine("Ocorreu um erro");
                 Console.WriteLine(e.Message);
             }
-
            
         }
 
@@ -155,6 +165,153 @@ namespace SingleExperience.Views
 
             return clienteLogado;
 
+        }
+
+        public void VizualizarEnderecos (ClienteLogadoModel clienteLogado)
+        {
+            
+            try
+            {
+                Console.Clear();
+                var enderecos = enderecoService.Buscar(clienteLogado.ClienteId);
+
+                Console.WriteLine("============================");
+                Console.WriteLine($"|| Meus Endereços        ||");
+                Console.WriteLine("============================");
+
+                enderecos.ForEach(a =>
+                {
+                    Console.WriteLine("------------------------------------------------------------------------------------------------------------");
+                    Console.WriteLine($"|| Endereco Nº: {a.EnderecoId}  ||   Rua: {a.Rua}    Numero: {a.Numero}     Complemento: {a.Complemento} ||");
+                    Console.WriteLine("------------------------------------------------------------------------------------------------------------");
+                });
+
+                Console.WriteLine();
+                Console.WriteLine("=================================================");
+                Console.WriteLine("=== Opções ======================================");
+                Console.WriteLine("| 1 - Cadastrar Novo Endereço                   |");
+                Console.WriteLine("| 0 - Voltar a Pagina Principal                 |");
+                Console.WriteLine(" ===============================================");
+                var op = Console.ReadLine().ToLower();
+
+                switch (op)
+                {
+                    case "1":
+                        var endereco = new CadastroEnderecoModel();
+                        endereco.ClienteId = clienteLogado.ClienteId;
+
+                        Console.Write("Digite a Rua: ");
+                        endereco.Rua = Console.ReadLine();
+
+                        Console.Write("Digite o Numero: ");
+                        endereco.Numero = Console.ReadLine();
+
+                        Console.Write("Digite o Complemento: ");
+                        endereco.Complemento = Console.ReadLine();
+
+                        Console.Write("Digite o CEP: ");
+                        endereco.Cep = Console.ReadLine();
+
+                        if (enderecoService.Cadastrar(endereco))
+                        {
+                            Console.WriteLine("Endereco Cadastrado com Sucesso!");
+                            Thread.Sleep(1500);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Não foi possível cadastrar esse endereço, Tente Novamente");
+                        }
+
+                        VizualizarEnderecos(clienteLogado);
+
+                        break;
+                    case "0":
+                        Console.Clear();
+                        break;
+                    default:
+                        VizualizarEnderecos(clienteLogado);
+                        break;
+                }
+
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine("Ocorreu um erro");
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        public void VizualizarCartoes (ClienteLogadoModel clienteLogado)
+        {
+            try
+            {
+                Console.Clear();
+                var cartoes = cartaoCreditoService.Listar(clienteLogado.ClienteId);
+
+                Console.WriteLine("============================");
+                Console.WriteLine($"|| Meus Cartões          ||");
+                Console.WriteLine("============================");
+
+                cartoes.ForEach(a =>
+                {
+                    Console.WriteLine("------------------------------------------------------------------------------------------------------------");
+                    Console.WriteLine($"|| Cartão Nº: {a.CartaoCreditoId}  ||  Numero do Cartao: **** **** **** {a.Final} ||");
+                    Console.WriteLine("------------------------------------------------------------------------------------------------------------");
+                });
+
+                Console.WriteLine();
+                Console.WriteLine("=================================================");
+                Console.WriteLine("=== Opções ======================================");
+                Console.WriteLine("| 1 - Cadastrar Novo Cartão                     |");
+                Console.WriteLine("| 0 - Voltar a Pagina Principal                 |");
+                Console.WriteLine(" ===============================================");
+                var op = Console.ReadLine().ToLower();
+
+                switch (op)
+                {
+                    case "1":
+                        var cartao = new CadastroCartaoModel();
+                        cartao.ClienteId = clienteLogado.ClienteId;
+
+                        Console.Write("Digite o Numero do Cartão: ");
+                        cartao.Numero = Console.ReadLine();
+
+                        Console.Write("Digite a Bandeira: ");
+                        cartao.Bandeira = Console.ReadLine();
+
+                        Console.Write("Digite o Codigo de Segurança: ");
+                        cartao.CodigoSeguranca = Console.ReadLine();
+
+                        Console.Write("Digite a Data de Vencimento (dd/mmm/aaaa): ");
+                        cartao.DataVencimento = DateTime.Parse(Console.ReadLine());
+
+                        if (cartaoCreditoService.Cadastrar(cartao))
+                        {
+                            Console.WriteLine("Cartão Cadastrado com Sucesso!");
+                            Thread.Sleep(1500);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Não foi possível cadastrar esse cartão, Tente Novamente");
+                        }
+                        
+                        VizualizarCartoes(clienteLogado);
+
+                        break;
+                    case "0":
+                        Console.Clear();
+                        break;
+                    default:
+                        VizualizarCartoes(clienteLogado);
+                        break;
+                }
+
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine("Ocorreu um erro");
+                Console.WriteLine(e.Message);
+            }
         }
     }
 }

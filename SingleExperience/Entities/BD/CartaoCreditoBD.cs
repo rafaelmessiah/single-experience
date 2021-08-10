@@ -61,6 +61,7 @@ namespace SingleExperience.Entities.BD
                     {
                         cartaoId.ToString(),
                         model.ClienteId.ToString(),
+                        model.Numero.ToString(),
                         model.Bandeira.ToString(),
                         model.CodigoSeguranca.ToString(),
                         model.DataVencimento.ToString(),

@@ -51,7 +51,7 @@ namespace SingleExperience.Views
                     Console.Write("Digite seu Email: ");
                     login.Email = Console.ReadLine();
 
-                    Console.WriteLine("Digite sua Senha: ");
+                    Console.Write("Digite sua Senha: ");
                     login.Senha = Console.ReadLine();
 
                     try

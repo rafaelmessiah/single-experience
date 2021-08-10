@@ -1,18 +1,26 @@
 ﻿using SingleExperience.Entities.Enums;
+using SingleExperience.Services.CartaoCredito;
+using SingleExperience.Services.CartaoCredito.Models;
 using SingleExperience.Services.Cliente.Models;
 using SingleExperience.Services.Compra;
 using SingleExperience.Services.Compra.Models;
+using SingleExperience.Services.Endereco;
+using SingleExperience.Services.Endereco.Models;
 using SingleExperience.Services.ListaProdutoCompra;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
+using System.Threading;
 
 namespace SingleExperience.Views
 {
     class CompraView
     {
         CompraService compraService = new CompraService();
+        EnderecoService enderecoService = new EnderecoService();
+        CartaoCreditoService cartaoCreditoService = new CartaoCreditoService();
+
         public void VizualizarCompras(ClienteLogadoModel clienteLogado)
         {
             Console.Clear();
@@ -110,12 +118,44 @@ namespace SingleExperience.Views
 
             var op = Console.ReadLine().ToLower();
 
-            var compraService = new CompraService();
+            Console.WriteLine("Escolha o Endereco de entrega: ");
+
+            var enderecos = enderecoService.Buscar(clienteId);
+
+            enderecos.ForEach(a =>
+            {
+                Console.WriteLine("------------------------------------------------------------------------------------------------------------");
+                Console.WriteLine($"|| Endereco º: {a.EnderecoId}  ||   Rua: {a.Rua}    Numero: {a.Numero}     Complemento: {a.Complemento} ||");
+                Console.WriteLine("------------------------------------------------------------------------------------------------------------");
+            });
+
+            var verificarEndereco = new VerificarEnderecoModel();
+            verificarEndereco.ClienteId = clienteId;
+            
+            Console.WriteLine("Digite o numero do endereco: ");
+            
+            if(int.TryParse(Console.ReadLine(), out int enderecoId))
+            {
+                verificarEndereco.EnderecoId = enderecoId;
+            }
+            else
+            {
+                Console.WriteLine("Digito invalido, tente novamente");
+                Thread.Sleep(1500);
+            }
+
+            if (!enderecoService.Verificar(verificarEndereco))
+            {
+                Console.WriteLine("Endereco invalido tente novamente");
+                Thread.Sleep(1500);
+                Console.Clear();
+                Finalizar(clienteId);
+            }
 
             var iniciarModel = new IniciarModel
             {
                 ClienteId = clienteId,
-                EnderecoId = 1,
+                EnderecoId = verificarEndereco.EnderecoId,
             };
 
             switch (op)
@@ -149,12 +189,37 @@ namespace SingleExperience.Views
                 case "3":
                     iniciarModel.FormaPagamentoId = FormaPagamentoEnum.Cartao;
 
-                    Console.Write("Confirme os dados do seu Cartão");
-                    Console.ReadLine();
-                    Console.Write("Numero:  ");
-                    Console.ReadLine();
-                    Console.Write("Codigo de Segurança: ");
-                    Console.ReadLine();
+                    var cartoes = cartaoCreditoService.Listar(clienteId);
+
+                    cartoes.ForEach(a =>
+                    {
+                        Console.WriteLine("------------------------------------------------------------------------------------------------------------");
+                        Console.WriteLine($"|| Cartão Nº: {a.CartaoCreditoId}  ||  Numero do Cartao: **** **** **** {a.Final} ||");
+                        Console.WriteLine("------------------------------------------------------------------------------------------------------------");
+                    });
+
+                    var verificarCartao = new VerificarCartaoModel();
+                    verificarCartao.ClienteId = clienteId;
+
+                    Console.WriteLine("Selecione o seu cartão");
+                    if (!int.TryParse(Console.ReadLine(), out int cartaoId))
+                    {
+                        Console.WriteLine("Digito invalido, tente novamente");
+                        Thread.Sleep(1500);
+
+                    }
+                    
+                    verificarCartao.CartaoCredtioId = cartaoId;
+
+                    Console.WriteLine("Digite seu codigo de segunça");
+                    verificarCartao.CodigoSeguranca = Console.ReadLine();
+
+                    if (!cartaoCreditoService.Verificar(verificarCartao))
+                    {
+                        Console.WriteLine("Cartao ou Codigo invalide, tente novamente ou escolha outra forma de pagamento");
+                        Thread.Sleep(1500);
+                        Finalizar(clienteId);
+                    }
 
                     if (compraService.Cadastrar(iniciarModel))
                     {
