@@ -10,8 +10,18 @@ namespace SingleExperience.Services.ListaProdutoCompra
 {
     public class ListaProdutoCompraService
     {
+        protected readonly SingleExperience.Context.Context _context;
         ListaProdutoCompraBD listaProdutoCompraBd = new ListaProdutoCompraBD();
         ProdutoService produtoService = new ProdutoService();
+
+        public ListaProdutoCompraService()
+        {
+        }
+
+        public ListaProdutoCompraService(SingleExperience.Context.Context context)
+        {
+            _context = context;
+        }
 
         public List<ItemProdutoCompraModel> Buscar(int compraId)
         {

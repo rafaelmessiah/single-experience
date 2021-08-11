@@ -35,7 +35,7 @@ namespace SingleExperience.Entities
 
         public bool StatusPagamento { get; set; }
         public DateTime DataCompra { get; set; }
-        public DateTime DataPagamento { get; set; }
+        public DateTime? DataPagamento { get; set; }
         public double ValorFinal { get; set; }
     }
 }

@@ -10,15 +10,25 @@ namespace SingleExperience.Services.Cliente
 {
     public class ClienteService
     {
-        ClienteBD clienteBd = new ClienteBD();
+        protected readonly SingleExperience.Context.Context _context;
+
+        public ClienteService()
+        {
+        }
+
+        public ClienteService(SingleExperience.Context.Context context)
+        {
+            _context = context;
+        }
 
         public ClienteLogadoModel Login(LoginModel loginModel)
         {
             var cliente = new ClienteLogadoModel();
             try
             {
-                cliente = clienteBd.Buscar().Where(a => a.Email == loginModel.Email &&
-                a.Senha == loginModel.Senha)
+                cliente = _context.Cliente
+                    .Where(a => a.Email == loginModel.Email &&
+                           a.Senha == loginModel.Senha)
                     .Select(a => new ClienteLogadoModel
                     {
                         ClienteId = a.ClienteId,
@@ -39,20 +49,25 @@ namespace SingleExperience.Services.Cliente
         {
             try
             {
-                clienteBd.Buscar().ForEach(a =>
+                var cliente = _context.Cliente
+                    .Where(a => a.Email == model.Email)
+                    .FirstOrDefault();
+
+                if (cliente != null)
+                    throw new Exception("Esse email ja está cadastrado");
+
+                var novoCliente = new Entities.Cliente
                 {
-                    if (a.Cpf == model.Cpf)
-                    {
-                        throw new Exception("Esse Cpf Já esta cadastrado");
-                    }
+                    Cpf = model.Cpf,
+                    Nome = model.Nome,
+                    Email = model.Email,
+                    Senha = model.Senha,
+                    DataNascimento = model.DataNascimento,
+                    Telefone = model.Telefone
+                };
 
-                    if (a.Email == model.Email)
-                    {
-                        throw new Exception("Esse Email Já esta cadastrado");
-                    }
-                });
-
-                clienteBd.Cadastrar(model);
+                _context.Cliente.Add(novoCliente);
+                _context.SaveChanges();
             }
             catch (IOException e)
             {
@@ -69,7 +84,7 @@ namespace SingleExperience.Services.Cliente
 
             try
             {
-                cliente = clienteBd.Buscar()
+                cliente = _context.Cliente
                    .Where(a => a.ClienteId == clienteId)
                .Select(a => new ClienteDetalheModel
                {
@@ -94,21 +109,25 @@ namespace SingleExperience.Services.Cliente
         {
             try
             {
-                var emailExistente = clienteBd.Buscar()
+                var emailExistente = _context.Cliente
                     .Where(a => a.Email == model.NovoEmail)
                     .FirstOrDefault();
 
                 if (emailExistente != null)
                     throw new Exception("Esse email ja esta cadastrado");
 
-                var clienteExiste = clienteBd.Buscar()
+                var cliente = _context.Cliente
                     .Where(a => a.ClienteId == model.ClienteId)
                     .FirstOrDefault();
 
-                if (clienteExiste == null)
+                if (cliente == null)
                     throw new Exception("Não foi possível encontrar esse Usuario");
 
-                clienteBd.EditarEmail(model);
+
+                cliente.Email = model.NovoEmail;
+
+                _context.Cliente.Update(cliente);
+                _context.SaveChanges();
 
             }
             catch (IOException e)
@@ -125,7 +144,7 @@ namespace SingleExperience.Services.Cliente
         {
             try
             {
-                var cliente = clienteBd.Buscar()
+                var cliente = _context.Cliente
                     .Where(a => a.ClienteId == model.ClienteId)
                     .FirstOrDefault();
 
@@ -135,7 +154,10 @@ namespace SingleExperience.Services.Cliente
                 if (cliente.Senha == model.NovaSenha)
                     throw new Exception("A nova senha não pode ser igual a anterior");
 
-                clienteBd.EditarSenha(model);
+                cliente.Senha = model.NovaSenha;
+
+                _context.Cliente.Update(cliente);
+                _context.SaveChanges();
 
             }
             catch (IOException e)
@@ -153,9 +175,11 @@ namespace SingleExperience.Services.Cliente
             
             try
             {
-                var cliente = clienteBd.Buscar().Where(a => a.ClienteId == model.ClienteId &&
-                a.Email == model.Email &&
-                a.Senha == model.Senha).FirstOrDefault();
+                var cliente = _context.Cliente
+                    .Where(a => a.ClienteId == model.ClienteId &&
+                           a.Email == model.Email &&
+                           a.Senha == model.Senha)
+                    .FirstOrDefault();
                 
                 if(cliente == null)
                 {

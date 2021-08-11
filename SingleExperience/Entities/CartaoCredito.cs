@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SingleExperience.Entities
 {
-    class CartaoCredito
+    public class CartaoCredito
     {
         [Key]
         public int CartaoCreditoId { get; set; }

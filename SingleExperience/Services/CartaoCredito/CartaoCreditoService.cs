@@ -10,7 +10,17 @@ namespace SingleExperience.Services.CartaoCredito
 {
     public class CartaoCreditoService
     {
+        protected readonly SingleExperience.Context.Context _context;
         CartaoCreditoBD cartaoCreditoBd = new CartaoCreditoBD();
+
+        public CartaoCreditoService()
+        {
+        }
+
+        public CartaoCreditoService(SingleExperience.Context.Context context)
+        {
+            _context = context;
+        }
 
         public List<CartaoItemModel> Listar(int clienteId)
         {
@@ -18,7 +28,7 @@ namespace SingleExperience.Services.CartaoCredito
 
             try
             {
-                cartoes = cartaoCreditoBd.Buscar()
+                cartoes = _context.CartaoCredito
                     .Where(a => a.ClienteId == clienteId)
                     .Select(a => new CartaoItemModel
                     {
@@ -47,7 +57,17 @@ namespace SingleExperience.Services.CartaoCredito
                     throw new Exception("Data de Vencimento Invalida");
                 }
 
-                cartaoCreditoBd.Salvar(model);
+                var cartao = new Entities.CartaoCredito
+                {
+                    ClienteId = model.ClienteId,
+                    Numero = model.Numero,
+                    Bandeira = model.Bandeira,
+                    CodigoSeguranca = model.CodigoSeguranca,
+                    DataVencimento = model.DataVencimento
+                };
+
+                _context.CartaoCredito.Add(cartao);
+                _context.SaveChanges();
             }
             catch (IOException e)
             {
@@ -64,7 +84,7 @@ namespace SingleExperience.Services.CartaoCredito
             var cartao = new CartaoDetalhadoModel();
             try
             {
-                cartao = cartaoCreditoBd.Buscar()
+                cartao = _context.CartaoCredito
                     .Where(a => a.CartaoCreditoId == model.CartaoCreditoId)
                     .Select(a => new CartaoDetalhadoModel
                     {
@@ -92,7 +112,7 @@ namespace SingleExperience.Services.CartaoCredito
         {
             try
             {
-                var codigoSeguranca = cartaoCreditoBd.Buscar()
+                var codigoSeguranca = _context.CartaoCredito
                     .Where(a => a.CartaoCreditoId == model.CartaoCredtioId && a.ClienteId == model.ClienteId)
                     .Select(a => a.CodigoSeguranca)
                     .FirstOrDefault();
@@ -104,10 +124,10 @@ namespace SingleExperience.Services.CartaoCredito
                     throw new Exception("Código de Segurança Inválido");
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                Console.WriteLine(ex);
             }
 
             return true;

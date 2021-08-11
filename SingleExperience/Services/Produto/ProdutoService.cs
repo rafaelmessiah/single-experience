@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using SingleExperience.Context;
 
 
 namespace SingleExperience.Services.Produto
@@ -12,13 +13,25 @@ namespace SingleExperience.Services.Produto
     public class ProdutoService
     {
         ProdutoBD produtoBd = new ProdutoBD();
+        protected readonly SingleExperience.Context.Context _context;
+
+        public ProdutoService()
+        {
+        }
+
+        public ProdutoService(SingleExperience.Context.Context context)
+        {
+            _context = context;
+        }
+
 
         public List<ProdutoSimplesModel> Buscar()
         {
             var produtos = new List<ProdutoSimplesModel>();
             try
             {
-                produtos = produtoBd.BuscarProdutos().Where(a => a.Disponivel)
+                produtos = _context.Produto
+                    .Where(a => a.Disponivel)
                 .Select(p => new ProdutoSimplesModel
                 {
                     ProdutoId = p.ProdutoId,
@@ -44,7 +57,7 @@ namespace SingleExperience.Services.Produto
             var produtos = new List<ProdutoSimplesModel>();
             try
             {
-                produtos = produtoBd.BuscarProdutos()
+                produtos = _context.Produto
                .Where(a => a.CategoriaEnum == categoria && a.Disponivel)
                .Select(b => new ProdutoSimplesModel
                {
@@ -70,7 +83,7 @@ namespace SingleExperience.Services.Produto
             var produto = new ProdutoSimplesModel();
             try
             {
-                produto = produtoBd.BuscarProdutos()
+                produto = _context.Produto
                 .Where(a => a.ProdutoId == produtoId)
                 .Select(b => new ProdutoSimplesModel
                 {
@@ -97,7 +110,7 @@ namespace SingleExperience.Services.Produto
             var produto = new DisponivelModel();
             try
             {
-                produto = produtoBd.BuscarProdutos()
+                produto = _context.Produto
                 .Where(a => a.ProdutoId == produtoId)
                 .Select(b => new DisponivelModel
                 {
@@ -121,7 +134,7 @@ namespace SingleExperience.Services.Produto
         {
             try
             {
-                var produto = produtoBd.BuscarProdutos()
+                var produto = _context.Produto
                     .Where(a => a.ProdutoId == produtoId)
                     .FirstOrDefault();
 
@@ -143,7 +156,7 @@ namespace SingleExperience.Services.Produto
             var produto = new ProdutoDetalhadoModel();
             try
             {
-                produto = produtoBd.BuscarProdutos()
+                produto = _context.Produto
                .Where(a => a.ProdutoId == produtoId && a.Disponivel)
                .Select(b => new ProdutoDetalhadoModel
                {
@@ -169,7 +182,7 @@ namespace SingleExperience.Services.Produto
         {
             try
             {
-                var produto = produtoBd.BuscarProdutos()
+                var produto = _context.Produto
                     .Where(a => a.ProdutoId == model.ProdutoId && 
                     a.QtdeEmEstoque >= model.Qtde && 
                     model.Qtde > 0)

@@ -17,16 +17,26 @@ namespace SingleExperience.Services.Compra
 {
     public class CompraService
     {
+        protected readonly SingleExperience.Context.Context _context;
         CompraBD compraBd = new CompraBD();
         CarrinhoService carrinhoService = new CarrinhoService();
         ListaProdutoCompraService listaProdutoCompraService = new ListaProdutoCompraService();
         ProdutoService produtoService = new ProdutoService();
 
+        public CompraService()
+        {
+        }
+
+        public CompraService(SingleExperience.Context.Context context)
+        {
+            _context = context;
+        }
+
         public List<ItemCompraModel> Buscar(int clienteId)
         {
             try
             {
-                var compras = compraBd.BuscarCompras()
+                var compras = _context.Compra
                 .Where(a => a.ClienteId == clienteId)
                 .Select(b => new ItemCompraModel
                 {
@@ -45,18 +55,25 @@ namespace SingleExperience.Services.Compra
         }
         public bool Cadastrar(IniciarModel model)
         {
-            //Buscar os Produtos
+            //Buscar os Produtos que estao no carrinho
             var produtos = carrinhoService.Buscar(model.ClienteId);
 
-            var cadastroModel = new CadastroModel
+            var compra = new Entities.Compra
             {
+
+                StatusCompraEnum = StatusCompraEnum.Aberta,
+                FormaPagamentoEnum = model.FormaPagamentoEnum,
                 ClienteId = model.ClienteId,
-                FormaPagamentoId = model.FormaPagamentoId,
                 EnderecoId = model.EnderecoId,
-                ValorFinal = carrinhoService.CalcularValorTotal(model.ClienteId)
+                StatusPagamento = false,
+                DataCompra = DateTime.Now,
+                ValorFinal = carrinhoService.CalcularValorTotal(model.ClienteId),
             };
 
-            var compraId = compraBd.Salvar(cadastroModel);
+            _context.Compra.Add(compra);
+            _context.SaveChanges();
+
+            //var compraId = compraBd.Salvar(cadastroModel);
 
             var itemCompraModel = new CadastrarItemModel();
  
@@ -92,7 +109,7 @@ namespace SingleExperience.Services.Compra
         }
         public CompraDetalhadaModel Obter(int compraId)
         {
-            var compra = compraBd.BuscarCompras()
+            var compra = _context.Compra
                 .Where(a => a.CompraId == compraId)
                 .Select(b => new CompraDetalhadaModel
                 {
@@ -114,7 +131,7 @@ namespace SingleExperience.Services.Compra
         {
             try
             {
-                var compra = compraBd.BuscarCompras()
+                var compra = _context.Compra
                     .Where(a => a.CompraId == model.CompraId && a.ClienteId == model.ClienteId)
                     .FirstOrDefault();
 
@@ -132,7 +149,7 @@ namespace SingleExperience.Services.Compra
         }
         public bool Pagar(int compraId)
         {
-            var compra = compraBd.BuscarCompras()
+            var compra = _context.Compra
                  .Where(a => a.CompraId == compraId &&
                  a.StatusCompraEnum == StatusCompraEnum.Aberta &&
                  a.StatusPagamento == false)
@@ -141,7 +158,11 @@ namespace SingleExperience.Services.Compra
             if (compra == null)
                 throw new Exception("Não foi possivel econtrar essa compra");
 
-            compraBd.Pagar(compra.CompraId);
+            compra.StatusPagamento = true;
+            compra.DataPagamento = DateTime.Now;
+
+            _context.Compra.Add(compra);
+            _context.SaveChanges();
 
             return true;
               

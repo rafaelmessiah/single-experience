@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SingleExperience.Entities.Enums
 {
-    public enum StatusCarrinhoProdutoEnum : int
+    public enum StatusCarrinhoProdutoEnum
     {
         Ativo = 1,
         Comprado = 2,

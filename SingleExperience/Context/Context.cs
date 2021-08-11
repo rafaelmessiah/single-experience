@@ -3,12 +3,13 @@ using SingleExperience.Entities;
 
 namespace SingleExperience.Context
 {
-    class Context : DbContext
+    public class Context : DbContext
     {
         public DbSet<Cliente> Cliente { get; set; }
         public DbSet<Carrinho> Carrinho { get; set; }
         public DbSet<CartaoCredito> CartaoCredito { get; set; }
         public DbSet<Categoria> Categoria { get; set; }
+        public DbSet<Compra> Compra { get; set; }
         public DbSet<Endereco> Endereco { get; set; }
         public DbSet<FormaPagamento> FormaPagamento { get; set; }
         public DbSet<ListaProdutoCompra> ListaProdutoCompra { get; set; }

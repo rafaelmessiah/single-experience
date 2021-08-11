@@ -7,7 +7,7 @@ using SingleExperience.Entities.Enums;
 
 namespace SingleExperience.Entities
 {
-    class Carrinho
+    public class Carrinho
     {
         [Key]
         public int CarrinhoId { get; set; }
@@ -27,7 +27,7 @@ namespace SingleExperience.Entities
         //Fk - Status Carrinho Produto
         [Column("StatusCarrinhoProdutoId")]
         public StatusCarrinhoProdutoEnum StatusCarrinhoProdutoEnum { get; set; }
-        [ForeignKey("StatusCarrinhoProdutoId")]
+        [ForeignKey("StatusCarrinhoProdutoEnum")]
         public StatusCarrinhoProduto StatusCarrinhoProduto { get; set; }
     }
 }

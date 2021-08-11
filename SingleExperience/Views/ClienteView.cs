@@ -14,9 +14,10 @@ namespace SingleExperience.Views
 {
     class ClienteView
     {
-        ClienteService clienteService = new ClienteService();
-        EnderecoService enderecoService = new EnderecoService();
-        CartaoCreditoService cartaoCreditoService = new CartaoCreditoService();
+        static SingleExperience.Context.Context context = new SingleExperience.Context.Context();
+        ClienteService clienteService = new ClienteService(context);
+        EnderecoService enderecoService = new EnderecoService(context);
+        CartaoCreditoService cartaoCreditoService = new CartaoCreditoService(context);
         
         public void VizualizarPerfil(ClienteLogadoModel clienteLogado)
         {

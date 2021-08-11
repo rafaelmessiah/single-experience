@@ -13,9 +13,10 @@ namespace SingleExperience.Views
 {
     class CarrinhoView
     {
-        CarrinhoService carrinhoService = new  CarrinhoService();
+        static SingleExperience.Context.Context context = new SingleExperience.Context.Context();
+        CarrinhoService carrinhoService = new  CarrinhoService(context);
         CompraView compraView = new CompraView();
-        ClienteService clienteService = new ClienteService();
+        ClienteService clienteService = new ClienteService(context);
 
         public void Vizualizar(ClienteLogadoModel clienteLogado)
         {

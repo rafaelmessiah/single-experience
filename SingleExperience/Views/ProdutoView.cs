@@ -12,7 +12,9 @@ namespace SingleExperience.Views
 {
     class ProdutoView
     {
-        ProdutoService produtoService = new ProdutoService();
+        static SingleExperience.Context.Context context = new SingleExperience.Context.Context();
+        ProdutoService produtoService = new ProdutoService(context);
+        CarrinhoService carrinhoService = new CarrinhoService(context);
         Header header = new Header();
 
         public void MenuProdutos(ClienteLogadoModel clienteLogado)
@@ -75,7 +77,6 @@ namespace SingleExperience.Views
         public void ListarProdutos(CategoriaEnum categoria, ClienteLogadoModel clienteLogado)
         {
             Console.Clear();
-                        
             var produtos = produtoService.BuscarCategoria(categoria);
 
             Console.WriteLine("============================");
@@ -127,6 +128,7 @@ namespace SingleExperience.Views
 
             try
             {
+                ProdutoService produtoService = new ProdutoService(context);
                 var produto = produtoService.ObterDetalhe(produtoId);
 
                 Console.WriteLine("---------------------------------------------------------------------------------");
@@ -147,8 +149,6 @@ namespace SingleExperience.Views
                             ProdutoId = produto.ProdutoId,
                             Qtde = int.Parse(Console.ReadLine())
                         };
-
-                        var carrinhoService = new CarrinhoService();
 
                         try
                         {
@@ -175,7 +175,6 @@ namespace SingleExperience.Views
                 Console.WriteLine("Tente Novamente ");
                 ProdutoDetalhado(clienteLogado);
             }
-
            
         }
     }

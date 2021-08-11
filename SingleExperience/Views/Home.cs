@@ -19,13 +19,14 @@ namespace SingleExperience.Views
 {
     public class Home
     {
+        static SingleExperience.Context.Context context = new Context.Context();
         Header header = new Header();
         Footer footer = new Footer();
         ProdutoView produtoView = new ProdutoView();
         CompraView compraView = new CompraView();
         CarrinhoView carrinhoView = new CarrinhoView();
         ClienteView clienteView = new ClienteView();
-        ClienteService clienteService = new ClienteService();
+        ClienteService clienteService = new ClienteService(context);
 
         public void Inicio()
         {
