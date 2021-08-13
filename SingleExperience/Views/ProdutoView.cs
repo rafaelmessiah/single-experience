@@ -65,7 +65,7 @@ namespace SingleExperience.Views
                     break;
                 case "0":
                     Console.Clear();
-                   
+
                     break;
                 default:
                     Console.Clear();
@@ -99,7 +99,7 @@ namespace SingleExperience.Views
             switch (op)
             {
                 case "y":
-                   
+
                     ProdutoDetalhado(clienteLogado);
                     break;
                 case "n":
@@ -114,12 +114,12 @@ namespace SingleExperience.Views
         {
             Console.Write("Digite o Id do produto que deseja vizualizar: ");
 
-            if(!int.TryParse(Console.ReadLine(), out int produtoId))
+            if (!int.TryParse(Console.ReadLine(), out int produtoId))
             {
                 Console.WriteLine("Id invalido tente novamente");
                 ProdutoDetalhado(clienteLogado);
             }
-            
+
             if (!produtoService.Verificar(produtoId))
             {
                 Console.WriteLine("Id invalido tente novamente");
@@ -150,16 +150,8 @@ namespace SingleExperience.Views
                             Qtde = int.Parse(Console.ReadLine())
                         };
 
-                        try
-                        {
-                            carrinhoService.Adicionar(salvarModel);
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine("Ocurred an error");
-                            Console.WriteLine(e.Message);
-                            Thread.Sleep(3000);
-                        }
+                        carrinhoService.Adicionar(salvarModel);
+
                         break;
                     case "n":
                         break;
@@ -169,13 +161,13 @@ namespace SingleExperience.Views
                 }
 
             }
-            catch (IOException e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 Console.WriteLine("Tente Novamente ");
                 ProdutoDetalhado(clienteLogado);
             }
-           
+
         }
     }
 }

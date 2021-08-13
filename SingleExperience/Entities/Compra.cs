@@ -35,9 +35,8 @@ namespace SingleExperience.Entities
         public Endereco Endereco { get; set; }
 
         public List<ListaProdutoCompra> ListaProdutoCompras { get; set; }
-        public bool StatusPagamento { get; set; }
         public DateTime DataCompra { get; set; }
         public DateTime? DataPagamento { get; set; }
-        public double ValorFinal { get; set; }
+        public decimal ValorFinal { get; set; }
     }
 }

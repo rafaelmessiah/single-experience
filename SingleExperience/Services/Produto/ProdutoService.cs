@@ -1,5 +1,4 @@
-﻿using SingleExperience.Entities.BD;
-using SingleExperience.Entities.Enums;
+﻿using SingleExperience.Entities.Enums;
 using SingleExperience.Services.Produto.Models;
 using System;
 using System.Collections.Generic;

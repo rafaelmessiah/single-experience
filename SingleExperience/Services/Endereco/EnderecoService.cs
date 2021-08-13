@@ -1,5 +1,4 @@
-﻿using SingleExperience.Entities.BD;
-using SingleExperience.Services.Endereco.Models;
+﻿using SingleExperience.Services.Endereco.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;

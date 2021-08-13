@@ -25,13 +25,16 @@ namespace SingleExperience.Views
             Console.WriteLine("==================");
             Console.WriteLine("|| Meu Carrinho ||");
             Console.WriteLine("==================");
-            
-            var carrinhos = carrinhoService.Buscar(clienteLogado.ClienteId);
 
             Console.WriteLine("");
             Console.WriteLine("=================================================================================");
             Console.WriteLine("|| PRODUTOS                                                                    ||");
             Console.WriteLine("=================================================================================");
+
+            var carrinhos = carrinhoService.Buscar(clienteLogado.ClienteId);
+
+            if (carrinhos.Count == 0)
+                Console.WriteLine("Você não tem nenhum produto no carrinho");
 
             carrinhos.ForEach(a =>
             {

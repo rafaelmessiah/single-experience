@@ -19,7 +19,7 @@ namespace SingleExperience.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Integrated Security = SSPI; Persist Security Info = False; Initial Catalog = SingleExperience; Data Source = DESKTOP-GC3CM5S");
+            optionsBuilder.UseSqlServer("Integrated Security = SSPI; Persist Security Info = False; Initial Catalog = rafael.messias; Data Source = SERVER");
         }
     }
 }

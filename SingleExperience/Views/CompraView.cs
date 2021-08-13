@@ -110,132 +110,144 @@ namespace SingleExperience.Views
 
         public void Finalizar(int clienteId)
         {
-            Console.WriteLine("Escolha a forma de Pagamento: ");
-            Console.WriteLine("=== Opções ======================================");
-            Console.WriteLine("| 1 - Boleto                                    |");
-            Console.WriteLine("| 2 - Pix                                       |");
-            Console.WriteLine("| 3 - Cartao                                    |");
-            Console.WriteLine("=================================================");
-
-            var op = Console.ReadLine().ToLower();
-
-            Console.WriteLine("Escolha o Endereco de entrega: ");
-
-            var enderecos = enderecoService.Buscar(clienteId);
-
-            enderecos.ForEach(a =>
+            try
             {
-                Console.WriteLine("------------------------------------------------------------------------------------------------------------");
-                Console.WriteLine($"|| Endereco º: {a.EnderecoId}  ||   Rua: {a.Rua}    Numero: {a.Numero}     Complemento: {a.Complemento} ||");
-                Console.WriteLine("------------------------------------------------------------------------------------------------------------");
-            });
+                Console.WriteLine("Escolha a forma de Pagamento: ");
+                Console.WriteLine("=== Opções ======================================");
+                Console.WriteLine("| 1 - Boleto                                    |");
+                Console.WriteLine("| 2 - Pix                                       |");
+                Console.WriteLine("| 3 - Cartao                                    |");
+                Console.WriteLine("=================================================");
 
-            var verificarEndereco = new VerificarEnderecoModel();
-            verificarEndereco.ClienteId = clienteId;
-            
-            Console.WriteLine("Digite o numero do endereco: ");
-            
-            if(int.TryParse(Console.ReadLine(), out int enderecoId))
-            {
-                verificarEndereco.EnderecoId = enderecoId;
-            }
-            else
-            {
-                Console.WriteLine("Digito invalido, tente novamente");
-                Thread.Sleep(1500);
-            }
+                var op = Console.ReadLine().ToLower();
 
-            if (!enderecoService.Verificar(verificarEndereco))
-            {
-                Console.WriteLine("Endereco invalido tente novamente");
-                Thread.Sleep(1500);
-                Console.Clear();
-                Finalizar(clienteId);
-            }
+                Console.WriteLine("Escolha o Endereco de entrega: ");
 
-            var iniciarModel = new IniciarModel
-            {
-                ClienteId = clienteId,
-                EnderecoId = verificarEndereco.EnderecoId,
-            };
+                var enderecos = enderecoService.Buscar(clienteId);
 
-            switch (op)
-            {
-                case "1":
-                    iniciarModel.FormaPagamentoEnum = FormaPagamentoEnum.Boleto;
+                if (enderecos.Count == 0)
+                    throw new Exception("Não há enderecos cadastrados. Cadastre um endereço para poder finalizar a compra");
 
-                    if (compraService.Cadastrar(iniciarModel))
-                    {
-                        Console.WriteLine("Compra Cadastrada com Sucesso!");
-                        var guid = Guid.NewGuid();
-                        Console.WriteLine("O número do seu boleto é: " + guid);
-                        Console.WriteLine("Aperte Enter para continuar");
-                        Console.ReadLine();
-                        Console.Clear();
-                    }
-                    break;
-                case "2":
-                    iniciarModel.FormaPagamentoEnum = FormaPagamentoEnum.Pix;
+                enderecos.ForEach(a =>
+                {
+                    Console.WriteLine("------------------------------------------------------------------------------------------------------------");
+                    Console.WriteLine($"|| Endereco º: {a.EnderecoId}  ||   Rua: {a.Rua}    Numero: {a.Numero}     Complemento: {a.Complemento} ||");
+                    Console.WriteLine("------------------------------------------------------------------------------------------------------------");
+                });
 
-                    if (compraService.Cadastrar(iniciarModel))
-                    {
-                        Console.WriteLine("Compra Cadastrada com Sucesso!");
-                        var guid = Guid.NewGuid();
-                        Console.WriteLine("O número do seu Pix é: " + guid);
-                        Console.WriteLine("Aperte Enter para continuar");
-                        Console.ReadLine();
-                        Console.Clear();
-                    }
-                    break;
-                case "3":
-                    iniciarModel.FormaPagamentoEnum = FormaPagamentoEnum.Cartao;
+                var verificarEndereco = new VerificarEnderecoModel();
+                verificarEndereco.ClienteId = clienteId;
 
-                    var cartoes = cartaoCreditoService.Buscar(clienteId);
+                Console.WriteLine("Digite o numero do endereco: ");
 
-                    cartoes.ForEach(a =>
-                    {
-                        Console.WriteLine("------------------------------------------------------------------------------------------------------------");
-                        Console.WriteLine($"|| Cartão Nº: {a.CartaoCreditoId}  ||  Numero do Cartao: **** **** **** {a.Numero.Substring(a.Numero.Length - 4)} ||");
-                        Console.WriteLine("------------------------------------------------------------------------------------------------------------");
-                    });
+                if (int.TryParse(Console.ReadLine(), out int enderecoId))
+                {
+                    verificarEndereco.EnderecoId = enderecoId;
+                }
+                else
+                {
+                    Console.WriteLine("Digito invalido, tente novamente");
+                    Thread.Sleep(1500);
+                }
 
-                    var verificarCartao = new VerificarCartaoModel();
-                    verificarCartao.ClienteId = clienteId;
-
-                    Console.WriteLine("Selecione o seu cartão");
-                    if (!int.TryParse(Console.ReadLine(), out int cartaoId))
-                    {
-                        Console.WriteLine("Digito invalido, tente novamente");
-                        Thread.Sleep(1500);
-
-                    }
-                    
-                    verificarCartao.CartaoCredtioId = cartaoId;
-
-                    Console.WriteLine("Digite seu codigo de segunça");
-                    verificarCartao.CodigoSeguranca = Console.ReadLine();
-
-                    if (!cartaoCreditoService.Verificar(verificarCartao))
-                    {
-                        Console.WriteLine("Cartao ou Codigo invalide, tente novamente ou escolha outra forma de pagamento");
-                        Thread.Sleep(1500);
-                        Finalizar(clienteId);
-                    }
-
-                    if (compraService.Cadastrar(iniciarModel))
-                    {
-                        Console.Clear();
-                        Console.WriteLine("Compra Cadastrada com Sucesso!");
-                        Console.WriteLine("O pagamento foi Confirmado com sua Operadora");
-                        Console.WriteLine("Aperte Enter para continuar");
-                        Console.ReadLine();
-                    }
-                    break;
-                default:
-                    Console.WriteLine("Opção Invalida, tente novamente");
+                if (!enderecoService.Verificar(verificarEndereco))
+                {
+                    Console.WriteLine("Endereco invalido tente novamente");
+                    Thread.Sleep(1500);
+                    Console.Clear();
                     Finalizar(clienteId);
-                    break;
+                }
+
+                var iniciarModel = new IniciarModel
+                {
+                    ClienteId = clienteId,
+                    EnderecoId = verificarEndereco.EnderecoId,
+                };
+
+                switch (op)
+                {
+                    case "1":
+                        iniciarModel.FormaPagamentoEnum = FormaPagamentoEnum.Boleto;
+
+                        if (compraService.Cadastrar(iniciarModel))
+                        {
+                            Console.WriteLine("Compra Cadastrada com Sucesso!");
+                            var guid = Guid.NewGuid();
+                            Console.WriteLine("O número do seu boleto é: " + guid);
+                            Console.WriteLine("Aperte Enter para continuar");
+                            Console.ReadLine();
+                            Console.Clear();
+                        }
+                        break;
+                    case "2":
+                        iniciarModel.FormaPagamentoEnum = FormaPagamentoEnum.Pix;
+
+                        if (compraService.Cadastrar(iniciarModel))
+                        {
+                            Console.WriteLine("Compra Cadastrada com Sucesso!");
+                            var guid = Guid.NewGuid();
+                            Console.WriteLine("O número do seu Pix é: " + guid);
+                            Console.WriteLine("Aperte Enter para continuar");
+                            Console.ReadLine();
+                            Console.Clear();
+                        }
+                        break;
+                    case "3":
+                        iniciarModel.FormaPagamentoEnum = FormaPagamentoEnum.Cartao;
+
+                        var cartoes = cartaoCreditoService.Buscar(clienteId);
+
+                        cartoes.ForEach(a =>
+                        {
+                            Console.WriteLine("------------------------------------------------------------------------------------------------------------");
+                            Console.WriteLine($"|| Cartão Nº: {a.CartaoCreditoId}  ||  Numero do Cartao: **** **** **** {a.Numero.Substring(a.Numero.Length - 4)} ||");
+                            Console.WriteLine("------------------------------------------------------------------------------------------------------------");
+                        });
+
+                        var verificarCartao = new VerificarCartaoModel();
+                        verificarCartao.ClienteId = clienteId;
+
+                        Console.WriteLine("Selecione o seu cartão");
+                        if (!int.TryParse(Console.ReadLine(), out int cartaoId))
+                        {
+                            Console.WriteLine("Digito invalido, tente novamente");
+                            Thread.Sleep(1500);
+
+                        }
+
+                        verificarCartao.CartaoCredtioId = cartaoId;
+
+                        Console.WriteLine("Digite seu codigo de segunça");
+                        verificarCartao.CodigoSeguranca = Console.ReadLine();
+
+                        if (!cartaoCreditoService.Verificar(verificarCartao))
+                        {
+                            Console.WriteLine("Cartao ou Codigo invalide, tente novamente ou escolha outra forma de pagamento");
+                            Thread.Sleep(1500);
+                            Finalizar(clienteId);
+                        }
+
+                        if (compraService.Cadastrar(iniciarModel))
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Compra Cadastrada com Sucesso!");
+                            Console.WriteLine("O pagamento foi Confirmado com sua Operadora");
+                            Console.WriteLine("Aperte Enter para continuar");
+                            Console.ReadLine();
+                        }
+                        break;
+                    default:
+                        Console.WriteLine("Opção Invalida, tente novamente");
+                        Finalizar(clienteId);
+                        break;
+                }
             }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
     }
 }

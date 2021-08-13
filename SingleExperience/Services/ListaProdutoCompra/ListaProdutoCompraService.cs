@@ -1,5 +1,4 @@
-﻿using SingleExperience.Entities.BD;
-using SingleExperience.Services.ListaProdutoCompra.Models;
+﻿using SingleExperience.Services.ListaProdutoCompra.Models;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;

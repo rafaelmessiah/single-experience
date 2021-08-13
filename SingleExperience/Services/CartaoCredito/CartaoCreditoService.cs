@@ -1,4 +1,4 @@
-﻿using SingleExperience.Entities.BD;
+﻿
 using SingleExperience.Services.CartaoCredito.Models;
 using System;
 using System.Linq;

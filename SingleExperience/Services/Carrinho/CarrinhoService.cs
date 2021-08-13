@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using SingleExperience.Entities.BD;
 using SingleExperience.Entities.Enums;
 using System.Linq;
 using SingleExperience.Services.Carrinho.Models;
@@ -40,8 +39,7 @@ namespace SingleExperience.Services.Carrinho
 
         public bool Adicionar(SalvarModel model)
         {
-            try
-            {
+       
                 model.Validar();
 
                 var carrinho = _context.Carrinho
@@ -63,13 +61,6 @@ namespace SingleExperience.Services.Carrinho
 
                 _context.Carrinho.Add(produto);
                 _context.SaveChanges();
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-                Thread.Sleep(3500);
-            }
 
             return true;
         }

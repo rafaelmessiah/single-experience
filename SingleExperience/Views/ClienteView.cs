@@ -27,10 +27,9 @@ namespace SingleExperience.Views
                 VizualizarPerfil(clienteLogado);
             }
 
-            var cliente = new ClienteDetalheModel();
             try
             {
-                cliente = clienteService.Obter(clienteLogado.ClienteId);
+                var cliente = clienteService.Obter(clienteLogado.ClienteId);
 
                 Console.WriteLine("============================");
                 Console.WriteLine($"|| Meu Perfil: {cliente.Nome}  ||");
@@ -38,9 +37,8 @@ namespace SingleExperience.Views
 
                 Console.WriteLine("=================================================");
                 Console.WriteLine("=== Opções ======================================");
-                Console.WriteLine("| 1 - Editar Dados                              |");
-                Console.WriteLine("| 2 - Vizualizar Meus enderecos Cadastrados     |");
-                Console.WriteLine("| 3 - Vizualizar Meus Cartões de Credtios       |");
+                Console.WriteLine("| 1 - Vizualizar Meus enderecos Cadastrados     |");
+                Console.WriteLine("| 2 - Vizualizar Meus Cartões de Credtios       |");
                 Console.WriteLine("| 0 - Voltar a Pagina Principal                 |");
                 Console.WriteLine(" ===============================================");
                 var op = Console.ReadLine().ToLower();
@@ -48,12 +46,10 @@ namespace SingleExperience.Views
                 switch (op)
                 {
                     case "1":
-                        break;
-                    case "2":
                         Console.Clear();
                         VizualizarEnderecos(clienteLogado);
                         break;
-                    case "3":
+                    case "2":
                         Console.Clear();
                         VizualizarCartoes(clienteLogado);
                         break;

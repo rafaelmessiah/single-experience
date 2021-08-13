@@ -1,5 +1,4 @@
-﻿using SingleExperience.Entities.BD;
-using SingleExperience.Services.Cliente.Models;
+﻿using SingleExperience.Services.Cliente.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
