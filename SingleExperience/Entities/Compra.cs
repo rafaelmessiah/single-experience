@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -21,6 +21,7 @@ namespace SingleExperience.Entities
         //Fk - Forma Pagamento
         [Column("FormaPagamentoId")]
         public FormaPagamentoEnum FormaPagamentoEnum { get; set; }
+        [ForeignKey("FormaPagamentoEnum")]
         public FormaPagamento FormaPagamento { get; set; }
 
         //FK - Cliente
@@ -33,6 +34,7 @@ namespace SingleExperience.Entities
         [ForeignKey("EnderecoId")]
         public Endereco Endereco { get; set; }
 
+        public List<ListaProdutoCompra> ListaProdutoCompras { get; set; }
         public bool StatusPagamento { get; set; }
         public DateTime DataCompra { get; set; }
         public DateTime? DataPagamento { get; set; }

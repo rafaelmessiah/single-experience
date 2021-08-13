@@ -8,6 +8,6 @@ namespace SingleExperience.Services.CartaoCredito.Models
     {
         public int CartaoCreditoId { get; set; }
         public int ClienteId { get; set; }
-        public string Final { get; set; }
+        public string Numero { get; set; }
     }
 }

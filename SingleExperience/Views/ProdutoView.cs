@@ -6,7 +6,7 @@ using SingleExperience.Services.Produto;
 using System;
 using System.Globalization;
 using System.IO;
-
+using System.Threading;
 
 namespace SingleExperience.Views
 {
@@ -154,12 +154,12 @@ namespace SingleExperience.Views
                         {
                             carrinhoService.Adicionar(salvarModel);
                         }
-                        catch (IOException e)
+                        catch (Exception e)
                         {
                             Console.WriteLine("Ocurred an error");
                             Console.WriteLine(e.Message);
+                            Thread.Sleep(3000);
                         }
-                        Console.Clear();
                         break;
                     case "n":
                         break;

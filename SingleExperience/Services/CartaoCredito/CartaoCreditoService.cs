@@ -5,57 +5,38 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Threading;
 
 namespace SingleExperience.Services.CartaoCredito
 {
     public class CartaoCreditoService
     {
         protected readonly SingleExperience.Context.Context _context;
-        CartaoCreditoBD cartaoCreditoBd = new CartaoCreditoBD();
-
-        public CartaoCreditoService()
-        {
-        }
 
         public CartaoCreditoService(SingleExperience.Context.Context context)
         {
             _context = context;
         }
 
-        public List<CartaoItemModel> Listar(int clienteId)
+        public List<CartaoItemModel> Buscar(int clienteId)
         {
-            var cartoes = new List<CartaoItemModel>();
+            return _context.CartaoCredito
+                .Where(a => a.ClienteId == clienteId)
+                .Select(a => new CartaoItemModel
+                {
+                    ClienteId = a.ClienteId,
+                    CartaoCreditoId = a.CartaoCreditoId,
+                    Numero = a.Numero
 
-            try
-            {
-                cartoes = _context.CartaoCredito
-                    .Where(a => a.ClienteId == clienteId)
-                    .Select(a => new CartaoItemModel
-                    {
-                        ClienteId = a.ClienteId,
-                        CartaoCreditoId = a.CartaoCreditoId,
-                        Final = a.Numero.Substring(a.Numero.Length - 4)
+                }).ToList();
 
-                    }).ToList();
-                
-            }
-            catch (IOException e)
-            {
-                Console.WriteLine("Ocorreu um erro");
-                Console.WriteLine(e);
-            }
-
-            return cartoes;
         }
 
         public bool Cadastrar(CadastroCartaoModel model)
         {
             try
             {
-                if(model.DataVencimento.CompareTo(DateTime.Now) < 0)
-                {
-                    throw new Exception("Data de Vencimento Invalida");
-                }
+                model.Validar();
 
                 var cartao = new Entities.CartaoCredito
                 {
@@ -69,11 +50,10 @@ namespace SingleExperience.Services.CartaoCredito
                 _context.CartaoCredito.Add(cartao);
                 _context.SaveChanges();
             }
-            catch (IOException e)
+            catch (Exception e)
             {
-
-                Console.WriteLine("Ocorreu um erro");
                 Console.WriteLine(e);
+                Thread.Sleep(3500);
             }
 
             return true;
@@ -96,13 +76,12 @@ namespace SingleExperience.Services.CartaoCredito
 
                 if (cartao == null)
                     throw new Exception("Não foi possível encontrar esse cartão");
-                
-            }
-            catch (IOException e)
-            {
 
-                Console.WriteLine("Ocorreu um erro");
+            }
+            catch (Exception e)
+            {
                 Console.WriteLine(e);
+                Thread.Sleep(3500);
             }
 
             return cartao;
@@ -120,14 +99,14 @@ namespace SingleExperience.Services.CartaoCredito
                 if (codigoSeguranca == null)
                     throw new Exception("Não foi possível encontrar esse cartão");
 
-                if(codigoSeguranca != model.CodigoSeguranca)
+                if (codigoSeguranca != model.CodigoSeguranca)
                     throw new Exception("Código de Segurança Inválido");
 
             }
             catch (Exception ex)
             {
-
                 Console.WriteLine(ex);
+                Thread.Sleep(3500);
             }
 
             return true;

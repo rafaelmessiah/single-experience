@@ -5,16 +5,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Linq;
+using System.Threading;
 
 namespace SingleExperience.Services.Cliente
 {
     public class ClienteService
     {
         protected readonly SingleExperience.Context.Context _context;
-
-        public ClienteService()
-        {
-        }
 
         public ClienteService(SingleExperience.Context.Context context)
         {
@@ -34,12 +31,15 @@ namespace SingleExperience.Services.Cliente
                         ClienteId = a.ClienteId,
                         Nome = a.Nome,
                     }).FirstOrDefault();
-                    
+
+                if (cliente == null)
+                    throw new Exception("Email ou Senha Incorreto");
+                
             }
-            catch (IOException e)
+            catch (Exception e)
             {
-                Console.WriteLine("Ocorreu um erro");
                 Console.WriteLine(e);
+                Thread.Sleep(3000);
             }
 
             return cliente;
@@ -69,10 +69,10 @@ namespace SingleExperience.Services.Cliente
                 _context.Cliente.Add(novoCliente);
                 _context.SaveChanges();
             }
-            catch (IOException e)
+            catch (Exception e)
             {
-                Console.WriteLine("Ocorreu um Erro:");
-                Console.WriteLine(e.Message);
+                Console.WriteLine(e);
+                Thread.Sleep(3000);
             }
 
             return true;
@@ -95,11 +95,16 @@ namespace SingleExperience.Services.Cliente
                    Telefone = a.Telefone
                }).FirstOrDefault();
 
+                if (cliente == null)
+                {
+                    throw new Exception("Não foi possivel encontrar esse cliente");
+                }
+
             }
-            catch (IOException e)
+            catch (Exception e)
             {
-                Console.WriteLine("Ocorreu um Erro");
-                Console.WriteLine(e.Message);
+                Console.WriteLine(e);
+                Thread.Sleep(3000);
             }
 
             return cliente;
@@ -123,18 +128,16 @@ namespace SingleExperience.Services.Cliente
                 if (cliente == null)
                     throw new Exception("Não foi possível encontrar esse Usuario");
 
-
                 cliente.Email = model.NovoEmail;
 
                 _context.Cliente.Update(cliente);
                 _context.SaveChanges();
 
             }
-            catch (IOException e)
+            catch (Exception e)
             {
-
-                Console.WriteLine("Ocorreu um erro");
                 Console.WriteLine(e);
+                Thread.Sleep(3000);
             }
 
             return true;
@@ -160,11 +163,10 @@ namespace SingleExperience.Services.Cliente
                 _context.SaveChanges();
 
             }
-            catch (IOException e)
+            catch (Exception e)
             {
-
-                Console.WriteLine("Ocorreu um erro");
                 Console.WriteLine(e);
+                Thread.Sleep(3000);
             }
 
             return true;
@@ -172,7 +174,6 @@ namespace SingleExperience.Services.Cliente
 
         public bool Verificar(VerificarClienteModel model)
         {
-            
             try
             {
                 var cliente = _context.Cliente
@@ -187,10 +188,10 @@ namespace SingleExperience.Services.Cliente
                 }
 
             }
-            catch (IOException e)
+            catch (Exception e)
             {
-                Console.WriteLine("Ocorreu um erro");
                 Console.WriteLine(e);
+                Thread.Sleep(3000);
             }
 
             return true;

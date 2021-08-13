@@ -11,11 +11,6 @@ namespace SingleExperience.Services.Endereco
     class EnderecoService
     {
         protected readonly SingleExperience.Context.Context _context;
-        EnderecoBD enderecoBd = new EnderecoBD();
-
-        public EnderecoService()
-        {
-        }
 
         public EnderecoService(SingleExperience.Context.Context context)
         {
@@ -24,34 +19,22 @@ namespace SingleExperience.Services.Endereco
 
         public List<EnderecoModel> Buscar(int clienteId)
         {
-            var enderecos = new List<EnderecoModel>();
+            return _context.Endereco
+                .Where(a => a.ClienteId == clienteId)
+                .Select(a => new EnderecoModel
+                {
+                    EnderecoId = a.EnderecoId,
+                    ClienteId = a.ClienteId,
+                    Rua = a.Rua,
+                    Numero = a.Numero,
+                    Complemento = a.Complemento,
+                    Cep = a.Cep,
 
-            try
-            {
-                enderecos = _context.Endereco
-                    .Where(a => a.ClienteId == clienteId)
-                    .Select(a => new EnderecoModel
-                    {
-                        EnderecoId = a.EnderecoId,
-                        ClienteId = a.ClienteId,
-                        Rua = a.Rua,
-                        Numero = a.Numero,
-                        Complemento = a.Complemento,
-                        Cep = a.Cep,
+                }).ToList();
 
-                    }).ToList();
-
-            }
-            catch (IOException e) 
-            {
-                Console.WriteLine("Ocorreu um Erro");
-                Console.WriteLine(e);
-            }
-
-            return enderecos;
         }
 
-        public bool Cadastrar (CadastroEnderecoModel model)
+        public bool Cadastrar(CadastroEnderecoModel model)
         {
             try
             {
@@ -77,7 +60,7 @@ namespace SingleExperience.Services.Endereco
             return true;
         }
 
-        public bool Editar (EnderecoModel model)
+        public bool Editar(EnderecoModel model)
         {
             try
             {
@@ -106,8 +89,7 @@ namespace SingleExperience.Services.Endereco
             return true;
         }
 
-        public bool Verificar (VerificarEnderecoModel model)
-
+        public bool Verificar(VerificarEnderecoModel model)
         {
             try
             {
@@ -115,11 +97,11 @@ namespace SingleExperience.Services.Endereco
                     .Where(a => a.ClienteId == model.ClienteId && a.EnderecoId == model.EnderecoId)
                     .FirstOrDefault();
 
-                if (endereco==null)
+                if (endereco == null)
                 {
                     return false;
                 }
-                
+
             }
             catch (IOException e)
             {

@@ -5,18 +5,13 @@ using System.Collections.Generic;
 using System.Text;
 using SingleExperience.Services.Produto;
 using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace SingleExperience.Services.ListaProdutoCompra
 {
     public class ListaProdutoCompraService
     {
         protected readonly SingleExperience.Context.Context _context;
-        ListaProdutoCompraBD listaProdutoCompraBd = new ListaProdutoCompraBD();
-        ProdutoService produtoService = new ProdutoService();
-
-        public ListaProdutoCompraService()
-        {
-        }
 
         public ListaProdutoCompraService(SingleExperience.Context.Context context)
         {
@@ -25,51 +20,21 @@ namespace SingleExperience.Services.ListaProdutoCompra
 
         public List<ItemProdutoCompraModel> Buscar(int compraId)
         {
-            var itens = listaProdutoCompraBd.BuscarProdutosCompras()
+            return _context.ListaProdutoCompra
+                .Include(a=> a.Produto)
                 .Where(a => a.CompraId == compraId)
                 .Select(b => new ItemProdutoCompraModel
                 {
                     ListaProdutoCompraId = b.ListaProdutoCompraId,
                     CompraId = b.CompraId,
                     ProdutoId = b.ProdutoId,
+                    Nome = b.Produto.Nome,
+                    PrecoUnitario = b.Produto.Preco,
                     Qtde = b.Qtde
 
                 }).ToList();
 
-            var produtos = produtoService.Buscar()
-                .Where(a => itens.Any(b => b.ProdutoId == a.ProdutoId)).ToList();
-
-            foreach (var item in itens)
-            {
-                var produto = produtos.Find(a => a.ProdutoId == item.ProdutoId);
-
-                item.Nome = produto.Nome;
-                item.PrecoUnitario = produto.Preco;
-            }
-
-            return itens;
         }
 
-        public bool CadastrarVenda(CadastrarItemModel model)
-        {
-            var item = Buscar(model.CompraId)
-                .Where(a => a.ProdutoId == model.ProdutoId &&
-                a.CompraId == model.CompraId)
-                .FirstOrDefault();
-
-            if(item != null)
-                throw new Exception("Esse produto ja esta Associado a essa compra");
-
-            try
-            {
-                listaProdutoCompraBd.Salvar(model);
-            }
-            catch (Exception)
-            {
-                throw new Exception("Não foi possível cadastrar esse produto nesta compra");
-            }
-
-            return true;
-        }
     }
 }

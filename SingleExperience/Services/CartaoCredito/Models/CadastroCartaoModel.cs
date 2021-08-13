@@ -12,5 +12,13 @@ namespace SingleExperience.Services.CartaoCredito.Models
         public string  CodigoSeguranca { get; set; }
         public DateTime DataVencimento { get; set; }
 
+        public void Validar()
+        {
+            if (this.DataVencimento.CompareTo(DateTime.Now) < 0)
+            {
+                throw new Exception("Data de Vencimento Invalida");
+            }
+        }
+
     }
 }

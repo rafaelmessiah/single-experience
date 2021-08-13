@@ -22,12 +22,12 @@ namespace SingleExperience.Entities
         [ForeignKey("ClienteId")]
         public Cliente Cliente { get; set; }
 
-        public int Qtde { get; set; }
-
         //Fk - Status Carrinho Produto
         [Column("StatusCarrinhoProdutoId")]
         public StatusCarrinhoProdutoEnum StatusCarrinhoProdutoEnum { get; set; }
         [ForeignKey("StatusCarrinhoProdutoEnum")]
         public StatusCarrinhoProduto StatusCarrinhoProduto { get; set; }
+
+        public int Qtde { get; set; }
     }
 }

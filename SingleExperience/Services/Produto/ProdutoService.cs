@@ -12,18 +12,12 @@ namespace SingleExperience.Services.Produto
 {
     public class ProdutoService
     {
-        ProdutoBD produtoBd = new ProdutoBD();
         protected readonly SingleExperience.Context.Context _context;
-
-        public ProdutoService()
-        {
-        }
 
         public ProdutoService(SingleExperience.Context.Context context)
         {
             _context = context;
         }
-
 
         public List<ProdutoSimplesModel> Buscar()
         {
@@ -76,33 +70,6 @@ namespace SingleExperience.Services.Produto
             }
 
             return produtos;
-        }
-
-        public ProdutoSimplesModel ObterSimples(int produtoId)
-        {
-            var produto = new ProdutoSimplesModel();
-            try
-            {
-                produto = _context.Produto
-                .Where(a => a.ProdutoId == produtoId)
-                .Select(b => new ProdutoSimplesModel
-                {
-                    Nome = b.Nome,
-                    ProdutoId = b.ProdutoId,
-                    Preco = b.Preco
-                }).FirstOrDefault();
-
-                if (produto == null)
-                    throw new Exception("Não foi possivel encontrar produtos");
-            }
-            catch (IOException e)
-            {
-                Console.WriteLine("Ocorreu um erro");
-                Console.WriteLine(e);
-            }
-
-
-            return produto;
         }
 
         public DisponivelModel ObterDisponibildade(int produtoId)
@@ -191,7 +158,10 @@ namespace SingleExperience.Services.Produto
                 if (produto == null)
                     throw new Exception("Não é possível retirar essa quantidade desse Produto");
 
-                produtoBd.AlterarQtde(model);
+                produto.QtdeEmEstoque -= model.Qtde;
+
+                _context.Produto.Update(produto);
+                _context.SaveChanges();
             }
             catch (IOException e)
             {

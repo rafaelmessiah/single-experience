@@ -247,7 +247,7 @@ namespace SingleExperience.Views
             try
             {
                 Console.Clear();
-                var cartoes = cartaoCreditoService.Listar(clienteLogado.ClienteId);
+                var cartoes = cartaoCreditoService.Buscar(clienteLogado.ClienteId);
 
                 Console.WriteLine("============================");
                 Console.WriteLine($"|| Meus Cartões          ||");
@@ -256,7 +256,7 @@ namespace SingleExperience.Views
                 cartoes.ForEach(a =>
                 {
                     Console.WriteLine("------------------------------------------------------------------------------------------------------------");
-                    Console.WriteLine($"|| Cartão Nº: {a.CartaoCreditoId}  ||  Numero do Cartao: **** **** **** {a.Final} ||");
+                    Console.WriteLine($"|| Cartão Nº: {a.CartaoCreditoId}  ||  Numero do Cartao: **** **** **** {a.Numero.Substring(a.Numero.Length-4)} ||");
                     Console.WriteLine("------------------------------------------------------------------------------------------------------------");
                 });
 

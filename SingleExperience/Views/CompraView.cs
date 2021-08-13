@@ -17,9 +17,11 @@ namespace SingleExperience.Views
 {
     class CompraView
     {
-        CompraService compraService = new CompraService();
-        EnderecoService enderecoService = new EnderecoService();
-        CartaoCreditoService cartaoCreditoService = new CartaoCreditoService();
+        static SingleExperience.Context.Context context = new SingleExperience.Context.Context();
+        CompraService compraService = new CompraService(context);
+        EnderecoService enderecoService = new EnderecoService(context);
+        CartaoCreditoService cartaoCreditoService = new CartaoCreditoService(context);
+        ListaProdutoCompraService listaProdutoCompraService = new ListaProdutoCompraService(context);
 
         public void VizualizarCompras(ClienteLogadoModel clienteLogado)
         {
@@ -78,7 +80,6 @@ namespace SingleExperience.Views
 
             Console.Clear();
             var compra = compraService.Obter(model.CompraId);
-            var listaProdutoCompraService = new ListaProdutoCompraService();
             var itensComprados = listaProdutoCompraService.Buscar(model.CompraId);
 
             Console.WriteLine("============================");
@@ -161,7 +162,7 @@ namespace SingleExperience.Views
             switch (op)
             {
                 case "1":
-                    iniciarModel.FormaPagamentoId = FormaPagamentoEnum.Boleto;
+                    iniciarModel.FormaPagamentoEnum = FormaPagamentoEnum.Boleto;
 
                     if (compraService.Cadastrar(iniciarModel))
                     {
@@ -174,7 +175,7 @@ namespace SingleExperience.Views
                     }
                     break;
                 case "2":
-                    iniciarModel.FormaPagamentoId = FormaPagamentoEnum.Pix;
+                    iniciarModel.FormaPagamentoEnum = FormaPagamentoEnum.Pix;
 
                     if (compraService.Cadastrar(iniciarModel))
                     {
@@ -187,14 +188,14 @@ namespace SingleExperience.Views
                     }
                     break;
                 case "3":
-                    iniciarModel.FormaPagamentoId = FormaPagamentoEnum.Cartao;
+                    iniciarModel.FormaPagamentoEnum = FormaPagamentoEnum.Cartao;
 
-                    var cartoes = cartaoCreditoService.Listar(clienteId);
+                    var cartoes = cartaoCreditoService.Buscar(clienteId);
 
                     cartoes.ForEach(a =>
                     {
                         Console.WriteLine("------------------------------------------------------------------------------------------------------------");
-                        Console.WriteLine($"|| Cartão Nº: {a.CartaoCreditoId}  ||  Numero do Cartao: **** **** **** {a.Final} ||");
+                        Console.WriteLine($"|| Cartão Nº: {a.CartaoCreditoId}  ||  Numero do Cartao: **** **** **** {a.Numero.Substring(a.Numero.Length - 4)} ||");
                         Console.WriteLine("------------------------------------------------------------------------------------------------------------");
                     });
 

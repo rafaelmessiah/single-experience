@@ -9,16 +9,13 @@ using SingleExperience.Services.Produto.Models;
 using SingleExperience.Services.Produto;
 using System.IO;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
 
 namespace SingleExperience.Services.Carrinho
 {
     public class CarrinhoService
     {
         protected readonly SingleExperience.Context.Context _context;
-
-        public CarrinhoService()
-        {
-        }
 
         public CarrinhoService(SingleExperience.Context.Context context)
         {
@@ -27,18 +24,10 @@ namespace SingleExperience.Services.Carrinho
 
         public List<ItemCarrinhoModel> Buscar(int clienteId)
         {
-            var produtos = new List<ItemCarrinhoModel>();
-
-            try
-            {
-                var carrinhos = _context.Carrinho
+                return _context.Carrinho
                 .Include(a => a.Produto)
-                .Where(a => a.ClienteId == clienteId && a.StatusCarrinhoProdutoEnum == StatusCarrinhoProdutoEnum.Ativo);
-
-                if (carrinhos == null)
-                    throw new Exception("Esse cliente não tem Produtos no carrinho");
-
-                produtos = carrinhos.Select(a => new ItemCarrinhoModel
+                .Where(a => a.ClienteId == clienteId && a.StatusCarrinhoProdutoEnum == StatusCarrinhoProdutoEnum.Ativo)
+                .Select(a => new ItemCarrinhoModel
                 {
                     CarrinhoId = a.CarrinhoId,
                     ProdutoId = a.ProdutoId,
@@ -47,29 +36,22 @@ namespace SingleExperience.Services.Carrinho
                     Qtde = a.Qtde
                 }).ToList();
 
-            }
-            catch (IOException e)
-            {
-                Console.WriteLine("Ocorreu um erro");
-                Console.WriteLine(e);
-            }
-
-            return produtos;
         }
 
         public bool Adicionar(SalvarModel model)
         {
             try
             {
+                model.Validar();
+
                 var carrinho = _context.Carrinho
                 .Where(a => a.ProdutoId == model.ProdutoId &&
                         a.ClienteId == model.ClienteId &&
                         a.StatusCarrinhoProdutoEnum == StatusCarrinhoProdutoEnum.Ativo)
                 .FirstOrDefault();
 
-
                 if (carrinho != null)
-                    throw new Exception(".....");
+                    throw new Exception("Esse produto já esta no seu carrinho carrinho");
 
                 var produto = new Entities.Carrinho
                 {
@@ -86,7 +68,7 @@ namespace SingleExperience.Services.Carrinho
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                // o que acontece?
+                Thread.Sleep(3500);
             }
 
             return true;
@@ -109,10 +91,10 @@ namespace SingleExperience.Services.Carrinho
                 _context.Carrinho.Update(carrinho);
                 _context.SaveChanges();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine("Ocorreu um erro");
-                Console.WriteLine(e);
+                Console.WriteLine(ex);
+                Thread.Sleep(3500);
             }
 
             return true;
@@ -120,40 +102,57 @@ namespace SingleExperience.Services.Carrinho
 
         public bool AlterarQtde(EdicaoQtdeModel model)
         {
+            try
+            {
+                model.Validar();
 
-            var carrinho = _context.Carrinho
+                var carrinho = _context.Carrinho
                 .Where(a => a.CarrinhoId == model.CarrinhoId &&
                         a.Qtde != model.Qtde &&
                         model.Qtde > 0 &&
                         a.StatusCarrinhoProdutoEnum == StatusCarrinhoProdutoEnum.Ativo)
                 .FirstOrDefault();
 
-            if (carrinho == null)
-                throw new Exception("Esse produto não pode ser alterado para essa quantidade ");
+                if (carrinho == null)
+                    throw new Exception("Esse produto não pode ser alterado para essa quantidade ");
 
-            carrinho.Qtde = model.Qtde;
+                carrinho.Qtde = model.Qtde;
 
-            _context.Carrinho.Update(carrinho);
-            _context.SaveChanges();
-
+                _context.Carrinho.Update(carrinho);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                Thread.Sleep(3000);
+            }
+            
             return true;
         }
 
         public double CalcularValorTotal(int clienteId)
         {
-            var produtos = Buscar(clienteId);
-
-            if (produtos == null)
-            {
-                throw new Exception("Não foi possivel buscar os produtos desse cliente");
-            }
-
             var valorTotal = 0.0;
-
-            produtos.ForEach(a =>
+            try
             {
-                valorTotal += a.Preco * a.Qtde;
-            });
+                var produtos = Buscar(clienteId);
+
+                if (produtos == null)
+                {
+                    throw new Exception("Não foi possivel buscar os produtos desse cliente");
+                }
+
+                produtos.ForEach(a =>
+                {
+                    valorTotal += a.Preco * a.Qtde;
+                });
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                Thread.Sleep(3000);
+            }
 
             return valorTotal;
         }
