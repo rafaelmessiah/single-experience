@@ -1,3 +1,5 @@
+use SingleExperience;
+
 CREATE TABLE Categoria (
 	CategoriaId INT NOT NULL PRIMARY KEY,
 	Descricao varchar(50) NOT NULL,
@@ -22,7 +24,7 @@ CREATE TABLE Produto(
 ProdutoId INT IDENTITY (1,1) NOT NULL PRIMARY KEY, 
 CategoriaId INT NOT NULL,
 Nome varchar(100) NOT NULL,
-Preco FLOAT NOT NULL,
+Preco decimal(6,2) NOT NULL,
 Detalhe varchar(max),
 QtdeEmEstoque INT NOT NULL,
 Ranking INT NOT NULL,
@@ -89,9 +91,9 @@ CREATE TABLE Endereco(
 EnderecoId INT  IDENTITY (1,1)NOT NULL PRIMARY KEY,
 ClienteId INT NOT NULL,
 Rua VARCHAR(100) NOT NULL,
-Numero VARCHAR(10) NOT NULL,
-Complemento VARCHAR(10) NOT NULL,
-Cep VARCHAR(7) NOT NULL,
+Numero VARCHAR(30) NOT NULL,
+Complemento VARCHAR(30) NOT NULL,
+Cep VARCHAR(8) NOT NULL,
 );
 
 ALTER TABLE Endereco
@@ -131,10 +133,9 @@ StatusCompraId INT NOT NULL,
 FormaPagamentoId INT NOT NULL,
 ClienteId INT NOT NULL,
 EnderecoId INT NOT NULL,
-StatusPagamento BIT NOT NULL,
 DataCompra DATE NOT NULL,
 DataPagamento DATE,
-ValorFinal FLOAT,
+ValorFinal DECIMAL(6,2),
 );
 
 ALTER TABLE Compra

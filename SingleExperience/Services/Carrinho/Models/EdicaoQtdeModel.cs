@@ -11,7 +11,7 @@ namespace SingleExperience.Services.Carrinho.Models
 
         public void Validar()
         {
-            if (this.Qtde < 0)
+            if (Qtde < 0)
             {
                 throw new Exception("A quantidade do produto não pode ser negativa");
             }

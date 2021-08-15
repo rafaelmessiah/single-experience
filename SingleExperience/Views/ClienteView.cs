@@ -112,7 +112,6 @@ namespace SingleExperience.Views
                     }
 
                     return clienteLogado;
-                    break;
 
                 case "2":
 

@@ -39,7 +39,6 @@ namespace SingleExperience.Services.Carrinho
 
         public bool Adicionar(SalvarModel model)
         {
-       
                 model.Validar();
 
                 var carrinho = _context.Carrinho
@@ -121,9 +120,9 @@ namespace SingleExperience.Services.Carrinho
             return true;
         }
 
-        public double CalcularValorTotal(int clienteId)
+        public decimal CalcularValorTotal(int clienteId)
         {
-            var valorTotal = 0.0;
+            var valorTotal = 0.00m;
             try
             {
                 var produtos = Buscar(clienteId);

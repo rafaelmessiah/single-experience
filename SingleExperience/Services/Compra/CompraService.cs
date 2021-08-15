@@ -37,6 +37,7 @@ namespace SingleExperience.Services.Compra
             }).ToList();
 
         }
+
         public bool Cadastrar(IniciarModel model)
         {
 
@@ -44,7 +45,7 @@ namespace SingleExperience.Services.Compra
             var carrinhoService = new CarrinhoService(_context);
             var produtosDoCarrinho = carrinhoService.Buscar(model.ClienteId);
 
-            if (produtosDoCarrinho.Count == 0 )
+            if (produtosDoCarrinho.Count == 0)
                 throw new Exception("Não há produtos no carrinho");
 
             var produtosComprados = new List<Entities.ListaProdutoCompra>();
@@ -67,7 +68,6 @@ namespace SingleExperience.Services.Compra
                 ClienteId = model.ClienteId,
                 EnderecoId = model.EnderecoId,
                 ListaProdutoCompras = produtosComprados,
-                StatusPagamento = false,
                 DataCompra = DateTime.Now,
                 ValorFinal = ((decimal)carrinhoService.CalcularValorTotal(model.ClienteId)),
             };
@@ -77,8 +77,8 @@ namespace SingleExperience.Services.Compra
             var produtoService = new ProdutoService(_context);
             produtosDoCarrinho.ForEach(a =>
             {
-                    //Altera a quantide de produtos no carrinho
-                    var alterarQtdeModel = new AlterarQtdeModel
+                //Altera a quantide de produtos no carrinho
+                var alterarQtdeModel = new AlterarQtdeModel
                 {
                     ProdutoId = a.ProdutoId,
                     Qtde = a.Qtde
@@ -86,8 +86,8 @@ namespace SingleExperience.Services.Compra
 
                 produtoService.Retirar(alterarQtdeModel);
 
-                    //Altera status do carrinho para Comprado
-                    var edicaoStatusModel = new EdicaoStatusModel
+                //Altera status do carrinho para Comprado
+                var edicaoStatusModel = new EdicaoStatusModel
                 {
                     CarrinhoId = a.CarrinhoId,
                     StatusEnum = StatusCarrinhoProdutoEnum.Comprado,
@@ -100,81 +100,49 @@ namespace SingleExperience.Services.Compra
 
             return true;
         }
+
         public CompraDetalhadaModel Obter(int compraId)
         {
-            var compra = new CompraDetalhadaModel();
-            try
-            {
-                compra = _context.Compra
-                .Where(a => a.CompraId == compraId)
-                .Select(b => new CompraDetalhadaModel
-                {
-                    CompraId = b.CompraId,
-                    StatusPagamento = b.StatusPagamento,
-                    FormaPagamentoId = b.FormaPagamentoEnum,
-                    DataCompra = b.DataCompra,
-                    DataPagamento = b.DataPagamento,
-                    ValorTotal = b.ValorFinal
+            var compra = _context.Compra
+             .Where(a => a.CompraId == compraId)
+             .Select(b => new CompraDetalhadaModel
+             {
+                 CompraId = b.CompraId,
+                 FormaPagamentoId = b.FormaPagamentoEnum,
+                 DataCompra = b.DataCompra,
+                 DataPagamento = b.DataPagamento,
+                 ValorTotal = b.ValorFinal
 
-                }).FirstOrDefault();
+             }).FirstOrDefault();
 
-                if (compra == null)
-                    throw new Exception("Compra Não Encontrada");
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-                Thread.Sleep(3000);
-            }
+            if (compra == null)
+                throw new Exception("Compra Não Encontrada");
 
             return compra;
         }
+
         public bool Verificar(VerificarCompraModel model)
         {
-            try
-            {
-                var compra = _context.Compra
-                    .Where(a => a.CompraId == model.CompraId && a.ClienteId == model.ClienteId)
-                    .FirstOrDefault();
+            return _context.Compra.Any(a => a.CompraId == model.CompraId &&
+            a.ClienteId == model.ClienteId);
 
-                if (compra == null)
-                    return false;
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-                Thread.Sleep(3000);
-            }
-
-            return true;
         }
+
         public bool Pagar(int compraId)
         {
-            try
-            {
-                var compra = _context.Compra
-                 .Where(a => a.CompraId == compraId &&
-                        a.StatusCompraEnum == StatusCompraEnum.Aberta &&
-                        a.StatusPagamento == false)
-                 .FirstOrDefault();
 
-                if (compra == null)
-                    throw new Exception("Não foi possivel econtrar essa compra");
+            var compra = _context.Compra
+             .Where(a => a.CompraId == compraId &&
+                    a.StatusCompraEnum == StatusCompraEnum.Aberta)
+             .FirstOrDefault();
 
-                compra.StatusPagamento = true;
-                compra.DataPagamento = DateTime.Now;
+            if (compra == null)
+                throw new Exception("Não foi possivel econtrar essa compra");
 
-                _context.Compra.Update(compra);
-                _context.SaveChanges();
+            compra.DataPagamento = DateTime.Now;
 
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-                Thread.Sleep(3000);
-            }
+            _context.Compra.Update(compra);
+            _context.SaveChanges();
 
             return true;
 

@@ -1,3 +1,5 @@
+USE SingleExperience;
+
 INSERT INTO Produto (CategoriaId, Nome, Preco, Detalhe, QtdeEmEstoque, Ranking, Disponivel )
 VALUES(1,'PC GAMER T-GAMER KINGSTON FURY', 7500.00, 'Intel i5 11600K / NVIDIA GeForce GTX 1660 Super / 16GB (2x8GB) DDR4 / SSD M.2 NVMe 500GB', 45, 5, 1),
 (1,'PC GAMER T-POWER WARLORD', 8300.00 , 'AMD Ryzen 7 / Nvidia GeForce / DDR4 8GB / HD 1TB', 3, 5, 1),
@@ -23,7 +25,7 @@ VALUES ('11111111111', 'Rafael', 'rafael@email.com', 'tech123', '19970816', '419
 ('44444444444','Peter Parker','miranha@email.com','miranha123','19701112' ,'4984984984984');
 
 INSERT INTO Endereco (ClienteId,Rua,Numero,Complemento,Cep)
-VALUES(1,'Av. Republica Argentina', '1228','Sala 1004','8120000'),
+VALUES(1,'Av. Republica Argentina', '1228','Sala 1004','81200000'),
 (1,'Mario','200','bl 2 ap 2','1111111'),
 (1,'Francisco Camargo','1000', 'Casa','asdasd');
 
@@ -34,3 +36,4 @@ VALUES(1,'1234567812341234','MasterCard','111', '20271231'),
 SELECT * FROM CartaoCredito;
 
 SELECT * FROM Cliente
+

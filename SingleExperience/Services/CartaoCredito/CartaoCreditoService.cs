@@ -34,27 +34,19 @@ namespace SingleExperience.Services.CartaoCredito
 
         public bool Cadastrar(CadastroCartaoModel model)
         {
-            try
-            {
-                model.Validar();
+            model.Validar();
 
-                var cartao = new Entities.CartaoCredito
-                {
-                    ClienteId = model.ClienteId,
-                    Numero = model.Numero,
-                    Bandeira = model.Bandeira,
-                    CodigoSeguranca = model.CodigoSeguranca,
-                    DataVencimento = model.DataVencimento
-                };
-
-                _context.CartaoCredito.Add(cartao);
-                _context.SaveChanges();
-            }
-            catch (Exception e)
+            var cartao = new Entities.CartaoCredito
             {
-                Console.WriteLine(e);
-                Thread.Sleep(3500);
-            }
+                ClienteId = model.ClienteId,
+                Numero = model.Numero,
+                Bandeira = model.Bandeira,
+                CodigoSeguranca = model.CodigoSeguranca,
+                DataVencimento = model.DataVencimento
+            };
+
+            _context.CartaoCredito.Add(cartao);
+            _context.SaveChanges();
 
             return true;
         }
@@ -89,25 +81,16 @@ namespace SingleExperience.Services.CartaoCredito
 
         public bool Verificar(VerificarCartaoModel model)
         {
-            try
-            {
-                var codigoSeguranca = _context.CartaoCredito
-                    .Where(a => a.CartaoCreditoId == model.CartaoCredtioId && a.ClienteId == model.ClienteId)
-                    .Select(a => a.CodigoSeguranca)
-                    .FirstOrDefault();
+            var codigoSeguranca = _context.CartaoCredito
+                .Where(a => a.CartaoCreditoId == model.CartaoCredtioId && a.ClienteId == model.ClienteId)
+                .Select(a => a.CodigoSeguranca)
+                .FirstOrDefault();
 
-                if (codigoSeguranca == null)
-                    throw new Exception("Não foi possível encontrar esse cartão");
+            if (codigoSeguranca == null)
+                throw new Exception("Não foi possível encontrar esse cartão");
 
-                if (codigoSeguranca != model.CodigoSeguranca)
-                    throw new Exception("Código de Segurança Inválido");
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-                Thread.Sleep(3500);
-            }
+            if (codigoSeguranca != model.CodigoSeguranca)
+                throw new Exception("Código de Segurança Inválido");
 
             return true;
         }

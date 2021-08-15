@@ -19,6 +19,7 @@ namespace SingleExperience.Services.ListaProdutoCompra
 
         public List<ItemProdutoCompraModel> Buscar(int compraId)
         {
+
             return _context.ListaProdutoCompra
                 .Include(a=> a.Produto)
                 .Where(a => a.CompraId == compraId)

@@ -8,7 +8,7 @@ namespace SingleExperience.Services.Produto.Models
     {
         public int ProdutoId { get; set; }
         public string Nome { get; set; }
-        public double Preco { get; set; }
+        public decimal Preco { get; set; }
 
     }
 }

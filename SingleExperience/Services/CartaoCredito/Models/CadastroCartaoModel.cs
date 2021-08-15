@@ -14,7 +14,7 @@ namespace SingleExperience.Services.CartaoCredito.Models
 
         public void Validar()
         {
-            if (this.DataVencimento.CompareTo(DateTime.Now) < 0)
+            if (DataVencimento.CompareTo(DateTime.Now) < 0)
             {
                 throw new Exception("Data de Vencimento Invalida");
             }

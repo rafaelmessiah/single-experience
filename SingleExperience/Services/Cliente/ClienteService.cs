@@ -20,59 +20,39 @@ namespace SingleExperience.Services.Cliente
         public ClienteLogadoModel Login(LoginModel loginModel)
         {
             var cliente = new ClienteLogadoModel();
-            try
-            {
-                cliente = _context.Cliente
-                    .Where(a => a.Email == loginModel.Email &&
-                           a.Senha == loginModel.Senha)
-                    .Select(a => new ClienteLogadoModel
-                    {
-                        ClienteId = a.ClienteId,
-                        Nome = a.Nome,
-                    }).FirstOrDefault();
 
-                if (cliente == null)
-                    throw new Exception("Email ou Senha Incorreto");
-                
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                Thread.Sleep(3000);
-            }
+            cliente = _context.Cliente
+                .Where(a => a.Email == loginModel.Email &&
+                       a.Senha == loginModel.Senha)
+                .Select(a => new ClienteLogadoModel
+                {
+                    ClienteId = a.ClienteId,
+                    Nome = a.Nome,
+                }).FirstOrDefault();
+
+            if (cliente == null)
+                throw new Exception("Email ou Senha Incorreto");
 
             return cliente;
         }
 
         public bool Cadastrar(CadastroClienteModel model)
         {
-            try
+            if (_context.Cliente.Any(a => a.Email == model.Email))
+                throw new Exception("Esse email ja esta cadastrado");
+
+            var novoCliente = new Entities.Cliente
             {
-                var cliente = _context.Cliente
-                    .Where(a => a.Email == model.Email)
-                    .FirstOrDefault();
+                Cpf = model.Cpf,
+                Nome = model.Nome,
+                Email = model.Email,
+                Senha = model.Senha,
+                DataNascimento = model.DataNascimento,
+                Telefone = model.Telefone
+            };
 
-                if (cliente != null)
-                    throw new Exception("Esse email ja está cadastrado");
-
-                var novoCliente = new Entities.Cliente
-                {
-                    Cpf = model.Cpf,
-                    Nome = model.Nome,
-                    Email = model.Email,
-                    Senha = model.Senha,
-                    DataNascimento = model.DataNascimento,
-                    Telefone = model.Telefone
-                };
-
-                _context.Cliente.Add(novoCliente);
-                _context.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                Thread.Sleep(3000);
-            }
+            _context.Cliente.Add(novoCliente);
+            _context.SaveChanges();
 
             return true;
         }
@@ -81,119 +61,72 @@ namespace SingleExperience.Services.Cliente
         {
             var cliente = new ClienteDetalheModel();
 
-            try
-            {
-                cliente = _context.Cliente
-                   .Where(a => a.ClienteId == clienteId)
-               .Select(a => new ClienteDetalheModel
-               {
-                   ClienteId = a.ClienteId,
-                   Cpf = a.Cpf,
-                   Nome = a.Nome,
-                   DataNascimento = a.DataNascimento,
-                   Telefone = a.Telefone
-               }).FirstOrDefault();
+            cliente = _context.Cliente
+               .Where(a => a.ClienteId == clienteId)
+           .Select(a => new ClienteDetalheModel
+           {
+               ClienteId = a.ClienteId,
+               Cpf = a.Cpf,
+               Nome = a.Nome,
+               DataNascimento = a.DataNascimento,
+               Telefone = a.Telefone
+           }).FirstOrDefault();
 
-                if (cliente == null)
-                {
-                    throw new Exception("Não foi possivel encontrar esse cliente");
-                }
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                Thread.Sleep(3000);
-            }
+            if (cliente == null)
+                throw new Exception("Não foi possivel encontrar esse cliente");
 
             return cliente;
         }
 
         public bool EditarEmail(EdicaoEmailModel model)
         {
-            try
-            {
-                var emailExistente = _context.Cliente
-                    .Where(a => a.Email == model.NovoEmail)
-                    .FirstOrDefault();
 
-                if (emailExistente != null)
-                    throw new Exception("Esse email ja esta cadastrado");
+            if (_context.Cliente.Any(a => a.Email == model.NovoEmail))
+                throw new Exception("Esse email ja esta cadastrado");
 
-                var cliente = _context.Cliente
-                    .Where(a => a.ClienteId == model.ClienteId)
-                    .FirstOrDefault();
+            var cliente = _context.Cliente
+                .Where(a => a.ClienteId == model.ClienteId)
+                .FirstOrDefault();
 
-                if (cliente == null)
-                    throw new Exception("Não foi possível encontrar esse Usuario");
+            if (cliente == null)
+                throw new Exception("Não foi possível encontrar esse Usuario");
 
-                cliente.Email = model.NovoEmail;
+            cliente.Email = model.NovoEmail;
 
-                _context.Cliente.Update(cliente);
-                _context.SaveChanges();
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                Thread.Sleep(3000);
-            }
+            _context.Cliente.Update(cliente);
+            _context.SaveChanges();
 
             return true;
         }
 
         public bool EditarSenha(EdicaoSenhaModel model)
         {
-            try
-            {
-                var cliente = _context.Cliente
-                    .Where(a => a.ClienteId == model.ClienteId)
-                    .FirstOrDefault();
 
-                if (cliente == null)
-                    throw new Exception("Esse Usuário não existe");
+            var cliente = _context.Cliente
+                .Where(a => a.ClienteId == model.ClienteId)
+                .FirstOrDefault();
 
-                if (cliente.Senha == model.NovaSenha)
-                    throw new Exception("A nova senha não pode ser igual a anterior");
+            if (cliente == null)
+                throw new Exception("Esse Usuário não existe");
 
-                cliente.Senha = model.NovaSenha;
+            if (cliente.Senha == model.NovaSenha)
+                throw new Exception("A nova senha não pode ser igual a anterior");
 
-                _context.Cliente.Update(cliente);
-                _context.SaveChanges();
+            cliente.Senha = model.NovaSenha;
 
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                Thread.Sleep(3000);
-            }
+            _context.Cliente.Update(cliente);
+            _context.SaveChanges();
 
             return true;
         }
 
         public bool Verificar(VerificarClienteModel model)
         {
-            try
-            {
-                var cliente = _context.Cliente
-                    .Where(a => a.ClienteId == model.ClienteId &&
-                           a.Email == model.Email &&
-                           a.Senha == model.Senha)
-                    .FirstOrDefault();
-                
-                if(cliente == null)
-                {
-                    return false;
-                }
+            return _context.Cliente
+               .Any(a => a.ClienteId == model.ClienteId &&
+                      a.Email == model.Email &&
+                      a.Senha == model.Senha);
 
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                Thread.Sleep(3000);
-            }
-
-            return true;
         }
 
     }

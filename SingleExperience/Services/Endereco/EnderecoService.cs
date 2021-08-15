@@ -35,26 +35,18 @@ namespace SingleExperience.Services.Endereco
 
         public bool Cadastrar(CadastroEnderecoModel model)
         {
-            try
-            {
-                var endereco = new Entities.Endereco
-                {
-                    ClienteId = model.ClienteId,
-                    Rua = model.Rua,
-                    Numero = model.Numero,
-                    Complemento = model.Complemento,
-                    Cep = model.Cep
-                };
 
-                _context.Endereco.Add(endereco);
-                _context.SaveChanges();
-            }
-            catch (IOException e)
+            var endereco = new Entities.Endereco
             {
+                ClienteId = model.ClienteId,
+                Rua = model.Rua,
+                Numero = model.Numero,
+                Complemento = model.Complemento,
+                Cep = model.Cep
+            };
 
-                Console.WriteLine("Ocorreu um Erro");
-                Console.WriteLine(e);
-            }
+            _context.Endereco.Add(endereco);
+            _context.SaveChanges();
 
             return true;
         }

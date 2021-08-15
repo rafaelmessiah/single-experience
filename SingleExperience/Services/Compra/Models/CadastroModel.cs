@@ -8,7 +8,7 @@ namespace SingleExperience.Services.Compra.Models
     public class CadastroModel
     {
         public int ClienteId { get; set; }
-        public double ValorFinal { get; set; }
+        public decimal ValorFinal { get; set; }
         public int EnderecoId { get; set; }
         public FormaPagamentoEnum FormaPagamentoId { get; set; }
     }

@@ -8,5 +8,13 @@ namespace SingleExperience.Services.Produto.Models
     {
         public int ProdutoId { get; set; }
         public int Qtde { get; set; }
+
+        public void Validar()
+        {
+            if (Qtde < 0)
+            {
+                throw new Exception("Quantidade não pode ser negativa");
+            }
+        }
     }
 }

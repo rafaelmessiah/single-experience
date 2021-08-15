@@ -19,7 +19,7 @@ namespace SingleExperience.Entities
         public Categoria Categoria { get; set; }
 
         public string Nome { get; set; }
-        public double Preco { get; set; }
+        public decimal Preco { get; set; }
         public string Detalhe { get; set; }
         public int QtdeEmEstoque { get; set; }
         public int Ranking { get; set; }
