@@ -11,9 +11,9 @@ namespace SingleExperience.Services.Produto
 {
     public class ProdutoService
     {
-        protected readonly SingleExperience.Context.SeContext _context;
+        protected readonly SingleExperience.Context.Context _context;
 
-        public ProdutoService(SingleExperience.Context.SeContext context)
+        public ProdutoService(SingleExperience.Context.Context context)
         {
             _context = context;
         }

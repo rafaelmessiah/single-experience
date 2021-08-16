@@ -10,9 +10,9 @@ namespace SingleExperience.Services.Cliente
 {
     public class ClienteService
     {
-        protected readonly SingleExperience.Context.SeContext _context;
+        protected readonly SingleExperience.Context.Context _context;
 
-        public ClienteService(SingleExperience.Context.SeContext context)
+        public ClienteService(SingleExperience.Context.Context context)
         {
             _context = context;
         }

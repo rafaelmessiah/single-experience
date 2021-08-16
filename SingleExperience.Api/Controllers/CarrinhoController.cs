@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using SingleExperience.Repositorio;
+﻿using Microsoft.AspNetCore.Mvc;
+using SingleExperience.Services.Carrinho;
 using SingleExperience.Services.Carrinho.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SingleExperience.Api.Controllers
@@ -13,23 +10,23 @@ namespace SingleExperience.Api.Controllers
     [ApiController]
     public class CarrinhoController : ControllerBase
     {
-        protected readonly SingleExperienceRepository _repo;
+        protected readonly CarrinhoService carrinhoService;
 
-        public CarrinhoController(SingleExperienceRepository repo)
+        public CarrinhoController(CarrinhoService carrinhoService)
         {
-            _repo = repo;
+            carrinhoService = carrinhoService;
         }
 
-        [HttpGet("{id}")]
-        public async Task<List<ItemCarrinhoModel>> Buscar(int clienteId)
+        [HttpGet("{clienteId}")]
+        public async Task<List<ItemCarrinhoModel>> Buscar([FromBody] int clienteId)
         {
-
+            return await carrinhoService.Buscar(clienteId);
         }
 
         [HttpPost]  
         public async bool Adicionar(SalvarModel model)
         {
-
+            return await carrinhoService.Adicionar(model);
         }
 
         [HttpPut]

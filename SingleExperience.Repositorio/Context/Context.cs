@@ -3,9 +3,9 @@ using SingleExperience.Entities;
 
 namespace SingleExperience.Context
 {
-    public class SeContext : DbContext
+    public class Context : DbContext
     {
-        public SeContext(DbContextOptions<SeContext> options) : base(options)
+        public Context(DbContextOptions<Context> options) : base(options)
         {
         }
 

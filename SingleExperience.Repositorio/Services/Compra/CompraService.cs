@@ -17,11 +17,16 @@ namespace SingleExperience.Services.Compra
 {
     public class CompraService
     {
-        protected readonly SingleExperience.Context.SeContext _context;
+        protected readonly SingleExperience.Context.Context _context;
+        protected readonly CarrinhoService _carrinhoService;
+        protected readonly ProdutoService _produtoService;
 
-        public CompraService(SingleExperience.Context.SeContext context)
+
+        public CompraService(SingleExperience.Context.Context context)
         {
             _context = context;
+            _carrinhoService = new CarrinhoService(_context);
+            _produtoService = new ProdutoService(_context);
         }
 
         public List<ItemCompraModel> Buscar(int clienteId)
@@ -40,60 +45,49 @@ namespace SingleExperience.Services.Compra
 
         public bool Cadastrar(IniciarModel model)
         {
-
             //Buscar os Produtos que estao no carrinho
-            var carrinhoService = new CarrinhoService(_context);
-            var produtosDoCarrinho = carrinhoService.Buscar(model.ClienteId);
-
-            if (produtosDoCarrinho.Count == 0)
-                throw new Exception("Não há produtos no carrinho");
-
-            var produtosComprados = new List<Entities.ListaProdutoCompra>();
-            foreach (var item in produtosDoCarrinho)
-            {
-                var itemComprado = new Entities.ListaProdutoCompra
+            var produtosComprados = _context.Carrinho
+                .Where(a => a.ClienteId == model.ClienteId)
+                .Select(a => new Entities.ListaProdutoCompra
                 {
-                    ProdutoId = item.ProdutoId,
-                    Qtde = item.Qtde
-                };
-
-                produtosComprados.Add(itemComprado);
-            }
+                    ProdutoId = a.ProdutoId,
+                    Qtde = a.Qtde
+                }).ToList();
 
             var compra = new Entities.Compra
             {
-
                 StatusCompraEnum = StatusCompraEnum.Aberta,
                 FormaPagamentoEnum = model.FormaPagamentoEnum,
                 ClienteId = model.ClienteId,
                 EnderecoId = model.EnderecoId,
                 ListaProdutoCompras = produtosComprados,
                 DataCompra = DateTime.Now,
-                ValorFinal = ((decimal)carrinhoService.CalcularValorTotal(model.ClienteId)),
+                ValorFinal = _carrinhoService.CalcularValorTotal(model.ClienteId).Result,
             };
 
             _context.Compra.Add(compra);
-
-            var produtoService = new ProdutoService(_context);
-            produtosDoCarrinho.ForEach(a =>
+            
+            //Para cada produto Comprado retira a quantidade do estoque e Altera o status do carrinho
+            produtosComprados.ForEach(a =>
             {
-                //Altera a quantide de produtos no carrinho
-                var alterarQtdeModel = new AlterarQtdeModel
-                {
-                    ProdutoId = a.ProdutoId,
-                    Qtde = a.Qtde
-                };
+                //Altera a quantide de produtos no estoque
+                var produto = _context.Produto
+                .Where(b => b.ProdutoId == a.ProdutoId).FirstOrDefault();
 
-                produtoService.Retirar(alterarQtdeModel);
+                produto.QtdeEmEstoque -= a.Qtde;
+
+                _context.Produto.Update(produto);
 
                 //Altera status do carrinho para Comprado
-                var edicaoStatusModel = new EdicaoStatusModel
-                {
-                    CarrinhoId = a.CarrinhoId,
-                    StatusEnum = StatusCarrinhoProdutoEnum.Comprado,
-                };
+                var carrinho = _context.Carrinho
+                .Where(c => c.ProdutoId == a.ProdutoId &&
+                       c.ClienteId == model.ClienteId &&
+                       c.StatusCarrinhoProdutoEnum == StatusCarrinhoProdutoEnum.Ativo)
+                .FirstOrDefault();
 
-                carrinhoService.AlterarStatus(edicaoStatusModel);
+                carrinho.StatusCarrinhoProdutoEnum = StatusCarrinhoProdutoEnum.Comprado;
+
+                _context.Carrinho.Update(carrinho);
             });
 
             _context.SaveChanges();

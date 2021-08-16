@@ -10,9 +10,9 @@ namespace SingleExperience.Services.ListaProdutoCompra
 {
     public class ListaProdutoCompraService
     {
-        protected readonly SingleExperience.Context.SeContext _context;
+        protected readonly SingleExperience.Context.Context _context;
 
-        public ListaProdutoCompraService(SingleExperience.Context.SeContext context)
+        public ListaProdutoCompraService(SingleExperience.Context.Context context)
         {
             _context = context;
         }
