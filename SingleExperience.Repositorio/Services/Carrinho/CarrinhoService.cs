@@ -14,9 +14,9 @@ namespace SingleExperience.Services.Carrinho
 {
     public class CarrinhoService
     {
-        protected readonly SingleExperience.Context.Context _context;
+        protected readonly SingleExperience.Context.SeContext _context;
 
-        public CarrinhoService(SingleExperience.Context.Context context)
+        public CarrinhoService(SingleExperience.Context.SeContext context)
         {
             _context = context;
         }

@@ -1,4 +1,4 @@
-﻿using SingleExperience.Views;
+﻿
 
 
 namespace SingleExperience
@@ -8,9 +8,7 @@ namespace SingleExperience
         static void Main(string[] args)
         {
             
-           var home = new Home();
-
-            home.Inicio();
+           
 
         }
     }

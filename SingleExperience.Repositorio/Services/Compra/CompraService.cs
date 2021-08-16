@@ -17,9 +17,9 @@ namespace SingleExperience.Services.Compra
 {
     public class CompraService
     {
-        protected readonly SingleExperience.Context.Context _context;
+        protected readonly SingleExperience.Context.SeContext _context;
 
-        public CompraService(SingleExperience.Context.Context context)
+        public CompraService(SingleExperience.Context.SeContext context)
         {
             _context = context;
         }

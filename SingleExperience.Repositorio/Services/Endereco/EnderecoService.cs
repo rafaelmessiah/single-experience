@@ -9,9 +9,9 @@ namespace SingleExperience.Services.Endereco
 {
     class EnderecoService
     {
-        protected readonly SingleExperience.Context.Context _context;
+        protected readonly SingleExperience.Context.SeContext _context;
 
-        public EnderecoService(SingleExperience.Context.Context context)
+        public EnderecoService(SingleExperience.Context.SeContext context)
         {
             _context = context;
         }

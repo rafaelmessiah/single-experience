@@ -3,8 +3,12 @@ using SingleExperience.Entities;
 
 namespace SingleExperience.Context
 {
-    public class Context : DbContext
+    public class SeContext : DbContext
     {
+        public SeContext(DbContextOptions<SeContext> options) : base(options)
+        {
+        }
+
         public DbSet<Cliente> Cliente { get; set; }
         public DbSet<Carrinho> Carrinho { get; set; }
         public DbSet<CartaoCredito> CartaoCredito { get; set; }
@@ -17,9 +21,6 @@ namespace SingleExperience.Context
         public DbSet<StatusCarrinhoProduto> StatusCarrinhoProduto { get; set; }
         public DbSet<StatusCompra> StatusCompra { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Integrated Security = SSPI; Persist Security Info = False; Initial Catalog = SingleExperience; Data Source = DESKTOP-GC3CM5S");
-        }
+      
     }
 }

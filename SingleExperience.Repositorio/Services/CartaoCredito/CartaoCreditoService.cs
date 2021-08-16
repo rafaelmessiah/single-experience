@@ -11,9 +11,9 @@ namespace SingleExperience.Services.CartaoCredito
 {
     public class CartaoCreditoService
     {
-        protected readonly SingleExperience.Context.Context _context;
+        protected readonly SingleExperience.Context.SeContext _context;
 
-        public CartaoCreditoService(SingleExperience.Context.Context context)
+        public CartaoCreditoService(SingleExperience.Context.SeContext context)
         {
             _context = context;
         }
