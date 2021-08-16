@@ -5,7 +5,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using SingleExperience.Context;
-
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace SingleExperience.Services.Produto
 {
@@ -18,42 +19,42 @@ namespace SingleExperience.Services.Produto
             _context = context;
         }
 
-        public List<ProdutoSimplesModel> Buscar()
+        public async Task<List<ProdutoSimplesModel>> Buscar()
         {
-            return _context.Produto
+            return await _context.Produto
                 .Where(a => a.Disponivel)
-            .Select(p => new ProdutoSimplesModel
-            {
-                ProdutoId = p.ProdutoId,
-                Nome = p.Nome,
-                Preco = p.Preco,
-            }).ToList();
+                .Select(p => new ProdutoSimplesModel
+                {
+                    ProdutoId = p.ProdutoId,
+                    Nome = p.Nome,
+                    Preco = p.Preco,
+                }).ToListAsync();
 
         }
 
-        public List<ProdutoSimplesModel> BuscarCategoria(CategoriaEnum categoria)
+        public async Task<List<ProdutoSimplesModel>> BuscarCategoria(CategoriaEnum categoria)
         {
 
-            return _context.Produto
-           .Where(a => a.CategoriaEnum == categoria && a.Disponivel)
-           .Select(b => new ProdutoSimplesModel
-           {
-               ProdutoId = b.ProdutoId,
-               Nome = b.Nome,
-               Preco = b.Preco,
-           }).ToList();
+            return await _context.Produto
+                .Where(a => a.CategoriaEnum == categoria && a.Disponivel)
+                .Select(b => new ProdutoSimplesModel
+                {
+                    ProdutoId = b.ProdutoId,
+                    Nome = b.Nome,
+                    Preco = b.Preco,
+                }).ToListAsync();
 
         }
 
-        public DisponivelModel ObterDisponibildade(int produtoId)
+        public async Task<DisponivelModel> ObterDisponibildade(int produtoId)
         {
-            var produto = _context.Produto
-             .Where(a => a.ProdutoId == produtoId)
-             .Select(b => new DisponivelModel
-             {
-                 QtdeDisponivel = b.QtdeEmEstoque,
-                 Disponivel = b.Disponivel
-             }).FirstOrDefault();
+            var produto = await _context.Produto
+                     .Where(a => a.ProdutoId == produtoId)
+                     .Select(b => new DisponivelModel
+                     {
+                         QtdeDisponivel = b.QtdeEmEstoque,
+                         Disponivel = b.Disponivel
+                     }).FirstOrDefaultAsync();
 
             if (produto == null)
                 throw new Exception("Não foi possível encontrar esse Produto");
@@ -61,31 +62,22 @@ namespace SingleExperience.Services.Produto
             return produto;
         }
 
-        public bool Verificar(int produtoId)
+        public async Task<bool> Verificar(int produtoId)
         {
-            try
-            {
-                var produto = _context.Produto
-                    .Where(a => a.ProdutoId == produtoId)
-                    .FirstOrDefault();
+            var produto = await _context.Produto
+                .Where(a => a.ProdutoId == produtoId)
+                .FirstOrDefaultAsync();
 
-                if (produto == null)
-                    return false;
-
-            }
-            catch (IOException e)
-            {
-                Console.WriteLine("Ocorreu um erro");
-                Console.WriteLine(e.Message);
-            }
+            if (produto == null)
+                return false;
 
             return true;
         }
 
-        public ProdutoDetalhadoModel ObterDetalhe(int produtoId)
+        public async Task<ProdutoDetalhadoModel> ObterDetalhe(int produtoId)
         {
 
-            var produto = _context.Produto
+            var produto = await _context.Produto
             .Where(a => a.ProdutoId == produtoId && a.Disponivel)
             .Select(b => new ProdutoDetalhadoModel
             {
@@ -93,7 +85,7 @@ namespace SingleExperience.Services.Produto
                 Nome = b.Nome,
                 Descricao = b.Detalhe,
                 Preco = b.Preco
-            }).FirstOrDefault();
+            }).FirstOrDefaultAsync();
 
             if (produto == null)
                 throw new Exception("Id invalido");
@@ -101,14 +93,14 @@ namespace SingleExperience.Services.Produto
             return produto;
         }
 
-        public bool Retirar(AlterarQtdeModel model)
+        public async Task<bool> Retirar(AlterarQtdeModel model)
         {
 
-            var produto = _context.Produto
+            var produto = await _context.Produto
                 .Where(a => a.ProdutoId == model.ProdutoId &&
                 a.QtdeEmEstoque >= model.Qtde &&
                 model.Qtde > 0)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             if (produto == null)
                 throw new Exception("Não é possível retirar essa quantidade desse Produto");
@@ -116,7 +108,7 @@ namespace SingleExperience.Services.Produto
             produto.QtdeEmEstoque -= model.Qtde;
 
             _context.Produto.Update(produto);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return true;
         }

@@ -129,20 +129,30 @@ namespace SingleExperience.Services.Carrinho
             return valorTotal;
         }
 
-        public  async  Task<ProdutoQtdeModel> BuscarQtde(int clienteId )
+        public async Task<List<ProdutoQtdeModel>> BuscarQtde(int clienteId)
         {
-            return await _context.Carrinho
-                .Where(a => a.ClienteId == clienteId)
-                .Select(a => new Entities.ListaProdutoCompra
+            var produtos = await _context.Carrinho
+            .Include(a => a.Produto)
+            .Where(a => a.ClienteId == clienteId && a.StatusCarrinhoProdutoEnum == StatusCarrinhoProdutoEnum.Ativo)
+            .ToListAsync();
+
+            var listaProdutos = new List<ProdutoQtdeModel>();
+
+            foreach (var item in produtos)
+            {
+                var produto = new ProdutoQtdeModel
                 {
-                    ProdutoId = a.ProdutoId,
-                    Qtde = a.Qtde
-                }).ToList();
+                    CarrinhoId = item.CarrinhoId,
+                    ProdutoId = item.ProdutoId,
+                    Preco = item.Produto.Preco,
+                    Qtde = item.Qtde
+                };
+
+                listaProdutos.Add(produto);
+            }
+
+            return listaProdutos;
         }
 
-        #region Internos
-
-        
-        #endregion
     }
 }

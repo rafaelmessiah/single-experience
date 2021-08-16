@@ -6,6 +6,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SingleExperience.Context;
 using SingleExperience.Services.Carrinho;
+using SingleExperience.Services.CartaoCredito;
+using SingleExperience.Services.Cliente;
+using SingleExperience.Services.Compra;
+using SingleExperience.Services.Endereco;
+using SingleExperience.Services.ListaProdutoCompra;
+using SingleExperience.Services.Produto;
 
 namespace SingleExperience.Api
 {
@@ -21,12 +27,18 @@ namespace SingleExperience.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<Context>(options =>
+            services.AddDbContext<Context.Context>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
             services.AddScoped<CarrinhoService>();
+            services.AddScoped<CartaoCreditoService>();
+            services.AddScoped<ClienteService>();
+            services.AddScoped<CompraService>();
+            services.AddScoped<EnderecoService>();
+            services.AddScoped<ListaProdutoCompraService>();
+            services.AddScoped<ProdutoService>();
 
             services.AddControllers();
         }

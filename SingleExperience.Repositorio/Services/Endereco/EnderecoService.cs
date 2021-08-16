@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.IO;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace SingleExperience.Services.Endereco
 {
-    class EnderecoService
+    public class EnderecoService
     {
         protected readonly SingleExperience.Context.Context _context;
 
@@ -16,9 +18,9 @@ namespace SingleExperience.Services.Endereco
             _context = context;
         }
 
-        public List<EnderecoModel> Buscar(int clienteId)
+        public async Task<List<EnderecoModel>> Buscar(int clienteId)
         {
-            return _context.Endereco
+            return await _context.Endereco
                 .Where(a => a.ClienteId == clienteId)
                 .Select(a => new EnderecoModel
                 {
@@ -29,13 +31,12 @@ namespace SingleExperience.Services.Endereco
                     Complemento = a.Complemento,
                     Cep = a.Cep,
 
-                }).ToList();
+                }).ToListAsync();
 
         }
 
-        public bool Cadastrar(CadastroEnderecoModel model)
+        public async Task<bool> Cadastrar(CadastroEnderecoModel model)
         {
-
             var endereco = new Entities.Endereco
             {
                 ClienteId = model.ClienteId,
@@ -45,60 +46,41 @@ namespace SingleExperience.Services.Endereco
                 Cep = model.Cep
             };
 
-            _context.Endereco.Add(endereco);
-            _context.SaveChanges();
+            await _context.Endereco.AddAsync(endereco);
+            await _context.SaveChangesAsync();
 
             return true;
         }
 
-        public bool Editar(EnderecoModel model)
+        public async Task<bool> Editar(EnderecoModel model)
         {
-            try
-            {
-                var endereco = _context.Endereco
-                    .Where(a => a.EnderecoId == model.EnderecoId && a.ClienteId == a.ClienteId)
-                    .FirstOrDefault();
 
-                if (endereco == null)
-                    throw new Exception("Não possivel encontrar esse endereco");
+            var endereco = await _context.Endereco
+                .Where(a => a.EnderecoId == model.EnderecoId && a.ClienteId == a.ClienteId)
+                .FirstOrDefaultAsync();
 
-                endereco.Rua = model.Rua;
-                endereco.Numero = model.Numero;
-                endereco.Complemento = model.Complemento;
-                endereco.Cep = model.Cep;
+            if (endereco == null)
+                throw new Exception("Não possivel encontrar esse endereco");
 
-                _context.Endereco.Update(endereco);
-                _context.SaveChanges();
-            }
-            catch (IOException e)
-            {
+            endereco.Rua = model.Rua;
+            endereco.Numero = model.Numero;
+            endereco.Complemento = model.Complemento;
+            endereco.Cep = model.Cep;
 
-                Console.WriteLine("Ocorreu um Erro");
-                Console.WriteLine(e);
-            }
+            _context.Endereco.Update(endereco);
+            await _context.SaveChangesAsync();
 
             return true;
         }
 
-        public bool Verificar(VerificarEnderecoModel model)
+        public async Task<bool> Verificar(VerificarEnderecoModel model)
         {
-            try
-            {
-                var endereco = _context.Endereco
-                    .Where(a => a.ClienteId == model.ClienteId && a.EnderecoId == model.EnderecoId)
-                    .FirstOrDefault();
+            var endereco = await _context.Endereco
+                .Where(a => a.ClienteId == model.ClienteId && a.EnderecoId == model.EnderecoId)
+                .FirstOrDefaultAsync();
 
-                if (endereco == null)
-                {
-                    return false;
-                }
-
-            }
-            catch (IOException e)
-            {
-                Console.WriteLine("Ocorreu um Erro");
-                Console.WriteLine(e);
-            }
+            if (endereco == null)
+                throw new Exception("Não foi possivel Encontrar esse Eendereço");
 
             return true;
         }

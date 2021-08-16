@@ -5,6 +5,7 @@ using System.Text;
 using SingleExperience.Services.Produto;
 using System;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace SingleExperience.Services.ListaProdutoCompra
 {
@@ -17,10 +18,10 @@ namespace SingleExperience.Services.ListaProdutoCompra
             _context = context;
         }
 
-        public List<ItemProdutoCompraModel> Buscar(int compraId)
+        public async Task<List<ItemProdutoCompraModel>> Buscar(int compraId)
         {
 
-            return _context.ListaProdutoCompra
+            return await _context.ListaProdutoCompra
                 .Include(a=> a.Produto)
                 .Where(a => a.CompraId == compraId)
                 .Select(b => new ItemProdutoCompraModel
@@ -32,7 +33,7 @@ namespace SingleExperience.Services.ListaProdutoCompra
                     PrecoUnitario = b.Produto.Preco,
                     Qtde = b.Qtde
 
-                }).ToList();
+                }).ToListAsync();
 
         }
 

@@ -5,6 +5,8 @@ using System.IO;
 using System.Text;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace SingleExperience.Services.Cliente
 {
@@ -17,18 +19,17 @@ namespace SingleExperience.Services.Cliente
             _context = context;
         }
 
-        public ClienteLogadoModel Login(LoginModel loginModel)
+        public async Task<ClienteLogadoModel> Login(LoginModel loginModel)
         {
-            var cliente = new ClienteLogadoModel();
 
-            cliente = _context.Cliente
+            var cliente = await _context.Cliente
                 .Where(a => a.Email == loginModel.Email &&
                        a.Senha == loginModel.Senha)
                 .Select(a => new ClienteLogadoModel
                 {
                     ClienteId = a.ClienteId,
                     Nome = a.Nome,
-                }).FirstOrDefault();
+                }).FirstOrDefaultAsync();
 
             if (cliente == null)
                 throw new Exception("Email ou Senha Incorreto");
@@ -36,7 +37,7 @@ namespace SingleExperience.Services.Cliente
             return cliente;
         }
 
-        public bool Cadastrar(CadastroClienteModel model)
+        public async Task<bool> Cadastrar(CadastroClienteModel model)
         {
             if (_context.Cliente.Any(a => a.Email == model.Email))
                 throw new Exception("Esse email ja esta cadastrado");
@@ -51,26 +52,24 @@ namespace SingleExperience.Services.Cliente
                 Telefone = model.Telefone
             };
 
-            _context.Cliente.Add(novoCliente);
-            _context.SaveChanges();
+            await _context.Cliente.AddAsync(novoCliente);
+            await _context.SaveChangesAsync();
 
             return true;
         }
 
-        public ClienteDetalheModel Obter(int clienteId)
+        public async Task<ClienteDetalheModel> Obter(int clienteId)
         {
-            var cliente = new ClienteDetalheModel();
-
-            cliente = _context.Cliente
+            var cliente = await _context.Cliente
                .Where(a => a.ClienteId == clienteId)
-           .Select(a => new ClienteDetalheModel
-           {
-               ClienteId = a.ClienteId,
-               Cpf = a.Cpf,
-               Nome = a.Nome,
-               DataNascimento = a.DataNascimento,
-               Telefone = a.Telefone
-           }).FirstOrDefault();
+               .Select(a => new ClienteDetalheModel
+               {
+                   ClienteId = a.ClienteId,
+                   Cpf = a.Cpf,
+                   Nome = a.Nome,
+                   DataNascimento = a.DataNascimento,
+                   Telefone = a.Telefone
+               }).FirstOrDefaultAsync();
 
             if (cliente == null)
                 throw new Exception("Não foi possivel encontrar esse cliente");
@@ -78,15 +77,15 @@ namespace SingleExperience.Services.Cliente
             return cliente;
         }
 
-        public bool EditarEmail(EdicaoEmailModel model)
+        public async Task<bool> EditarEmail(EdicaoEmailModel model)
         {
 
             if (_context.Cliente.Any(a => a.Email == model.NovoEmail))
                 throw new Exception("Esse email ja esta cadastrado");
 
-            var cliente = _context.Cliente
+            var cliente = await _context.Cliente
                 .Where(a => a.ClienteId == model.ClienteId)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             if (cliente == null)
                 throw new Exception("Não foi possível encontrar esse Usuario");
@@ -94,17 +93,17 @@ namespace SingleExperience.Services.Cliente
             cliente.Email = model.NovoEmail;
 
             _context.Cliente.Update(cliente);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return true;
         }
 
-        public bool EditarSenha(EdicaoSenhaModel model)
+        public async Task<bool> EditarSenha(EdicaoSenhaModel model)
         {
 
-            var cliente = _context.Cliente
+            var cliente = await _context.Cliente
                 .Where(a => a.ClienteId == model.ClienteId)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             if (cliente == null)
                 throw new Exception("Esse Usuário não existe");
@@ -115,14 +114,14 @@ namespace SingleExperience.Services.Cliente
             cliente.Senha = model.NovaSenha;
 
             _context.Cliente.Update(cliente);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return true;
         }
 
-        public bool Verificar(VerificarClienteModel model)
+        public async Task<bool> Verificar(VerificarClienteModel model)
         {
-            return _context.Cliente
+             return _context.Cliente
                .Any(a => a.ClienteId == model.ClienteId &&
                       a.Email == model.Email &&
                       a.Senha == model.Senha);

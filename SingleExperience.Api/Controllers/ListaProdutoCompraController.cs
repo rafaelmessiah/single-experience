@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SingleExperience.Repositorio;
+using SingleExperience.Services.ListaProdutoCompra;
+using SingleExperience.Services.ListaProdutoCompra.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +13,17 @@ namespace SingleExperience.Api.Controllers
     [ApiController]
     public class ListaProdutoCompraController : ControllerBase
     {
-        protected readonly SingleExperienceRepository _repo;
+        protected readonly ListaProdutoCompraService _listaProdutoCompraService;
 
-        public ListaProdutoCompraController(SingleExperienceRepository repo)
+        public ListaProdutoCompraController(ListaProdutoCompraService listaProdutoCompraService)
         {
-            _repo = repo;
+            _listaProdutoCompraService = listaProdutoCompraService;
+        }
+
+        [HttpGet("{compraId}")]
+        public async Task<List<ItemProdutoCompraModel>> Buscar(int compraId)
+        {
+            return await _listaProdutoCompraService.Buscar(compraId);
         }
     }
 }

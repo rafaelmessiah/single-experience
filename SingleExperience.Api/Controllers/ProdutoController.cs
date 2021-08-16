@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SingleExperience.Repositorio;
+using SingleExperience.Entities.Enums;
 using SingleExperience.Services.Produto;
 using SingleExperience.Services.Produto.Models;
 using System;
@@ -10,21 +10,51 @@ using System.Threading.Tasks;
 
 namespace SingleExperience.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class ProdutoController : ControllerBase
     {
-        protected readonly SingleExperienceRepository _repo;
+        protected readonly ProdutoService _produtoService;
 
-        public ProdutoController(SingleExperienceRepository repo)
+        public ProdutoController(ProdutoService produtoService)
         {
-            _repo = repo;
+            _produtoService = produtoService;
         }
 
-        [HttpGet("{CategoriaId}")]
-        public async Task<ProdutoSimplesModel[]> BuscarCategoria()
+        [HttpGet]
+        public async Task<List<ProdutoSimplesModel>> Buscar()
         {
-               return _
+            return await _produtoService.Buscar();
+        }
+
+        [HttpGet("{categoriaEnum}")]
+        public async Task<List<ProdutoSimplesModel>> BuscarCategoria(CategoriaEnum categoriaEnum)
+        {
+            return await _produtoService.BuscarCategoria(categoriaEnum);
+        }
+
+        [HttpGet("disponibilidade/{produtoId}")]
+        public async Task<DisponivelModel> ObterDisponibildade(int produtoId)
+        {
+            return await _produtoService.ObterDisponibildade(produtoId);
+        }
+
+        [HttpGet("verificar/{produtoId}")]
+        public async Task<bool> Verificar(int produtoId)
+        {
+            return await _produtoService.Verificar(produtoId);
+        }
+
+        [HttpGet("detalhe/{produtoId}")]
+        public async Task<ProdutoDetalhadoModel> ObterDetalhe(int produtoId)
+        {
+            return await _produtoService.ObterDetalhe(produtoId);
+        }
+
+        [HttpPut]
+        public async Task<bool> Retirar([FromBody] AlterarQtdeModel model)
+        {
+            return await _produtoService.Retirar(model);
         }
     }
 }

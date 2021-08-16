@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SingleExperience.Repositorio;
+using SingleExperience.Services.CartaoCredito;
+using SingleExperience.Services.CartaoCredito.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +13,35 @@ namespace SingleExperience.Api.Controllers
     [ApiController]
     public class CartaoCreditoController : ControllerBase
     {
-        protected readonly SingleExperienceRepository _repo;
+        protected readonly CartaoCreditoService _cartaoCreditoService;
 
-        public CartaoCreditoController(SingleExperienceRepository repo)
+        public CartaoCreditoController(CartaoCreditoService cartaoCreditoService)
         {
-            _repo = repo;
+            _cartaoCreditoService = cartaoCreditoService;
+        }
+
+        [HttpGet]
+        public async Task<List<CartaoItemModel>> Buscar(int clienteId)
+        {
+            return await _cartaoCreditoService.Buscar(clienteId);
+        }
+
+        [HttpPost]
+        public async Task<bool> Cadastrar([FromBody] CadastroCartaoModel model)
+        {
+            return await _cartaoCreditoService.Cadastrar(model);
+        }
+
+        [HttpGet("detalhe")]
+        public async Task<CartaoDetalhadoModel> Obter([FromBody] CartaoClienteModel model)
+        {
+            return await _cartaoCreditoService.Obter(model);
+        }
+
+        [HttpGet("verificar")]
+        public async Task<bool> Verificar([FromBody] VerificarCartaoModel model)
+        {
+            return await _cartaoCreditoService.Verificar(model);
         }
     }
 }

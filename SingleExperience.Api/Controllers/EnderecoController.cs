@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SingleExperience.Repositorio;
+using SingleExperience.Services.Endereco;
+using SingleExperience.Services.Endereco.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +13,35 @@ namespace SingleExperience.Api.Controllers
     [ApiController]
     public class EnderecoController : ControllerBase
     {
-        protected readonly SingleExperienceRepository _repo;
+        protected readonly EnderecoService _enderecoService;
 
-        public EnderecoController(SingleExperienceRepository repo)
+        public EnderecoController(EnderecoService enderecoService)
         {
-            _repo = repo;
+            _enderecoService = enderecoService;
+        }
+
+        [HttpGet("clienteId")]
+        public async Task<List<EnderecoModel>> Buscar(int clienteId)
+        {
+            return await _enderecoService.Buscar(clienteId);
+        }
+
+        [HttpPost]
+        public async Task<bool> Cadastrar([FromBody]CadastroEnderecoModel model)
+        {
+            return await _enderecoService.Cadastrar(model);
+        }
+
+        [HttpPut]
+        public async Task<bool> Editar([FromBody]EnderecoModel model)
+        {
+            return await _enderecoService.Editar(model);
+        }
+
+        [HttpGet]
+        public async Task<bool> Verificar([FromBody] VerificarEnderecoModel model)
+        {
+            return await _enderecoService.Verificar(model);
         }
     }
 }

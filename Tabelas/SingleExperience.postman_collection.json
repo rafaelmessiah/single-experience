@@ -1,0 +1,612 @@
+{
+	"info": {
+		"_postman_id": "f5210fef-199c-47b9-b7d3-33f764adc219",
+		"name": "SingleExperience",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Produto",
+			"item": [
+				{
+					"name": "Buscar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/produto/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"produto",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BuscarCategoria",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/produto//1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"produto",
+								"",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObterDisponibilidade",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/produto/disponibilidade/1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"produto",
+								"disponibilidade",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verificar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/produto/verificar/1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"produto",
+								"verificar",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObterDetalhe",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/produto/detalhe/3",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"produto",
+								"detalhe",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retirar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ProdutoId\":1,\r\n    \"Qtde\":-5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/produto/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"produto",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cliente",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/cliente",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"cliente"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/cliente",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"cliente"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obter",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/cliente",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"cliente"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EditarEmail",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/cliente",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"cliente"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EditarSenha",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/cliente",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"cliente"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verificar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/cliente",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"cliente"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Endereco",
+			"item": [
+				{
+					"name": "Buscar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/endereco",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"endereco"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/endereco",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"endereco"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/endereco",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"endereco"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verificar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/endereco",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"endereco"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CartaoCredito",
+			"item": [
+				{
+					"name": "Buscar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/cartaocredito",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"cartaocredito"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/cartaocredito",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"cartaocredito"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obter",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/cartaocredito",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"cartaocredito"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verificar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/cartaocredito",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"cartaocredito"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Carrinho",
+			"item": [
+				{
+					"name": "Buscar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/carrinho/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"carrinho",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Adicionar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/carrinho/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"carrinho",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AlterarStatus",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/carrinho/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"carrinho",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AlterarQtde",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/carrinho/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"carrinho",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CalcularValorTotal",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/carrinho/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"carrinho",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BuscarQtde",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/carrinho/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"carrinho",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Compra",
+			"item": [
+				{
+					"name": "Buscar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/compra",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"compra"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/compra",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"compra"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obter",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/compra",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"compra"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verificar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/compra",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"compra"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pagar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/compra",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"compra"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ListaProdutoCompra",
+			"item": []
+		},
+		{
+			"name": "Buscar",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}/listaProdutoCompra",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"listaProdutoCompra"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

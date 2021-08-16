@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace SingleExperience.Services.CartaoCredito
 {
@@ -18,9 +20,9 @@ namespace SingleExperience.Services.CartaoCredito
             _context = context;
         }
 
-        public List<CartaoItemModel> Buscar(int clienteId)
+        public async Task<List<CartaoItemModel>> Buscar(int clienteId)
         {
-            return _context.CartaoCredito
+            return await _context.CartaoCredito
                 .Where(a => a.ClienteId == clienteId)
                 .Select(a => new CartaoItemModel
                 {
@@ -28,11 +30,11 @@ namespace SingleExperience.Services.CartaoCredito
                     CartaoCreditoId = a.CartaoCreditoId,
                     Numero = a.Numero
 
-                }).ToList();
+                }).ToListAsync();
 
         }
 
-        public bool Cadastrar(CadastroCartaoModel model)
+        public async Task<bool> Cadastrar(CadastroCartaoModel model)
         {
             model.Validar();
 
@@ -45,46 +47,36 @@ namespace SingleExperience.Services.CartaoCredito
                 DataVencimento = model.DataVencimento
             };
 
-            _context.CartaoCredito.Add(cartao);
-            _context.SaveChanges();
+            await _context.CartaoCredito.AddAsync(cartao);
+            await _context.SaveChangesAsync();
 
             return true;
         }
 
-        public CartaoDetalhadoModel Obter(CartaoClienteModel model)
+        public async Task<CartaoDetalhadoModel> Obter(CartaoClienteModel model)
         {
-            var cartao = new CartaoDetalhadoModel();
-            try
-            {
-                cartao = _context.CartaoCredito
-                    .Where(a => a.CartaoCreditoId == model.CartaoCreditoId)
-                    .Select(a => new CartaoDetalhadoModel
-                    {
-                        CartaoCreditoId = a.CartaoCreditoId,
-                        ClienteId = a.ClienteId,
-                        DataVencimento = a.DataVencimento,
-                        Numero = a.Numero,
-                    }).FirstOrDefault();
+            var cartao = await _context.CartaoCredito
+                .Where(a => a.CartaoCreditoId == model.CartaoCreditoId)
+                .Select(a => new CartaoDetalhadoModel
+                {
+                    CartaoCreditoId = a.CartaoCreditoId,
+                    ClienteId = a.ClienteId,
+                    DataVencimento = a.DataVencimento,
+                    Numero = a.Numero,
+                }).FirstOrDefaultAsync();
 
-                if (cartao == null)
-                    throw new Exception("Não foi possível encontrar esse cartão");
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                Thread.Sleep(3500);
-            }
+            if (cartao == null)
+                throw new Exception("Não foi possível encontrar esse cartão");
 
             return cartao;
         }
 
-        public bool Verificar(VerificarCartaoModel model)
+        public async Task<bool> Verificar(VerificarCartaoModel model)
         {
-            var codigoSeguranca = _context.CartaoCredito
+            var codigoSeguranca = await _context.CartaoCredito
                 .Where(a => a.CartaoCreditoId == model.CartaoCredtioId && a.ClienteId == model.ClienteId)
                 .Select(a => a.CodigoSeguranca)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             if (codigoSeguranca == null)
                 throw new Exception("Não foi possível encontrar esse cartão");

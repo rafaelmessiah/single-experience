@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SingleExperience.Entities;
+using System.Threading.Tasks;
 
 namespace SingleExperience.Context
 {
@@ -21,6 +22,9 @@ namespace SingleExperience.Context
         public DbSet<StatusCarrinhoProduto> StatusCarrinhoProduto { get; set; }
         public DbSet<StatusCompra> StatusCompra { get; set; }
 
-      
+        public async Task<Microsoft.EntityFrameworkCore.Storage.IDbContextTransaction> BeginTransactionAsync()
+        {
+            return await this.Database.BeginTransactionAsync();
+        }
     }
 }
