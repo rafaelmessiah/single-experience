@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SingleExperience.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class ListaProdutoCompraController : ControllerBase
     {

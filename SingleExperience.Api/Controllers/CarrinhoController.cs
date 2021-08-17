@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SingleExperience.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class CarrinhoController : ControllerBase
     {
@@ -30,13 +30,13 @@ namespace SingleExperience.Api.Controllers
             return await _carrinhoService.Adicionar(model);
         }
 
-        [HttpPut]
+        [HttpPut("alterar/status")]
         public async Task<bool> AlterarStatus([FromBody] EdicaoStatusModel model)
         {
             return await _carrinhoService.AlterarStatus(model);
         }
 
-        [HttpPut]
+        [HttpPut("alterar/qtde")]
         public async Task<bool> AlterarQtde([FromBody] EdicaoQtdeModel model)
         {
             return await _carrinhoService.AlterarQtde(model);

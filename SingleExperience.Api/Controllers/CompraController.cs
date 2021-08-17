@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SingleExperience.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class CompraController : ControllerBase
     {
@@ -20,7 +20,7 @@ namespace SingleExperience.Api.Controllers
             _compraService = compraService;
         }
 
-        [HttpGet("clienteId")]
+        [HttpGet("{clienteId}")]
         public async Task<List<ItemCompraModel>> Buscar(int clienteId)
         {
             return await _compraService.Buscar(clienteId);

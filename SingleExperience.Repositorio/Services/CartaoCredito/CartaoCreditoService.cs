@@ -56,7 +56,8 @@ namespace SingleExperience.Services.CartaoCredito
         public async Task<CartaoDetalhadoModel> Obter(CartaoClienteModel model)
         {
             var cartao = await _context.CartaoCredito
-                .Where(a => a.CartaoCreditoId == model.CartaoCreditoId)
+                .Where(a => a.CartaoCreditoId == model.CartaoCreditoId && 
+                       a.ClienteId == model.ClienteId)
                 .Select(a => new CartaoDetalhadoModel
                 {
                     CartaoCreditoId = a.CartaoCreditoId,
@@ -74,7 +75,7 @@ namespace SingleExperience.Services.CartaoCredito
         public async Task<bool> Verificar(VerificarCartaoModel model)
         {
             var codigoSeguranca = await _context.CartaoCredito
-                .Where(a => a.CartaoCreditoId == model.CartaoCredtioId && a.ClienteId == model.ClienteId)
+                .Where(a => a.CartaoCreditoId == model.CartaoCreditoId && a.ClienteId == model.ClienteId)
                 .Select(a => a.CodigoSeguranca)
                 .FirstOrDefaultAsync();
 
