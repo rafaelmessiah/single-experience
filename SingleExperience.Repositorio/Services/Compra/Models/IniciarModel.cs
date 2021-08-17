@@ -1,7 +1,4 @@
-﻿using SingleExperience.Entities.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using SingleExperience.Enums;
 
 namespace SingleExperience.Services.Compra.Models
 {

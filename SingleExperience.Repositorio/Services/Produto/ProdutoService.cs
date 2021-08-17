@@ -1,12 +1,10 @@
-﻿using SingleExperience.Entities.Enums;
+﻿using Microsoft.EntityFrameworkCore;
+using SingleExperience.Enums;
 using SingleExperience.Services.Produto.Models;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using SingleExperience.Context;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace SingleExperience.Services.Produto
 {
@@ -29,12 +27,10 @@ namespace SingleExperience.Services.Produto
                     Nome = p.Nome,
                     Preco = p.Preco,
                 }).ToListAsync();
-
         }
 
         public async Task<List<ProdutoSimplesModel>> BuscarCategoria(CategoriaEnum categoria)
         {
-
             return await _context.Produto
                 .Where(a => a.CategoriaEnum == categoria && a.Disponivel)
                 .Select(b => new ProdutoSimplesModel
@@ -43,7 +39,6 @@ namespace SingleExperience.Services.Produto
                     Nome = b.Nome,
                     Preco = b.Preco,
                 }).ToListAsync();
-
         }
 
         public async Task<DisponivelModel> ObterDisponibildade(int produtoId)
@@ -95,7 +90,6 @@ namespace SingleExperience.Services.Produto
 
         public async Task<bool> Retirar(AlterarQtdeModel model)
         {
-
             var produto = await _context.Produto
                 .Where(a => a.ProdutoId == model.ProdutoId &&
                 a.QtdeEmEstoque >= model.Qtde &&

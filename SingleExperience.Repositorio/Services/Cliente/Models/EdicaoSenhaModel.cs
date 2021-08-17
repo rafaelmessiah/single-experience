@@ -8,5 +8,14 @@ namespace SingleExperience.Services.Cliente.Models
     {
         public int ClienteId { get; set; }
         public string NovaSenha { get; set; }
+
+        public void Validar()
+        {
+            if (NovaSenha == null)
+                throw new Exception("A senha é obrigatoria");
+
+            if (NovaSenha.Length > 100)
+                throw new Exception("A senha ultrapassou o limete de caracteres");
+        }
     }
 }

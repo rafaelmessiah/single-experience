@@ -20,7 +20,6 @@ namespace SingleExperience.Services.ListaProdutoCompra
 
         public async Task<List<ItemProdutoCompraModel>> Buscar(int compraId)
         {
-
             return await _context.ListaProdutoCompra
                 .Include(a=> a.Produto)
                 .Where(a => a.CompraId == compraId)
@@ -32,10 +31,7 @@ namespace SingleExperience.Services.ListaProdutoCompra
                     Nome = b.Produto.Nome,
                     PrecoUnitario = b.Produto.Preco,
                     Qtde = b.Qtde
-
                 }).ToListAsync();
-
         }
-
     }
 }

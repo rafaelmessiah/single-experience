@@ -12,10 +12,14 @@ namespace SingleExperience.Services.Carrinho.Models
 
         public void Validar()
         {
-            if (this.Qtde < 0)
-            {
+            if (ProdutoId < 1)
+                throw new Exception("O ProdutoId é obrigatorio");
+
+            if (ClienteId < 1)
+                throw new Exception("O ClienteId é obrigatorio");
+
+            if (Qtde < 0)
                 throw new Exception("A quantidade do produto não pode ser negativa");
-            }
         }
     }
 }

@@ -11,18 +11,5 @@ namespace SingleExperience.Services.Carrinho.Models
         public string Nome { get; set; }
         public decimal Preco { get; set; }
         public int Qtde { get; set; }
-
-        public void Validar()
-        {
-            if (Qtde < 0)
-            {
-                throw new Exception("A quantidade do produto não pode ser negativa");
-            }
-
-            if (Preco < 0)
-            {
-                throw new Exception("O preço do produto não pode ser negativa");
-            }
-        }
     }
 }

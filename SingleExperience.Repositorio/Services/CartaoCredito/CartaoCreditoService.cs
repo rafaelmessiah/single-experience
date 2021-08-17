@@ -31,7 +31,6 @@ namespace SingleExperience.Services.CartaoCredito
                     Numero = a.Numero
 
                 }).ToListAsync();
-
         }
 
         public async Task<bool> Cadastrar(CadastroCartaoModel model)

@@ -1,24 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SingleExperience.Entities.Enums;
-using System.Linq;
+﻿using Microsoft.EntityFrameworkCore;
+using SingleExperience.Enums;
 using SingleExperience.Services.Carrinho.Models;
-using SingleExperience.Services.Produto.Models;
-using SingleExperience.Services.Produto;
-using System.IO;
-using Microsoft.EntityFrameworkCore;
-using System.Threading;
-using System.Threading.Tasks;
 using SingleExperience.Services.Compra.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SingleExperience.Services.Carrinho
 {
     public class CarrinhoService
     {
-        protected readonly SingleExperience.Context.Context _context;
+        protected readonly Context.Context _context;
 
-        public CarrinhoService(SingleExperience.Context.Context context)
+        public CarrinhoService(Context.Context context)
         {
             _context = context;
         }
@@ -68,7 +63,6 @@ namespace SingleExperience.Services.Carrinho
 
         public async Task<bool> AlterarStatus(EdicaoStatusModel model)
         {
-
             var carrinho = await _context.Carrinho
                 .Where(a => a.CarrinhoId == model.CarrinhoId &&
                         a.StatusCarrinhoProdutoEnum != model.StatusEnum)
@@ -83,14 +77,10 @@ namespace SingleExperience.Services.Carrinho
             await _context.SaveChangesAsync();
 
             return true;
-
         }
 
         public async Task<bool> AlterarQtde(EdicaoQtdeModel model)
         {
-
-            model.Validar();
-
             var carrinho = await _context.Carrinho
             .Where(a => a.CarrinhoId == model.CarrinhoId &&
                     a.Qtde != model.Qtde &&
@@ -131,28 +121,17 @@ namespace SingleExperience.Services.Carrinho
 
         public async Task<List<ProdutoQtdeModel>> BuscarQtde(int clienteId)
         {
-            var produtos = await _context.Carrinho
+            return await _context.Carrinho
             .Include(a => a.Produto)
             .Where(a => a.ClienteId == clienteId && a.StatusCarrinhoProdutoEnum == StatusCarrinhoProdutoEnum.Ativo)
-            .ToListAsync();
-
-            var listaProdutos = new List<ProdutoQtdeModel>();
-
-            foreach (var item in produtos)
+            .Select(p => new ProdutoQtdeModel 
             {
-                var produto = new ProdutoQtdeModel
-                {
-                    CarrinhoId = item.CarrinhoId,
-                    ProdutoId = item.ProdutoId,
-                    Preco = item.Produto.Preco,
-                    Qtde = item.Qtde
-                };
-
-                listaProdutos.Add(produto);
-            }
-
-            return listaProdutos;
+                CarrinhoId = p.CarrinhoId,
+                ProdutoId = p.ProdutoId,
+                Preco = p.Produto.Preco,
+                Qtde = p.Qtde
+            })
+            .ToListAsync();
         }
-
     }
 }

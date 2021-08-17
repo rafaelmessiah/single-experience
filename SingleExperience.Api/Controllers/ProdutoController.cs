@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using SingleExperience.Entities.Enums;
+﻿using Microsoft.AspNetCore.Mvc;
+using SingleExperience.Enums;
 using SingleExperience.Services.Produto;
 using SingleExperience.Services.Produto.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SingleExperience.Api.Controllers

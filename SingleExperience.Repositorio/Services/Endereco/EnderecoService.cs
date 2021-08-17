@@ -1,11 +1,9 @@
-﻿using SingleExperience.Services.Endereco.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using SingleExperience.Services.Endereco.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
-using System.IO;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace SingleExperience.Services.Endereco
 {
@@ -30,9 +28,7 @@ namespace SingleExperience.Services.Endereco
                     Numero = a.Numero,
                     Complemento = a.Complemento,
                     Cep = a.Cep,
-
                 }).ToListAsync();
-
         }
 
         public async Task<bool> Cadastrar(CadastroEnderecoModel model)
@@ -75,14 +71,8 @@ namespace SingleExperience.Services.Endereco
 
         public async Task<bool> Verificar(VerificarEnderecoModel model)
         {
-            var endereco = await _context.Endereco
-                .Where(a => a.ClienteId == model.ClienteId && a.EnderecoId == model.EnderecoId)
-                .FirstOrDefaultAsync();
-
-            if (endereco == null)
-                throw new Exception("Não foi possivel Encontrar esse Eendereço");
-
-            return true;
+            return await _context.Endereco
+                .AnyAsync(a => a.ClienteId == model.ClienteId && a.EnderecoId == model.EnderecoId);
         }
 
     }

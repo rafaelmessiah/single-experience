@@ -39,7 +39,9 @@ namespace SingleExperience.Services.Cliente
 
         public async Task<bool> Cadastrar(CadastroClienteModel model)
         {
-            if (_context.Cliente.Any(a => a.Email == model.Email))
+            model.Validar();
+
+            if (await _context.Cliente.AnyAsync(a => a.Email == model.Email))
                 throw new Exception("Esse email ja esta cadastrado");
 
             var novoCliente = new Entities.Cliente
@@ -80,7 +82,7 @@ namespace SingleExperience.Services.Cliente
         public async Task<bool> EditarEmail(EdicaoEmailModel model)
         {
 
-            if (_context.Cliente.Any(a => a.Email == model.NovoEmail))
+            if (await _context.Cliente.AnyAsync(a => a.Email == model.NovoEmail))
                 throw new Exception("Esse email ja esta cadastrado");
 
             var cliente = await _context.Cliente
@@ -121,13 +123,10 @@ namespace SingleExperience.Services.Cliente
 
         public async Task<bool> Verificar(VerificarClienteModel model)
         {
-             return _context.Cliente
-               .Any(a => a.ClienteId == model.ClienteId &&
+             return await _context.Cliente
+               .AnyAsync(a => a.ClienteId == model.ClienteId &&
                       a.Email == model.Email &&
                       a.Senha == model.Senha);
-
         }
-
     }
-
 }

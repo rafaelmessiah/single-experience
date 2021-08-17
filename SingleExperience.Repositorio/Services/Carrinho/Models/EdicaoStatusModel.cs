@@ -1,7 +1,5 @@
-﻿using SingleExperience.Entities.Enums;
+﻿using SingleExperience.Enums;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SingleExperience.Services.Carrinho.Models
 {
@@ -9,5 +7,14 @@ namespace SingleExperience.Services.Carrinho.Models
     {
         public int CarrinhoId { get; set; }
         public StatusCarrinhoProdutoEnum StatusEnum { get; set; }
+
+        public void Validar()
+        {
+            if (CarrinhoId < 1)
+                throw new Exception("A carrinho id é obrigatorio para essa");
+
+            if (StatusEnum == 0)
+                throw new Exception("O StatusEnum é Obrigatorio");
+        }
     }
 }
