@@ -5,6 +5,7 @@ using SingleExperience.Services.Carrinho.Models;
 using SingleExperience.Services.Compra.Models;
 using SingleExperience.Services.Endereco;
 using SingleExperience.Services.Endereco.Models;
+using SingleExperience.Services.ListaProdutoCompra;
 using SingleExperience.Services.Produto;
 using SingleExperience.Services.Produto.Models;
 using System;
@@ -20,7 +21,7 @@ namespace SingleExperience.Services.Compra
         protected readonly CarrinhoService _carrinhoService;
         protected readonly ProdutoService _produtoService;
         protected readonly EnderecoService _enderecoService;
-
+        protected readonly ListaProdutoCompraService _listaProdutoCompraService;
 
         public CompraService(SingleExperience.Context.Context context)
         {
@@ -28,6 +29,7 @@ namespace SingleExperience.Services.Compra
             _carrinhoService = new CarrinhoService(context);
             _produtoService = new ProdutoService(context);
             _enderecoService = new EnderecoService(context);
+            _listaProdutoCompraService = new ListaProdutoCompraService(context);
         }
 
         public async Task<List<ItemCompraModel>> Buscar(int clienteId)
@@ -153,6 +155,8 @@ namespace SingleExperience.Services.Compra
 
             if (compra == null)
                 throw new Exception("Compra Não Encontrada");
+
+            compra.ItensComprados = await _listaProdutoCompraService.Buscar(compraId);
 
             return compra;
         }
