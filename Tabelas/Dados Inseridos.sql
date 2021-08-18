@@ -1,4 +1,4 @@
-USE SingleExperience;
+USE [rafael.messias];
 
 INSERT INTO Produto (CategoriaId, Nome, Preco, Detalhe, QtdeEmEstoque, Ranking, Disponivel )
 VALUES(1,'PC GAMER T-GAMER KINGSTON FURY', 7500.00, 'Intel i5 11600K / NVIDIA GeForce GTX 1660 Super / 16GB (2x8GB) DDR4 / SSD M.2 NVMe 500GB', 45, 5, 1),

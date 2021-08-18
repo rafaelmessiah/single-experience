@@ -1,4 +1,4 @@
-﻿using SingleExperience.Entities.Enums;
+﻿using SingleExperience.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

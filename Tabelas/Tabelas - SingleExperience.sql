@@ -1,4 +1,4 @@
-use SingleExperience;
+use [rafael.messias];
 
 CREATE TABLE Categoria (
 	CategoriaId INT NOT NULL PRIMARY KEY,
@@ -24,7 +24,7 @@ CREATE TABLE Produto(
 ProdutoId INT IDENTITY (1,1) NOT NULL PRIMARY KEY, 
 CategoriaId INT NOT NULL,
 Nome varchar(100) NOT NULL,
-Preco decimal(6,2) NOT NULL,
+Preco decimal(9,2) NOT NULL,
 Detalhe varchar(max),
 QtdeEmEstoque INT NOT NULL,
 Ranking INT NOT NULL,
@@ -135,7 +135,7 @@ ClienteId INT NOT NULL,
 EnderecoId INT NOT NULL,
 DataCompra DATE NOT NULL,
 DataPagamento DATE,
-ValorFinal DECIMAL(6,2),
+ValorFinal DECIMAL(9,2),
 );
 
 ALTER TABLE Compra
