@@ -79,8 +79,11 @@ namespace SingleExperience.Services.Cliente
             return cliente;
         }
 
-        public async Task<bool> EditarEmail(EdicaoEmailModel model)
+        public async Task<bool> EditarEmail(int clienteId, EdicaoEmailModel model)
         {
+            model.ClienteId = clienteId;
+
+            model.Validar();
 
             if (await _context.Cliente.AnyAsync(a => a.Email == model.NovoEmail))
                 throw new Exception("Esse email ja esta cadastrado");
@@ -100,8 +103,11 @@ namespace SingleExperience.Services.Cliente
             return true;
         }
 
-        public async Task<bool> EditarSenha(EdicaoSenhaModel model)
+        public async Task<bool> EditarSenha(int clienteId, EdicaoSenhaModel model)
         {
+            model.ClienteId = clienteId;
+
+            model.Validar();
 
             var cliente = await _context.Cliente
                 .Where(a => a.ClienteId == model.ClienteId)

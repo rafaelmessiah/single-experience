@@ -32,22 +32,10 @@ namespace SingleExperience.Api.Controllers
             return await _compraService.Cadastrar(model);
         }
 
-        [HttpGet("detalhe/{compraId}")]
+        [HttpGet("{compraId}/detalhe")]
         public async Task<CompraDetalhadaModel> Obter(int compraId)
         {
             return await _compraService.Obter(compraId);
-        }
-
-        [HttpGet("verificar")]
-        public async Task<bool> Verificar([FromBody] VerificarCompraModel model)
-        {
-            return await _compraService.Verificar(model);
-        }
-
-        [HttpPut("{compraId}")]
-        public async Task<bool> Pagar(int compraId)
-        {
-            return await _compraService.Pagar(compraId);
         }
     }
 }

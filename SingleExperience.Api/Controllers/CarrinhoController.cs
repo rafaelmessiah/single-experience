@@ -21,7 +21,7 @@ namespace SingleExperience.Api.Controllers
         [HttpGet("{clienteId}")]
         public async Task<List<ItemCarrinhoModel>> Buscar(int clienteId)
         {
-            return await _carrinhoService.Buscar(clienteId);
+            return await _carrinhoService.BuscarItens(clienteId);
         }
 
         [HttpPost]
@@ -30,29 +30,16 @@ namespace SingleExperience.Api.Controllers
             return await _carrinhoService.Adicionar(model);
         }
 
-        [HttpPut("alterar/status")]
-        public async Task<bool> AlterarStatus([FromBody] EdicaoStatusModel model)
+        [HttpPut("{carrinhoId}/alterar/status")]
+        public async Task<bool> AlterarStatus(int carrinhoId, [FromBody] EdicaoStatusModel model)
         {
-            return await _carrinhoService.AlterarStatus(model);
+            return await _carrinhoService.AlterarStatus(carrinhoId, model);
         }
 
-        [HttpPut("alterar/qtde")]
-        public async Task<bool> AlterarQtde([FromBody] EdicaoQtdeModel model)
+        [HttpPut("{carrinhoId}/alterar/qtde")]
+        public async Task<bool> AlterarQtde(int carrinhoId, [FromBody] EdicaoQtdeModel model)
         {
-            return await _carrinhoService.AlterarQtde(model);
+            return await _carrinhoService.AlterarQtde(carrinhoId, model);
         }
-
-        [HttpGet("calcular/{clienteId}")]
-        public async Task<decimal> CalcularValorTotal(int clienteId)
-        {
-            return await _carrinhoService.CalcularValorTotal(clienteId);
-        }
-
-        [HttpGet("buscarqtde/{clienteId}")]
-        public async Task<List<ProdutoQtdeModel>> BuscarQtde(int clienteId)
-        {
-            return await _carrinhoService.BuscarQtde(clienteId);
-        }
-
     }
 }

@@ -45,6 +45,8 @@ namespace SingleExperience.Services.Compra
 
         public async Task<bool> Cadastrar(IniciarModel model)
         {
+            model.Validar();
+
             using (var transaction = await _context.BeginTransactionAsync())
             {
                 try
@@ -113,11 +115,12 @@ namespace SingleExperience.Services.Compra
                         //Altera status do carrinho para Comprado
                         var edicaoStatusModel = new EdicaoStatusModel
                         {
-                            CarrinhoId = item.CarrinhoId,
                             StatusEnum = StatusCarrinhoProdutoEnum.Comprado
                         };
 
-                        await _carrinhoService.AlterarStatus(edicaoStatusModel);
+                        var carrinhoId = item.CarrinhoId;
+
+                        await _carrinhoService.AlterarStatus(carrinhoId, edicaoStatusModel);
                     }
 
                     await _context.SaveChangesAsync();
@@ -156,7 +159,7 @@ namespace SingleExperience.Services.Compra
 
         public async Task<bool> Verificar(VerificarCompraModel model)
         {
-            return _context.Compra.Any(a => a.CompraId == model.CompraId &&
+            return await _context.Compra.AnyAsync(a => a.CompraId == model.CompraId &&
             a.ClienteId == model.ClienteId);
         }
 

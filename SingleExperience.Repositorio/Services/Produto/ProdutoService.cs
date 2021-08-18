@@ -59,14 +59,8 @@ namespace SingleExperience.Services.Produto
 
         public async Task<bool> Verificar(int produtoId)
         {
-            var produto = await _context.Produto
-                .Where(a => a.ProdutoId == produtoId)
-                .FirstOrDefaultAsync();
-
-            if (produto == null)
-                return false;
-
-            return true;
+            return await _context.Produto
+                .AnyAsync(a => a.ProdutoId == produtoId);
         }
 
         public async Task<ProdutoDetalhadoModel> ObterDetalhe(int produtoId)
@@ -90,6 +84,8 @@ namespace SingleExperience.Services.Produto
 
         public async Task<bool> Retirar(AlterarQtdeModel model)
         {
+            model.Validar();
+
             var produto = await _context.Produto
                 .Where(a => a.ProdutoId == model.ProdutoId &&
                 a.QtdeEmEstoque >= model.Qtde &&

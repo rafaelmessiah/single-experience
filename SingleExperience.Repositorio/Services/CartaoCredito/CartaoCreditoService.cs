@@ -52,11 +52,10 @@ namespace SingleExperience.Services.CartaoCredito
             return true;
         }
 
-        public async Task<CartaoDetalhadoModel> Obter(CartaoClienteModel model)
+        public async Task<CartaoDetalhadoModel> Obter(int cartaoCreditoId)
         {
             var cartao = await _context.CartaoCredito
-                .Where(a => a.CartaoCreditoId == model.CartaoCreditoId && 
-                       a.ClienteId == model.ClienteId)
+                .Where(a => a.CartaoCreditoId == cartaoCreditoId)
                 .Select(a => new CartaoDetalhadoModel
                 {
                     CartaoCreditoId = a.CartaoCreditoId,

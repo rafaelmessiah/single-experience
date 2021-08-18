@@ -33,6 +33,8 @@ namespace SingleExperience.Services.Endereco
 
         public async Task<bool> Cadastrar(CadastroEnderecoModel model)
         {
+            model.Validar();
+
             var endereco = new Entities.Endereco
             {
                 ClienteId = model.ClienteId,
@@ -48,8 +50,11 @@ namespace SingleExperience.Services.Endereco
             return true;
         }
 
-        public async Task<bool> Editar(EnderecoModel model)
+        public async Task<bool> Editar(int enderecoId, EnderecoModel model)
         {
+            model.EnderecoId = enderecoId;
+
+            model.Validar();
 
             var endereco = await _context.Endereco
                 .Where(a => a.EnderecoId == model.EnderecoId && a.ClienteId == a.ClienteId)

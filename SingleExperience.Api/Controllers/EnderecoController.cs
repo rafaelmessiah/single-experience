@@ -27,21 +27,15 @@ namespace SingleExperience.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<bool> Cadastrar([FromBody]CadastroEnderecoModel model)
+        public async Task<bool> Cadastrar([FromBody] CadastroEnderecoModel model)
         {
             return await _enderecoService.Cadastrar(model);
         }
 
-        [HttpPut]
-        public async Task<bool> Editar([FromBody]EnderecoModel model)
+        [HttpPost("{enderecoId}")]
+        public async Task<bool> Editar(int enderecoId, [FromBody]EnderecoModel model)
         {
-            return await _enderecoService.Editar(model);
-        }
-
-        [HttpGet]
-        public async Task<bool> Verificar([FromBody] VerificarEnderecoModel model)
-        {
-            return await _enderecoService.Verificar(model);
+            return await _enderecoService.Editar(enderecoId, model);
         }
     }
 }

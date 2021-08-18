@@ -32,16 +32,10 @@ namespace SingleExperience.Api.Controllers
             return await _cartaoCreditoService.Cadastrar(model);
         }
 
-        [HttpGet("detalhe")]
-        public async Task<CartaoDetalhadoModel> Obter([FromBody] CartaoClienteModel model)
+        [HttpGet("{cartaoCreditoId}/detalhe")]
+        public async Task<CartaoDetalhadoModel> Obter(int cartaoCreditoId)
         {
-            return await _cartaoCreditoService.Obter(model);
-        }
-
-        [HttpGet("verificar")]
-        public async Task<bool> Verificar([FromBody] VerificarCartaoModel model)
-        {
-            return await _cartaoCreditoService.Verificar(model);
+            return await _cartaoCreditoService.Obter(cartaoCreditoId);
         }
     }
 }

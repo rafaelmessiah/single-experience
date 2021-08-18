@@ -38,23 +38,16 @@ namespace SingleExperience.Api.Controllers
             return await _clienteService.Obter(clienteId);
         }
 
-        [HttpPut("editar/email")]
-        public async Task<bool> EditarEmail([FromBody] EdicaoEmailModel model)
+        [HttpPut("{clienteId}/editar/email")]
+        public async Task<bool> EditarEmail(int clienteId, [FromBody] EdicaoEmailModel model)
         {
-            return await _clienteService.EditarEmail(model);
+            return await _clienteService.EditarEmail(clienteId, model);
         }
         
-        [HttpPut("editar/senha")]
-        public async Task<bool> EditarSenha([FromBody] EdicaoSenhaModel model)
+        [HttpPut("{clienteId}/editar/senha")]
+        public async Task<bool> EditarSenha(int clienteId, [FromBody] EdicaoSenhaModel model)
         {
-            return await _clienteService.EditarSenha(model);
+            return await _clienteService.EditarSenha(clienteId, model);
         }
-
-        [HttpGet("verificar")]
-        public async Task<bool> Verificar([FromBody] VerificarClienteModel model)
-        {
-            return await _clienteService.Verificar(model);
-        }
-
     }
 }

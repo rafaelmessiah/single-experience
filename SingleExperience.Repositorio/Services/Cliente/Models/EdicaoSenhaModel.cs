@@ -11,6 +11,9 @@ namespace SingleExperience.Services.Cliente.Models
 
         public void Validar()
         {
+            if (ClienteId < 1)
+                throw new Exception("O clienteId é necessário para esse cadastro");
+
             if (NovaSenha == null)
                 throw new Exception("A senha é obrigatoria");
 

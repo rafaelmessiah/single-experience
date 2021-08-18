@@ -14,7 +14,7 @@ namespace SingleExperience.Services.Produto.Models
 
         public void Validar()
         {
-            if (ProdutoId < 0)
+            if (ProdutoId < 1)
                 throw new Exception("O produto Id é obrigatorio para essa requisição");
 
             if (Qtde < 0)

@@ -18,7 +18,7 @@ namespace SingleExperience.Services.Carrinho
             _context = context;
         }
 
-        public async Task<List<ItemCarrinhoModel>> Buscar(int clienteId)
+        public async Task<List<ItemCarrinhoModel>> BuscarItens(int clienteId)
         {
             return await _context.Carrinho
             .Include(a => a.Produto)
@@ -61,8 +61,12 @@ namespace SingleExperience.Services.Carrinho
             return true;
         }
 
-        public async Task<bool> AlterarStatus(EdicaoStatusModel model)
+        public async Task<bool> AlterarStatus(int carrinhoId, EdicaoStatusModel model)
         {
+            model.CarrinhoId = carrinhoId;
+
+            model.Validar();
+
             var carrinho = await _context.Carrinho
                 .Where(a => a.CarrinhoId == model.CarrinhoId &&
                         a.StatusCarrinhoProdutoEnum != model.StatusEnum)
@@ -79,8 +83,12 @@ namespace SingleExperience.Services.Carrinho
             return true;
         }
 
-        public async Task<bool> AlterarQtde(EdicaoQtdeModel model)
+        public async Task<bool> AlterarQtde(int carrinhoId,EdicaoQtdeModel model)
         {
+            model.CarrinhoId = carrinhoId;
+
+            model.Validar();
+
             var carrinho = await _context.Carrinho
             .Where(a => a.CarrinhoId == model.CarrinhoId &&
                     a.Qtde != model.Qtde &&
