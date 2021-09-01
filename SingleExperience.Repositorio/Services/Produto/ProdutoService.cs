@@ -38,6 +38,7 @@ namespace SingleExperience.Services.Produto
                     ProdutoId = b.ProdutoId,
                     Nome = b.Nome,
                     Preco = b.Preco,
+                    Imagem = b.Imagem
                 }).ToListAsync();
         }
 
@@ -73,7 +74,8 @@ namespace SingleExperience.Services.Produto
                 ProdutoId = b.ProdutoId,
                 Nome = b.Nome,
                 Descricao = b.Detalhe,
-                Preco = b.Preco
+                Preco = b.Preco,
+                Imagem = b.Imagem
             }).FirstOrDefaultAsync();
 
             if (produto == null)

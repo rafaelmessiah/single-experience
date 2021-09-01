@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using SingleExperience.Context;
 using SingleExperience.Services.Carrinho;
 using SingleExperience.Services.CartaoCredito;
+using SingleExperience.Services.Categoria;
 using SingleExperience.Services.Cliente;
 using SingleExperience.Services.Compra;
 using SingleExperience.Services.Endereco;
@@ -34,6 +35,7 @@ namespace SingleExperience.Api
 
             services.AddScoped<CarrinhoService>();
             services.AddScoped<CartaoCreditoService>();
+            services.AddScoped<CategoriaService>();
             services.AddScoped<ClienteService>();
             services.AddScoped<CompraService>();
             services.AddScoped<EnderecoService>();
@@ -41,6 +43,12 @@ namespace SingleExperience.Api
             services.AddScoped<ProdutoService>();
 
             services.AddControllers();
+
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+            }));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,7 +59,11 @@ namespace SingleExperience.Api
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors("MyPolicy");
+
             app.UseHttpsRedirection();
+
+            
 
             app.UseRouting();
 
@@ -62,5 +74,7 @@ namespace SingleExperience.Api
                 endpoints.MapControllers();
             });
         }
+
+
     }
 }
