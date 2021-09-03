@@ -26,6 +26,22 @@ namespace SingleExperience.Services.Produto
                     ProdutoId = p.ProdutoId,
                     Nome = p.Nome,
                     Preco = p.Preco,
+                    Ranking = p.Ranking,
+                    Imagem = p.Imagem
+                }).ToListAsync();
+        }
+
+        public async Task<List<ProdutoSimplesModel>> BuscarRanking()
+        {
+            return await _context.Produto
+                .Where(a => a.Disponivel == true && a.Ranking >= 3)
+                .Select(a => new ProdutoSimplesModel
+                {
+                    ProdutoId = a.ProdutoId,
+                    Nome = a.Nome,
+                    Preco = a.Preco,
+                    Ranking = a.Ranking,
+                    Imagem = a.Imagem
                 }).ToListAsync();
         }
 
@@ -38,6 +54,7 @@ namespace SingleExperience.Services.Produto
                     ProdutoId = b.ProdutoId,
                     Nome = b.Nome,
                     Preco = b.Preco,
+                    Ranking = b.Ranking,
                     Imagem = b.Imagem
                 }).ToListAsync();
         }
@@ -75,6 +92,7 @@ namespace SingleExperience.Services.Produto
                 Nome = b.Nome,
                 Descricao = b.Detalhe,
                 Preco = b.Preco,
+                Ranking = b.Ranking,
                 Imagem = b.Imagem
             }).FirstOrDefaultAsync();
 

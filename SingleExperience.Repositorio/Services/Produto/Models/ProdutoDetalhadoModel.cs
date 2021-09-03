@@ -10,6 +10,7 @@ namespace SingleExperience.Services.Produto.Models
         public string Nome { get; set; }
         public decimal Preco { get; set; }
         public string Descricao { get; set; }
+        public int Ranking { get; set; }
         public string Imagem { get; set; }
     }
 }

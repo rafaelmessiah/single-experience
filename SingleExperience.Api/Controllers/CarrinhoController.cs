@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SingleExperience.Repositorio.Services.Carrinho.Models;
 using SingleExperience.Services.Carrinho;
 using SingleExperience.Services.Carrinho.Models;
 using SingleExperience.Services.Compra.Models;
@@ -40,6 +41,12 @@ namespace SingleExperience.Api.Controllers
         public async Task<bool> AlterarQtde(int carrinhoId, [FromBody] EdicaoQtdeModel model)
         {
             return await _carrinhoService.AlterarQtde(carrinhoId, model);
+        }
+
+        [HttpGet("verificar")]
+        public async Task<bool> VerificarItem([FromBody] VerificarItemModel model)
+        {
+            return await _carrinhoService.VerificarItem(model);
         }
     }
 }

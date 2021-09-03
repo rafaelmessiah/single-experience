@@ -24,6 +24,12 @@ namespace SingleExperience.Api.Controllers
             return await _produtoService.Buscar();
         }
 
+        [HttpGet("ranking")]
+        public async Task<List<ProdutoSimplesModel>> BuscarRanking()
+        {
+            return await _produtoService.BuscarRanking();
+        }
+
         [HttpGet("{categoriaEnum}")]
         public async Task<List<ProdutoSimplesModel>> BuscarCategoria(CategoriaEnum categoriaEnum)
         {

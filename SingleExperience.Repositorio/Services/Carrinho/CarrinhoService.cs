@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SingleExperience.Enums;
+using SingleExperience.Repositorio.Services.Carrinho.Models;
 using SingleExperience.Services.Carrinho.Models;
 using SingleExperience.Services.Compra.Models;
 using System;
@@ -140,6 +141,14 @@ namespace SingleExperience.Services.Carrinho
                 Qtde = p.Qtde
             })
             .ToListAsync();
+        }
+
+        public async Task<bool> VerificarItem(VerificarItemModel model)
+        {
+            return await _context.Carrinho
+                .AnyAsync(a => a.ClienteId == model.ClienteId &&
+                            a.ProdutoId == model.ProdutoId &&
+                            a.StatusCarrinhoProdutoEnum == StatusCarrinhoProdutoEnum.Ativo);
         }
     }
 }
