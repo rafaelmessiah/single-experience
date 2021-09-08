@@ -11,5 +11,6 @@ namespace SingleExperience.Services.Carrinho.Models
         public string Nome { get; set; }
         public decimal Preco { get; set; }
         public int Qtde { get; set; }
+        public string Imagem { get; set; }
     }
 }

@@ -30,7 +30,8 @@ namespace SingleExperience.Services.Carrinho
                 ProdutoId = a.ProdutoId,
                 Nome = a.Produto.Nome,
                 Preco = a.Produto.Preco,
-                Qtde = a.Qtde
+                Qtde = a.Qtde,
+                Imagem = a.Produto.Imagem
             }).ToListAsync();
 
         }
