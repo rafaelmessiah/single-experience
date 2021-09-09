@@ -48,5 +48,11 @@ namespace SingleExperience.Api.Controllers
         {
             return await _carrinhoService.VerificarItem(model);
         }
+
+        [HttpGet("{clienteId}/calcular")]
+        public async Task<decimal> CalcularValorTotal(int clienteId)
+        {
+            return await _carrinhoService.CalcularValorTotal(clienteId);
+        }
     }
 }
