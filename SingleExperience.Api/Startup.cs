@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SingleExperience.Context;
+using SingleExperience.Repositorio.Services.FormaPagamento;
 using SingleExperience.Services.Carrinho;
 using SingleExperience.Services.CartaoCredito;
 using SingleExperience.Services.Categoria;
@@ -39,6 +40,7 @@ namespace SingleExperience.Api
             services.AddScoped<ClienteService>();
             services.AddScoped<CompraService>();
             services.AddScoped<EnderecoService>();
+            services.AddScoped<FormaPagamentoService>();
             services.AddScoped<ListaProdutoCompraService>();
             services.AddScoped<ProdutoService>();
 
