@@ -2,6 +2,8 @@
 using SingleExperience.Enums;
 using SingleExperience.Services.Carrinho;
 using SingleExperience.Services.Carrinho.Models;
+using SingleExperience.Services.CartaoCredito;
+using SingleExperience.Services.CartaoCredito.Models;
 using SingleExperience.Services.Compra.Models;
 using SingleExperience.Services.Endereco;
 using SingleExperience.Services.Endereco.Models;
@@ -22,6 +24,7 @@ namespace SingleExperience.Services.Compra
         protected readonly ProdutoService _produtoService;
         protected readonly EnderecoService _enderecoService;
         protected readonly ListaProdutoCompraService _listaProdutoCompraService;
+        protected readonly CartaoCreditoService _cartaoCreditoService;
 
         public CompraService(SingleExperience.Context.Context context)
         {
@@ -30,6 +33,7 @@ namespace SingleExperience.Services.Compra
             _produtoService = new ProdutoService(context);
             _enderecoService = new EnderecoService(context);
             _listaProdutoCompraService = new ListaProdutoCompraService(context);
+            _cartaoCreditoService = new CartaoCreditoService(context);
         }
 
         public async Task<List<ItemCompraModel>> Buscar(int clienteId)
@@ -62,6 +66,23 @@ namespace SingleExperience.Services.Compra
                     //Valida o endereço
                     if (!await _enderecoService.Verificar(verificarEnderecoModel))
                         throw new Exception("Esse endereço não pertence a esse cliente");
+                    
+                    //Verifica se não esta sendo passado um cartaoCreditoId com outra forma de pagamento
+                    if (model.FormaPagamentoEnum != FormaPagamentoEnum.Cartao && model.CartaoCreditoId != null)
+                        throw new Exception("Não é possivel passar um cartão de credito quando a forma de pagamento não é por cartao");
+
+                    //Valida o Cartao
+                    if(model.FormaPagamentoEnum == FormaPagamentoEnum.Cartao)
+                    {
+                        var verificarCartaoModel = new VerificarCartaoModel
+                        {
+                            ClienteId = model.ClienteId,
+                            CartaoCreditoId = model.CartaoCreditoId
+                        };
+
+                        if (!await _cartaoCreditoService.Verificar(verificarCartaoModel))
+                            throw new Exception("Esse cartão não pertence a esse cliente");
+                    }
 
                     //Buscar os Produtos que estao no carrinho, seus preços e suas quantidaes
                     var produtosCarrinho = await _carrinhoService.BuscarQtde(model.ClienteId);
@@ -94,6 +115,7 @@ namespace SingleExperience.Services.Compra
                         FormaPagamentoEnum = model.FormaPagamentoEnum,
                         ClienteId = model.ClienteId,
                         EnderecoId = model.EnderecoId,
+                        CartaoCreditoId = model.CartaoCreditoId,
                         ListaProdutoCompras = produtosCompra,
                         DataCompra = DateTime.Now,
                         ValorFinal = valorFinal,

@@ -33,6 +33,11 @@ namespace SingleExperience.Entities
         [ForeignKey("EnderecoId")]
         public Endereco Endereco { get; set; }
 
+        //FK - Credito Credito
+        public int? CartaoCreditoId { get; set; }
+        [ForeignKey("CartaoCreditoId")]
+        public CartaoCredito CartaoCredito { get; set; }
+
         public List<ListaProdutoCompra> ListaProdutoCompras { get; set; }
         public DateTime DataCompra { get; set; }
         public DateTime? DataPagamento { get; set; }

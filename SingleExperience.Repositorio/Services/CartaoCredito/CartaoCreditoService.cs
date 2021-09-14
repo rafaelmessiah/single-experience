@@ -20,16 +20,16 @@ namespace SingleExperience.Services.CartaoCredito
             _context = context;
         }
 
-        public async Task<List<CartaoItemModel>> Buscar(int clienteId)
+        public async Task<List<CartaoDetalhadoModel>> Buscar(int clienteId)
         {
             return await _context.CartaoCredito
                 .Where(a => a.ClienteId == clienteId)
-                .Select(a => new CartaoItemModel
+                .Select(a => new CartaoDetalhadoModel
                 {
                     ClienteId = a.ClienteId,
                     CartaoCreditoId = a.CartaoCreditoId,
-                    Numero = a.Numero
-
+                    Numero = a.Numero,
+                    DataVencimento = a.DataVencimento
                 }).ToListAsync();
         }
 
@@ -72,18 +72,8 @@ namespace SingleExperience.Services.CartaoCredito
 
         public async Task<bool> Verificar(VerificarCartaoModel model)
         {
-            var codigoSeguranca = await _context.CartaoCredito
-                .Where(a => a.CartaoCreditoId == model.CartaoCreditoId && a.ClienteId == model.ClienteId)
-                .Select(a => a.CodigoSeguranca)
-                .FirstOrDefaultAsync();
-
-            if (codigoSeguranca == null)
-                throw new Exception("Não foi possível encontrar esse cartão");
-
-            if (codigoSeguranca != model.CodigoSeguranca)
-                throw new Exception("Código de Segurança Inválido");
-
-            return true;
+            return await _context.CartaoCredito
+                         .AnyAsync(a => a.CartaoCreditoId == model.CartaoCreditoId && a.ClienteId == model.ClienteId);
         }
     }
 }

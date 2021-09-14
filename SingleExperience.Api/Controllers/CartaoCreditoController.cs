@@ -21,7 +21,7 @@ namespace SingleExperience.Api.Controllers
         }
 
         [HttpGet("{clienteId}")]
-        public async Task<List<CartaoItemModel>> Buscar(int clienteId)
+        public async Task<List<CartaoDetalhadoModel>> Buscar(int clienteId)
         {
             return await _cartaoCreditoService.Buscar(clienteId);
         }

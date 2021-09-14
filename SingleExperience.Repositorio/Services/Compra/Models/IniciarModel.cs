@@ -8,6 +8,7 @@ namespace SingleExperience.Services.Compra.Models
         public int ClienteId { get; set; }
         public int EnderecoId { get; set; }
         public FormaPagamentoEnum FormaPagamentoEnum { get; set; }
+        public int? CartaoCreditoId { get; set; }
 
         public void Validar()
         {
