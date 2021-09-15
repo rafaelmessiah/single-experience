@@ -27,7 +27,7 @@ namespace SingleExperience.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<bool> Cadastrar([FromBody] CadastroEnderecoModel model)
+        public async Task<EnderecoModel> Cadastrar([FromBody] CadastroEnderecoModel model)
         {
             return await _enderecoService.Cadastrar(model);
         }

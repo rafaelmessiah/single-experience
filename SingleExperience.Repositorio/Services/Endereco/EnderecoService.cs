@@ -31,7 +31,7 @@ namespace SingleExperience.Services.Endereco
                 }).ToListAsync();
         }
 
-        public async Task<bool> Cadastrar(CadastroEnderecoModel model)
+        public async Task<EnderecoModel> Cadastrar(CadastroEnderecoModel model)
         {
             model.Validar();
 
@@ -47,7 +47,15 @@ namespace SingleExperience.Services.Endereco
             await _context.Endereco.AddAsync(endereco);
             await _context.SaveChangesAsync();
 
-            return true;
+            return new EnderecoModel
+            {
+                EnderecoId = endereco.EnderecoId,
+                ClienteId = endereco.ClienteId,
+                Rua = endereco.Rua,
+                Numero = endereco.Numero,
+                Complemento = endereco.Complemento,
+                Cep = endereco.Cep
+            };
         }
 
         public async Task<bool> Editar(int enderecoId, EnderecoModel model)

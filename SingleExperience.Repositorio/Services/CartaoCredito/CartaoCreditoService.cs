@@ -33,7 +33,7 @@ namespace SingleExperience.Services.CartaoCredito
                 }).ToListAsync();
         }
 
-        public async Task<bool> Cadastrar(CadastroCartaoModel model)
+        public async Task<CartaoDetalhadoModel> Cadastrar(CadastroCartaoModel model)
         {
             model.Validar();
 
@@ -49,7 +49,13 @@ namespace SingleExperience.Services.CartaoCredito
             await _context.CartaoCredito.AddAsync(cartao);
             await _context.SaveChangesAsync();
 
-            return true;
+            return new CartaoDetalhadoModel
+            {
+                CartaoCreditoId = cartao.CartaoCreditoId,
+                ClienteId = cartao.ClienteId,
+                Numero = cartao.Numero,
+                DataVencimento = cartao.DataVencimento
+            };
         }
 
         public async Task<CartaoDetalhadoModel> Obter(int cartaoCreditoId)
