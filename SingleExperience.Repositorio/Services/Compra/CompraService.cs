@@ -36,11 +36,11 @@ namespace SingleExperience.Services.Compra
             _cartaoCreditoService = new CartaoCreditoService(context);
         }
 
-        public async Task<List<ItemCompraModel>> Buscar(int clienteId)
+        public async Task<List<CompraItemModel>> Buscar(int clienteId)
         {
             return await _context.Compra
             .Where(a => a.ClienteId == clienteId)
-            .Select(b => new ItemCompraModel
+            .Select(b => new CompraItemModel
             {
                 CompraId = b.CompraId,
                 StatusCompra = b.StatusCompraEnum,

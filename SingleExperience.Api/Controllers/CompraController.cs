@@ -21,7 +21,7 @@ namespace SingleExperience.Api.Controllers
         }
 
         [HttpGet("{clienteId}")]
-        public async Task<List<ItemCompraModel>> Buscar(int clienteId)
+        public async Task<List<CompraItemModel>> Buscar(int clienteId)
         {
             return await _compraService.Buscar(clienteId);
         }

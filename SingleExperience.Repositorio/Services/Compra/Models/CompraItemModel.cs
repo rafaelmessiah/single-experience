@@ -3,7 +3,7 @@ using System;
 
 namespace SingleExperience.Services.Compra.Models
 {
-    public class ItemCompraModel
+    public class CompraItemModel
     {
         public int CompraId { get; set; }
         public decimal ValorFinal { get; set; }
