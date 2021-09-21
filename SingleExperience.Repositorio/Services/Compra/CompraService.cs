@@ -164,11 +164,12 @@ namespace SingleExperience.Services.Compra
         public async Task<CompraDetalhadaModel> Obter(int compraId)
         {
             var compra = await _context.Compra
+             .Include(a => a.FormaPagamento)
              .Where(a => a.CompraId == compraId)
              .Select(b => new CompraDetalhadaModel
              {
                  CompraId = b.CompraId,
-                 FormaPagamentoId = b.FormaPagamentoEnum,
+                 FormaPagamento = b.FormaPagamento.Descricao,
                  DataCompra = b.DataCompra,
                  DataPagamento = b.DataPagamento,
                  ValorTotal = b.ValorFinal

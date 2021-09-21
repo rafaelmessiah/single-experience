@@ -9,7 +9,7 @@ namespace SingleExperience.Services.Compra.Models
     {
         public int CompraId { get; set; }
         public DateTime DataCompra { get; set; }
-        public FormaPagamentoEnum FormaPagamentoId { get; set; }
+        public string FormaPagamento { get; set; }
         public DateTime? DataPagamento { get; set; }
         public decimal ValorTotal { get; set; }
         public List<ItemProdutoCompraModel> ItensComprados { get; set; }
