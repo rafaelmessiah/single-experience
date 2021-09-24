@@ -20,7 +20,7 @@ namespace SingleExperience.Api.Controllers
             _clienteService = clienteService;
         }
 
-        [HttpGet("login")]
+        [HttpPost("login")]
         public async Task<ClienteLogadoModel> Login([FromBody] LoginModel loginModel)
         {
             return await _clienteService.Login(loginModel);

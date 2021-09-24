@@ -161,11 +161,11 @@ namespace SingleExperience.Services.Compra
             return true;
         }
 
-        public async Task<CompraDetalhadaModel> Obter(int compraId)
+        public async Task<CompraDetalhadaModel> Obter(int compraId, int clienteId)
         {
             var compra = await _context.Compra
              .Include(a => a.FormaPagamento)
-             .Where(a => a.CompraId == compraId)
+             .Where(a => a.CompraId == compraId && a.ClienteId == clienteId)
              .Select(b => new CompraDetalhadaModel
              {
                  CompraId = b.CompraId,

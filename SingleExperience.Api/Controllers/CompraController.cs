@@ -32,10 +32,10 @@ namespace SingleExperience.Api.Controllers
             return await _compraService.Cadastrar(model);
         }
 
-        [HttpGet("{compraId}/detalhe")]
-        public async Task<CompraDetalhadaModel> Obter(int compraId)
+        [HttpGet("{compraId}/detalhe/{clienteId}")]
+        public async Task<CompraDetalhadaModel> Obter(int compraId, int clienteId)
         {
-            return await _compraService.Obter(compraId);
+            return await _compraService.Obter(compraId, clienteId);
         }
     }
 }
