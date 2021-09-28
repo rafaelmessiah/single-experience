@@ -27,7 +27,7 @@ namespace SingleExperience.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<bool> Cadastrar([FromBody] CadastroClienteModel model)
+        public async Task<ClienteLogadoModel> Cadastrar([FromBody] CadastroClienteModel model)
         {
             return await _clienteService.Cadastrar(model);
         }

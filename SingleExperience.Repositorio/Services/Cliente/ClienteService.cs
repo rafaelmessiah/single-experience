@@ -37,7 +37,7 @@ namespace SingleExperience.Services.Cliente
             return cliente;
         }
 
-        public async Task<bool> Cadastrar(CadastroClienteModel model)
+        public async Task<ClienteLogadoModel> Cadastrar(CadastroClienteModel model)
         {
             model.Validar();
 
@@ -57,7 +57,11 @@ namespace SingleExperience.Services.Cliente
             await _context.Cliente.AddAsync(novoCliente);
             await _context.SaveChangesAsync();
 
-            return true;
+            return new ClienteLogadoModel
+            {
+                ClienteId = novoCliente.ClienteId,
+                Nome = novoCliente.Nome
+            };
         }
 
         public async Task<ClienteDetalheModel> Obter(int clienteId)

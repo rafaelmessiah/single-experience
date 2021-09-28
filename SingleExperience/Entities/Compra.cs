@@ -41,6 +41,7 @@ namespace SingleExperience.Entities
         public List<ListaProdutoCompra> ListaProdutoCompras { get; set; }
         public DateTime DataCompra { get; set; }
         public DateTime? DataPagamento { get; set; }
-        public decimal ValorFinal { get; set; }
+        public decimal ValorFrete { get; set; }
+        public decimal ValorItens { get; set; }
     }
 }

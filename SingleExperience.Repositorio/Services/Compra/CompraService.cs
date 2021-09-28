@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SingleExperience.Enums;
+using SingleExperience.Repositorio.Services.Frete.Models;
 using SingleExperience.Services.Carrinho;
 using SingleExperience.Services.Carrinho.Models;
 using SingleExperience.Services.CartaoCredito;
@@ -25,6 +26,7 @@ namespace SingleExperience.Services.Compra
         protected readonly EnderecoService _enderecoService;
         protected readonly ListaProdutoCompraService _listaProdutoCompraService;
         protected readonly CartaoCreditoService _cartaoCreditoService;
+        protected readonly FreteService _freteService;
 
         public CompraService(SingleExperience.Context.Context context)
         {
@@ -34,6 +36,7 @@ namespace SingleExperience.Services.Compra
             _enderecoService = new EnderecoService(context);
             _listaProdutoCompraService = new ListaProdutoCompraService(context);
             _cartaoCreditoService = new CartaoCreditoService(context);
+            _freteService = new FreteService(context);
         }
 
         public async Task<List<CompraItemModel>> Buscar(int clienteId)
@@ -45,7 +48,7 @@ namespace SingleExperience.Services.Compra
                 CompraId = b.CompraId,
                 StatusCompra = b.StatusCompraEnum,
                 DataCompra = b.DataCompra,
-                ValorFinal = b.ValorFinal
+                ValorFinal = b.ValorItens
             }).ToListAsync();
         }
 
@@ -66,6 +69,9 @@ namespace SingleExperience.Services.Compra
                     //Valida o endereço
                     if (!await _enderecoService.Verificar(verificarEnderecoModel))
                         throw new Exception("Esse endereço não pertence a esse cliente");
+
+                    //Calcula o Valor do frete
+                    var valorFrete = await _freteService.CalcularValorFrete(model.EnderecoId);
                     
                     //Verifica se não esta sendo passado um cartaoCreditoId com outra forma de pagamento
                     if (model.FormaPagamentoEnum != FormaPagamentoEnum.Cartao && model.CartaoCreditoId != null)
@@ -118,7 +124,8 @@ namespace SingleExperience.Services.Compra
                         CartaoCreditoId = model.CartaoCreditoId,
                         ListaProdutoCompras = produtosCompra,
                         DataCompra = DateTime.Now,
-                        ValorFinal = valorFinal,
+                        ValorFrete = valorFrete,
+                        ValorItens = valorFinal,
                     };
 
                     await _context.Compra.AddAsync(compra);
@@ -172,7 +179,7 @@ namespace SingleExperience.Services.Compra
                  FormaPagamento = b.FormaPagamento.Descricao,
                  DataCompra = b.DataCompra,
                  DataPagamento = b.DataPagamento,
-                 ValorTotal = b.ValorFinal
+                 ValorTotal = b.ValorItens
 
              }).FirstOrDefaultAsync();
 
