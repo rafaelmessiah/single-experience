@@ -26,7 +26,7 @@ namespace SingleExperience.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<bool> Adicionar([FromBody] SalvarModel model)
+        public async Task<ItemCarrinhoModel> Adicionar([FromBody] SalvarModel model)
         {
             return await _carrinhoService.Adicionar(model);
         }
