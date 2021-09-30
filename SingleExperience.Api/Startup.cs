@@ -52,7 +52,6 @@ namespace SingleExperience.Api
             {
                 builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
             }));
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,8 +65,6 @@ namespace SingleExperience.Api
             app.UseCors("MyPolicy");
 
             app.UseHttpsRedirection();
-
-            
 
             app.UseRouting();
 

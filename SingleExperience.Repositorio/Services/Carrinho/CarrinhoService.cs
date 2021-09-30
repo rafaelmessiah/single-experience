@@ -36,7 +36,7 @@ namespace SingleExperience.Services.Carrinho
 
         }
 
-        public async Task<bool> Adicionar(SalvarModel model)
+        public async Task<ItemCarrinhoModel> Adicionar(SalvarModel model)
         {
             model.Validar();
 
@@ -60,7 +60,19 @@ namespace SingleExperience.Services.Carrinho
             await _context.Carrinho.AddAsync(produto);
             await _context.SaveChangesAsync();
 
-            return true;
+            _context.Entry(produto)
+                .Reference(c => c.Produto)
+                .Load();
+
+            return new ItemCarrinhoModel
+            {
+                CarrinhoId = produto.CarrinhoId,
+                ProdutoId = produto.ProdutoId,
+                Nome = produto.Produto.Nome,
+                Preco = produto.Produto.Preco,
+                Qtde = produto.Qtde,
+                Imagem = produto.Produto.Imagem
+            };
         }
 
         public async Task<bool> AlterarStatus(int carrinhoId, EdicaoStatusModel model)
